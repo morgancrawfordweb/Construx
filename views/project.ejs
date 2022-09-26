@@ -1,0 +1,31 @@
+
+
+
+
+
+
+
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-6">
+      <h2><%= project.projectName %></h2>
+      <img class="img-fluid" src="<%= project.projectDocument%>"/>
+      <div class="row justify-content-between">
+      </div>
+    </div>
+    <div class="col-3 mt-5">
+      <p><h3>Project Number:</h3><%= project.projectNumber%></p>
+      <p><h3>Project Description:</h3><%= project.projectDescription%></p>
+      <p><h3>Assigned Employee:</h3><%= project.assignedEmployee%></p>
+    </div>
+
+
+    <div class="col-6 mt-5">
+      <a class="btn btn-primary" href="/profile">Return to Profile</a>
+      <a class="btn btn-primary" href="/feed">Return to Feed</a>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') -%>
