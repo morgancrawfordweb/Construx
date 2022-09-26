@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Install
 
 `npm install`
@@ -48,3 +49,12 @@ EOD Update:{
     This will hold onto alerts if something has happened that is urgent with the project, that the next employee will need to handle or need to know prior to the day they show up to work.
 }
 
+=======
+# trinity-portal
+This is a project where employees can find project documents and look at schedules!
+
+
+My company has had a difficult time with scheduling and keeping everyone up to date with documents. With this application, you should be able to create projects, upload documents, and be able to keep a public calendar. This way, each employee will know what other employees are assigned to. 
+
+If i had more time, I will add project document editing in the browser, as well as a more dynamic and user friendly calendar.
+>>>>>>> 7818821e4aba4087179bee55c371da225562d5d2
