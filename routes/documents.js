@@ -10,7 +10,7 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth');
 
 router.post("/createDocument/:id", upload.single("file"), documentsController.createDocument);
 
-router.delete("/deleteDocument/:project._id/:document._id", documentsController.deleteDocument);
+router.delete("/deleteDocument/:projectid/:documentid", documentsController.deleteDocument);
 
 
 // upload.single("file"),

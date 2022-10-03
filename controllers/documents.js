@@ -6,17 +6,13 @@ module.exports = {
   createDocument: async (req, res) => {
     try {
 
-        const result = await cloudinary.uploader.upload(req.file.path);
-        const pdfToPicture = cloudinary.v2.api.resource('sample_pdf', 
-        { pages: true },
-        function(error, result) {console.log(result, error); });
-      // const createdBy = await User.findById(req.user.id)
-
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const convert = cloudinary.image("multi_page_pdf.jpg", {density: 20})
       await Document.create({
         
         title: req.body.title,
-        // image: result.secure_url,
-        // cloudinaryId: result.public_id,
+        image: result.secure_url,
+        cloudinaryId: result.public_id,
         project: req.params.id,
       });
 
@@ -29,9 +25,12 @@ module.exports = {
   },
   deleteDocument: async (req, res) => {
       try {
+        let document = await Document.findById({ _id: req.params.id });
+        await cloudinary.uploader.destroy(document.cloudinaryId);
+
         await Document.deleteOne({ _id: req.params.documentid })
         console.log("document has been removed")
-        res.redirect("/post/"+req.params.documentid);
+        res.redirect("/project/"+req.params.projectid);
       } catch (err) {
         console.log(err);
       }
