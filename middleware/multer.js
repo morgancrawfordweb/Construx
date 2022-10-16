@@ -1,7 +1,9 @@
 const multer = require("multer");
 const path = require("path");
+const documentsController = require(`../controllers/documents.js`)
 
-module.exports = multer({
+module.exports =
+ multer({
   storage: multer.diskStorage({}),
   fileFilter: (req, file, cb) => {
     let ext = path.extname(file.originalname);
@@ -12,3 +14,4 @@ module.exports = multer({
     cb(null, true);
   },
 });
+

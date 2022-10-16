@@ -1,30 +1,57 @@
+const cloudinary = require("../middleware/cloudinary");
 const Document = require("../models/Document");
-const Project = require("../models/Project");
+const User = require("../models/User");
+// const storage = new GridFsStorage({ url });
 
 module.exports = {
-
-  getDocument: async (req, res) => {
+  createDocument: async (req, res) => {
     try {
-      const project = await Project.find().sort({createdAt:"desc"}).lean();
-      const documents = await Document.find({project: req.params.id}).sort({createdAt: "desc"}).lean();
-      res.render("project.ejs", { project: project, user: req.user, documents: documents });
+
+      const result = await cloudinary.uploader.upload(req.file.path);
+      // const convert = cloudinary.image("multi_page_pdf.jpg", {density: 20})
+      
+      await Document.create({
+        
+        title: req.body.title,
+        image: result.secure_url,
+        cloudinaryId: result.public_id,
+        project: req.params.id,
+        
+      });
+
+      console.log("Document has been added!");
+      res.redirect("/project/"+req.params.id);
     } catch (err) {
       console.log(err);
+      
     }
   },
-  createNewDocument: async (req, res) => {
-    try {
-      // Upload image to cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path);
+  deleteDocument: async (req, res) => {
+      try {
+        let document = await Document.findById({ _id: req.params.documentId });
+        await cloudinary.uploader.destroy(document.cloudinaryId);
+        
 
-      await Document.create({
-        project: req.params.id,
-        file: result.secure_url,
-        cloudinaryId: result.public_id,
-      });
-      console.log("New Document has been added!");
-      res.redirect("/project");
-    } catch (err) {
-      console.log(err);
-    }
-  },}
+        await Document.deleteOne({ _id: req.params.documentId })
+        console.log("document has been removed")
+        res.redirect("/project/"+req.params.projectId);
+      } catch (err) {
+        console.log(err);
+      }
+  }, 
+  // downloadDocument: async(req,res)=>{
+  //   try{
+      
+  //     let document = await Document.findById({_id: req.params.documentId});
+
+  //     await storage.uploader.download(req.file.path)
+
+  //     await Document.downloadOne({_id: req.params.documentId})
+  //     console.log('Downloading your document')
+  //     res.redirect("/project/"+req.params.projectId);
+      
+  //   }catch(err){
+  //     console.log(err);
+  //   }
+  // } 
+};

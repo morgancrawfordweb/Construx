@@ -1,7 +1,7 @@
 {
-  "name": "binary-upload-boom",
+  "name": "trinity-project-portal",
   "version": "1.0.0",
-  "description": "100Devs Social Network",
+  "description": "Small Construction Business Project Planning",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
