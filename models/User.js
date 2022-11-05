@@ -8,6 +8,8 @@ const UserSchema = new mongoose.Schema({
   company: {type: String, unique: true},
   securityQuestion: {type: String, unique: true},
   securityAnswer: {type: String, unique: true},
+  // certifications:{type:String},
+  // roles:{employee, manager, owner}
 });
 
 // Password hash middleware.
