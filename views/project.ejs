@@ -20,22 +20,32 @@
     </div>
 
     <h3>Document Section</h3>
+    
+    <%#You can submit all of your documents here%>
     <ul>
       <form action="/document/createDocument/<%=project._id%>" enctype="multipart/form-data" method="POST">
         <div class ="mb-3">
-          <label for="title" class = "form-label">Document Title</label>
-          <input type = "text" class="form-control" id="title" name="title">
+          <label for="fileName" class = "form-label">Document Name</label>
+          <input type = "text" class="form-control" id="fileName" name="fileName">
         </div>
-          <label for="imgUpload" class="form-label">Document file</label>
-          <input type="file" class="form-control" id="imageUpload" name="file">
+        <div class ="mb-3">
+          <label for="description" class="form-label">Document Description</label>
+          <input type="text" class="form-control" id="Description" name="description">
         </div>
+        <div class ="mb-3">
+          <label for="fileUpload" class="form-label">Document File</label>
+          <input type="file" class="form-control" id="documentUpload" name="file">
+        </div>
+
           <button type="submit" class ="btn btn-primary">Submit Document</button>
       </form>
     </ul>
-  <ul>
-    <% for (var i=0; i<documents.length; i++){%>
-      <li class ="col-6 justify-content-between mt-5"> 
-          <h2><%=documents[i].title%> <img class="img-fluid" src="<%= documents[i].image%>"/></h2>
+
+
+    <ul>
+      <% for (var i=0; i<documents.length; i++){%>
+        <li class ="col-6 justify-content-between mt-5"> 
+          <a href="<%=documents[i].image%>" download><%=documents[i].fileName%><a>
             <form action="/document/deleteDocument/<%=project._id%>/<%=documents[i]._id %>?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-outline-danger">Delete Document</button>
             </form>
@@ -45,11 +55,11 @@
 
   
     <div class="col-6 mt-5">
-      <div>
-        <form action = "/project/deleteProject/<%=project._id%>?_method=DELETE" method = "POST">
-          <button type="submit">Delete this Project</button>
-        </form>
-      </div>
+        <div>
+          <form action ="/project/deleteProject/<%=project._id%>?_method=DELETE" method = "POST">
+            <button type="submit">Delete this Project</button>
+          </form>
+        </div>
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
       <a class="btn btn-primary" href="/feed">Return to Feed</a>
     </div>

@@ -8,12 +8,15 @@ const methodOverride = require("method-override");
 const flash = require("express-flash");
 const logger = require("morgan");
 const connectDB = require("./config/database");
-// const{GridFsStorage} = require('multer-gridfs-storage')
+// const GridFsStorage = require('multer-gridfs-storage')
+// const Grid = require('gridfs-stream')
+// const crypto = require('crypto');
 
 const mainRoutes = require("./routes/main");
 const calendarRoutes = require("./routes/calendarDates");
 const projectRoutes = require("./routes/projects");
 const documentRoutes = require("./routes/documents");
+
 
 
 //Use .env file in config folder
@@ -24,6 +27,13 @@ require("./config/passport")(passport);
 
 //Connect To Database
 connectDB();
+
+// create storage engine
+
+
+
+
+
 
 //Using EJS for views
 app.set("view engine", "ejs");
@@ -51,6 +61,41 @@ app.use(
   })
 );
 
+
+
+
+// //gridFS down below
+// let gfs;
+
+// conn.once('open', () => {
+//   // Init stream
+//   gfs = Grid(conn.db, mongoose.mongo);
+//   gfs.collection('documents');
+// });
+
+// Create storage engine
+// const storage = new GridFsStorage({
+//   url: mongoURI,
+//   file: (req, file) => {
+//     return new Promise((resolve, reject) => {
+//       crypto.randomBytes(16, (err, buf) => {
+//         if (err) {
+//           return reject(err);
+//         }
+//         const filename = buf.toString('hex') + path.extname(file.originalname);
+//         const fileInfo = {
+//           filename: filename,
+//           bucketName: 'uploads'
+//         };
+//         resolve(fileInfo);
+//       });
+//     });
+//   }
+// });
+// const upload = multer({ storage });
+
+
+
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -63,6 +108,7 @@ app.use("/", mainRoutes);
 app.use("/calendar", calendarRoutes);
 app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
+
 
 //Server Running
 app.listen(process.env.PORT, () => {

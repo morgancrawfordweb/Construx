@@ -1,22 +1,33 @@
 const cloudinary = require("../middleware/cloudinary");
 const Document = require("../models/Document");
-const User = require("../models/User");
-// const storage = new GridFsStorage({ url });
+
+// const User = require("../models/User");
+
 
 module.exports = {
+  getDocument: async (req, res) => {
+    try {
+      const document = await Document.findById(req.params.id);
+      res.render("project.ejs", { document: document});
+    } catch (err) {
+      console.log(err);
+    }
+  },
   createDocument: async (req, res) => {
     try {
-
-      const result = await cloudinary.uploader.upload(req.file.path);
-      // const convert = cloudinary.image("multi_page_pdf.jpg", {density: 20})
+    
+      const result = await cloudinary.uploader.upload(req.file.path, { pages : true, flag : "attachment" });
       
       await Document.create({
         
-        title: req.body.title,
-        image: result.secure_url,
+        fileName: req.body.fileName,
+        description: req.body.description,
         cloudinaryId: result.public_id,
         project: req.params.id,
-        
+        image: result.secure_url,
+        cloudinaryId: result.public_id,
+        user: req.user.id,
+
       });
 
       console.log("Document has been added!");
@@ -39,19 +50,18 @@ module.exports = {
         console.log(err);
       }
   }, 
-  // downloadDocument: async(req,res)=>{
-  //   try{
+  downloadDocument: async(req,res)=>{
+    try{
       
-  //     let document = await Document.findById({_id: req.params.documentId});
+      let document = await Document.findById(req.params.documentId);
 
-  //     await storage.uploader.download(req.file.path)
+      await cloudinary.uploader.download(document)
 
-  //     await Document.downloadOne({_id: req.params.documentId})
-  //     console.log('Downloading your document')
-  //     res.redirect("/project/"+req.params.projectId);
+      document.downloadOne({_id: req.params.documentId})
+      console.log('Downloading your document')
+      res.redirect("/project/"+req.params.projectId);
       
-  //   }catch(err){
-  //     console.log(err);
-  //   }
-  // } 
-};
+    }catch(err){
+      console.log(err);
+    }}
+  };
