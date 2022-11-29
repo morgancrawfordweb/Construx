@@ -5,14 +5,17 @@ const UserSchema = new mongoose.Schema({
   userName: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String,
-  company: {type: String, unique: true},
-  roles: {
-    type: [{
-        type: String,
-        enum: ['user', 'admin']
-    }],
-    default: ['user']
-  },
+  company: {type: String, require:true},
+  phoneNumber:{type:String, required:true},
+  employeeIdNumber:{type:Number,required:true, unique: true},
+  companyIdNumber:{type:Number,required:true},
+  // roles: {
+  //   type: [{
+  //       type: String,
+  //       enum: ['user', 'admin']
+  //   }],
+  //   default: ['user']
+  // },
   securityQuestion: {type: String, unique: true},
   securityAnswer: {type: String, unique: true},
   // certifications:{type:String},

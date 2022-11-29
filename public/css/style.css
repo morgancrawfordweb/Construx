@@ -2,3 +2,6 @@ body{
     background-color: black;
     color: bisque;
 }
+.btn-primary{
+    background-color: #4caf50;
+}

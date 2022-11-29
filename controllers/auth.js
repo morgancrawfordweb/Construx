@@ -1,7 +1,9 @@
 const passport = require("passport");
 const validator = require("validator");
-const Project = require("../models/Project");
 const User = require("../models/User");
+
+
+
 
 
 exports.getLogin = (req, res) => {
@@ -12,6 +14,8 @@ exports.getLogin = (req, res) => {
     title: "Login",
   });
 };
+
+
 
 exports.postLogin = (req, res, next) => {
   const validationErrors = [];
@@ -92,8 +96,11 @@ exports.postSignup = (req, res, next) => {
   const user = new User({
     userName: req.body.userName,
     email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
     password: req.body.password,
     company: req.body.company,
+    companyIdNumber: req.body.companyIdNumber,
+    employeeIdNumber: req.body.employeeIdNumber,
     securityQuestion: req.body.securityQuestion,
     securityAnswer: req.body.securityAnswer
   });
@@ -122,5 +129,10 @@ exports.postSignup = (req, res, next) => {
         });
       });
     }
-  );
-};
+  )};
+
+  
+
+
+
+

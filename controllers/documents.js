@@ -41,7 +41,6 @@ module.exports = {
       try {
         let document = await Document.findById({ _id: req.params.documentId });
         await cloudinary.uploader.destroy(document.cloudinaryId);
-        
 
         await Document.deleteOne({ _id: req.params.documentId })
         console.log("document has been removed")

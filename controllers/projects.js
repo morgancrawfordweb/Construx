@@ -5,16 +5,8 @@ const Document = require("../models/Document");
 module.exports = {
   getProfile: async (req, res) => {
     try {
-      const projects = await Project.find({ user: req.user.id });
-      res.render("profile.ejs", {projects: projects, user: req.user, company: req.params.company });
-    } catch (err) {
-      console.log(err);
-    }
-  },
-  getFeed: async (req, res) => {
-    try {
-      const projects = await Project.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { projects: projects });
+      const projects = await Project.find({ user: req.user.id});
+      res.render("profile.ejs", {projects: projects, user: req.user, company: req.company });
     } catch (err) {
       console.log(err);
     }
@@ -31,15 +23,12 @@ module.exports = {
 
   createProject: async (req, res) => {
     try {
-      // Im not allowed to upload PDF's to couldinary as it can be malware. Need to find a conversion script to change from PDF to .jpg || .png
-      // const result = await cloudinary.uploader.upload(req.file.path);
 
       await Project.create({
         projectName: req.body.projectName,
         projectNumber: req.body.projectNumber,
         projectDescription: req.body.projectDescription,
         assignedEmployee: req.body.assignedEmployee,
-        // cloudinaryId: result.public_id,
         user: req.user.id,
       });
       console.log("Project has been created");

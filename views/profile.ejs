@@ -38,13 +38,13 @@
       <div class="col-6">
         <ul class="row list-unstyled">
           <h2>List of Projects</h2>
-          <% for(var i=0; i<projects.length; i++) {%>
-            <li class="col-6 justify-content-between mt-5">
-              <a href="/project/<%= projects[i]._id%>">
-                <h2><%= projects[i].projectName%></h2>
-              </a>
-            </li>
-          <% } %>
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="col-6 justify-content-between mt-5">
+                <a href="/project/<%= projects[i]._id%>">
+                  <h3><%= projects[i].projectName%></h3>
+                </a>
+              </li>
+            <% } %>
           </ul>
         <div class="row justify-content-center mt-5">
           <a class="btn btn-primary" href="/feed">This button to the project list!</a>

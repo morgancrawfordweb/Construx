@@ -8,6 +8,7 @@ const ProjectSchema = new mongoose.Schema({
   projectNumber: { type: String,  require: true, unique: true },
   projectDescription: {type: String, require: true },
   assignedEmployee: { type: String, require: true },
+  company:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
   user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
 });
 
