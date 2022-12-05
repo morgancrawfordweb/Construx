@@ -7,6 +7,8 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 //this route gets the project
 router.get("/:id", ensureAuth, projectsController.getProject);
 
+
+
 //This route is used for uploading PDFS
 router.post("/createProject", upload.single("file"), projectsController.createProject);
 

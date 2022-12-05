@@ -14,6 +14,7 @@
       </div>
     </div>
     <div class="col-3 mt-5">
+      <p><h3>Created By:</h3><%=  project.createdBy%></p>
       <p><h3>Project Number:</h3><%= project.projectNumber%></p>
       <p><h3>Project Description:</h3><%= project.projectDescription%></p>
       <p><h3>Assigned Employee:</h3><%= project.assignedEmployee%></p>
@@ -47,6 +48,8 @@
         <li class ="col-6 justify-content-between mt-5"> 
           <a href="<%=documents[i].image%>" download><%=documents[i].fileName%><a>
             <form action="/document/deleteDocument/<%=project._id%>/<%=documents[i]._id %>?_method=DELETE" method="POST">
+            <span>Uploaded By:  <%=  documents[i].uploadedBy%></span>
+            <br>
               <button type="submit" class="btn btn-outline-danger">Delete Document</button>
             </form>
       </li>
@@ -57,7 +60,7 @@
     <div class="col-6 mt-5">
         <div>
           <form action ="/project/deleteProject/<%=project._id%>?_method=DELETE" method = "POST">
-            <button type="submit">Delete this Project</button>
+            <button  class="btn btn-primary" type="submit">Delete this Project</button>
           </form>
         </div>
       <a class="btn btn-primary" href="/profile">Return to Profile</a>

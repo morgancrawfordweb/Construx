@@ -15,8 +15,8 @@ router.get("/", homeController.getIndex);
 // router.get("/", homeController.getCalendar);
 router.get("/profile", ensureAuth, projectsController.getProfile);
 
-// router.get("/feed", ensureAuth, projectsController.getFeed);
 
+router.get("/feed", ensureAuth, projectsController.getFeed);
 
 router.get("/calendar", ensureAuth, calendarController.getCalendar);
 
@@ -30,6 +30,19 @@ router.post("/login", authController.postLogin);
 router.get("/logout", authController.logout);
 router.get("/signup", authController.getSignup);
 router.post("/signup", authController.postSignup);
+
+
+//Company log-in
+//This way you can add different bios and update your team etc.
+router.get("/companyLogin", authController.getCompanyLogin);
+router.post("/companyLogin", authController.postCompanyLogin);
+
+router.get("/companyLogout", authController.companyLogout);
+
+
+//Company Sign up
+router.get("/companySignup", authController.getCompanySignup);
+router.post("/companySignup", authController.postCompanySignup);
 
 
 

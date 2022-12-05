@@ -5,11 +5,14 @@
         <% for(var i=0; i<projects.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
             <a href="/project/<%= projects[i]._id%>">
-              <h2><%= projects[i].projectName%></h2>
+              <h4><%= projects[i].projectName%></h4>
             </a>
           </li>
         <% } %>
         </ul>
+        <div class="row justify-content-center mt-5">
+          <a class="btn btn-primary" href="/profile">Return to your profile!</a>
+        </div>  
     </div>
   </div>  
 <%- include('partials/footer') -%>

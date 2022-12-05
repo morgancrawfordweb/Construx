@@ -33,6 +33,14 @@ createdAt: {
     default: Date.now(),
     type: Date,
 },
+uploadedById: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref:"User",
+},
+uploadedBy:{
+  type: String,
+  ref:"User",
+}
 });
 
 module.exports = mongoose.model("Document", DocumentSchema);

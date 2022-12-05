@@ -1,7 +1,6 @@
 const cloudinary = require("../middleware/cloudinary");
 const Document = require("../models/Document");
-
-// const User = require("../models/User");
+const User = require("../models/User");
 
 
 module.exports = {
@@ -15,11 +14,10 @@ module.exports = {
   },
   createDocument: async (req, res) => {
     try {
-    
+      const uploadUser = await User.findById(req.user.id)
       const result = await cloudinary.uploader.upload(req.file.path, { pages : true, flag : "attachment" });
       
       await Document.create({
-        
         fileName: req.body.fileName,
         description: req.body.description,
         cloudinaryId: result.public_id,
@@ -27,7 +25,8 @@ module.exports = {
         image: result.secure_url,
         cloudinaryId: result.public_id,
         user: req.user.id,
-
+        uploadedBy: uploadUser.userName,
+        uploadedById: req.user.id,
       });
 
       console.log("Document has been added!");

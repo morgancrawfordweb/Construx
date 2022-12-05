@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
   company: {type: String, require:true},
   phoneNumber:{type:String, required:true},
   employeeIdNumber:{type:Number,required:true, unique: true},
-  companyIdNumber:{type:Number,required:true},
+  companyIdNumber:{type:String,required:true},
   // roles: {
   //   type: [{
   //       type: String,
