@@ -1,4 +1,56 @@
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="row mt-5">
+      <div class="col-6">
+          <div>
+              <!-- <a href="/projects" class="col-3 btn btn-primary">Projects</a> -->
+              <a href="/calendar" class="col-3 btn btn-primary">Check out the calendar!</a>
+              <a href="/settings" class="col-3 btn btn-primary">Website Settings</a>
+              <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+              
+          </div>
+          <div class="mt-5">
+            <h2>Add a project</h2>
+            <form action="/project/createProject" enctype="multipart/form-data" method="POST">
+              <div class="mb-3">
+                  <label for="projectName" class="form-label">Project Name</label>
+                  <input type="text" class="form-control" id="projectName" name="projectName">
+              </div>
+              <div class="mb-3">
+                <label for="projectNumber" class="form-label">Project Number</label>
+                <input type="text" class="form-control" id="projectNumber" name="projectNumber">
+              </div>
+              <div class="mb-3">
+                <label for="assignedEmployee" class="form-label">Assigned Employee</label>
+                <input type="text" class="form-control" id="assignedEmployee" name="assignedEmployee">
+              </div>
+              <div class="mb-3">
+                <label for="projectDescription" class="form-label">Project Description</label>
+                <textarea class="form-control" id="projectDescription" name="projectDescription"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+            </form>
+          </div>
+      </div>
+      <div class="col-6">
+        <ul class="row list-unstyled">
+          <h2>List of your assigned projects</h2>
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="col-6 justify-content-between mt-5">
+                <a href="/project/<%= projects[i]._id%>">
+                  <h4><%= projects[i].projectName%></h4>
+                </a>
+              </li>
+            <% } %>
+          </ul>
+          <div class="row justify-content-center mt-5">
+            <a class="btn btn-primary" href="/feed">This is a list to all of the projects.</a>
+          </div>  
 
-
-
-<h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero laudantium accusamus labore dolorem quo aliquam consequuntur vel unde. Ab vel quis perspiciatis consectetur sint officia explicabo a ipsa pariatur inventore?</h1>
+        </div>  
+      </div>  
+    </div>
+  </div>
+</div>
+</div>
+<%- include('partials/footer') -%>
