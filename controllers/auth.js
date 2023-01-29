@@ -128,6 +128,7 @@ exports.postSignup = (req, res, next) => {
     }
   )};
 
+  //!When i get the company portion up and running, This code will be implemented
 //   exports.getCompanyLogin = (req, res) => {
 //     if (req.company) {
 //       return res.redirect("/companyProfile");

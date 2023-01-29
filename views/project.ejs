@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 <%- include('partials/header') -%>
 <div class="container">
   <div class="row justify-content-center mt-5">
@@ -17,7 +10,22 @@
       <p><h3>Created By:</h3><%=  project.createdBy%></p>
       <p><h3>Project Number:</h3><%= project.projectNumber%></p>
       <p><h3>Project Description:</h3><%= project.projectDescription%></p>
-      <p><h3>Assigned Employee:</h3><%= project.assignedEmployee%></p>
+      <p><h3>Assigned Employees:</h3></p>
+      <% for(var i=0; i<employees.length; i++) {%>
+        <h4><%= employees[i].userName%></h4>
+      <% } %>
+
+ 
+      <div class="mt-5">
+        <h2>Assign An Employee</h2>
+        <form action="/project/addEmployees/<%=project._id%>" method="POST">
+          <div class="mb-3">
+              <label for="comment" class="form-label">Assigned Employee</label>
+              <input type="text" class="form-control" id="employee" name="employee">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
     </div>
 
     <h3>Document Section</h3>

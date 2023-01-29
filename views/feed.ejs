@@ -2,6 +2,10 @@
   <div class="container">
     <div class="row justify-content-center mt-5">
       <ul class="row list-unstyled">
+        <h1 class="row justify-content-center mt-5">Ongoing projects</h1>
+        <% if (projects.length === 0) { %>
+          <h2>No Projects can be found for your company in the database!</h2>
+        <% }  %>
         <% for(var i=0; i<projects.length; i++) {%>
           <li class="col-6 justify-content-between mt-5">
             <a href="/project/<%= projects[i]._id%>">

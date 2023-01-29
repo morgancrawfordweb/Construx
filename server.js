@@ -8,10 +8,6 @@ const methodOverride = require("method-override");
 const flash = require("express-flash");
 const logger = require("morgan");
 const connectDB = require("./config/database");
-// const popup = require("popups")
-// const GridFsStorage = require('multer-gridfs-storage')
-// const Grid = require('gridfs-stream')
-const crypto = require('crypto');
 
 const mainRoutes = require("./routes/main");
 const calendarRoutes = require("./routes/calendarDates");
@@ -72,7 +68,6 @@ app.use("/calendar", calendarRoutes);
 app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/company", companyRoutes);
-
 
 //Server Running
 app.listen(process.env.PORT, () => {

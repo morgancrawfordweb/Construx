@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
   company: {type: String, require:true},
   phoneNumber:{type:String, required:true},
-  employeeIdNumber:{type:Number,required:true, unique: true},
+  employeeIdNumber:{type:String,required:true, unique: true},
   companyIdNumber:{type:String,required:true},
   // roles: {
   //   type: [{
@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema({
   securityQuestion: {type: String, unique: true},
   securityAnswer: {type: String, unique: true},
   // certifications:{type:String},
-  // roles:{employee, manager, owner}
 });
 
 // Password hash middleware.

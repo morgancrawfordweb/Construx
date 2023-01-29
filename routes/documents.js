@@ -1,16 +1,9 @@
-//original code below
-// ////////////////////////////////////////////////////
-
 const express = require('express');
 const router = express.Router();
 const upload = require("../middleware/multer");
 const documentsController = require("../controllers/documents");
 
 const {ensureAuth, ensureGuest} = require('../middleware/auth');
-
-
-// //gridFS initialize
-
 
 
 

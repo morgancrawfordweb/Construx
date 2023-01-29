@@ -1,13 +1,15 @@
 const User = require("../models/User");
 const Project = require("../models/Project");
 const Document = require("../models/Document");
-const Company = require("../models/Company");
+// const Company = require("../models/Company");
+const Employee = require("../models/Employee");
 // var popup = require("popups");
 
 module.exports = {
   getProfile: async (req, res) => {
     try {
-      const projects = await Project.find({ user: req.user.id});
+      //? I think this gives me all of the projects that i created with my userId
+      const projects = await Project.find({ user: req.user.id}); //req ? {do this... check user ? {do this... check .id}}
       res.render("profile.ejs", {projects: projects, user: req.user, company: req.company });
     } catch (err) {
       console.log(err);
@@ -15,9 +17,13 @@ module.exports = {
   },
   getFeed: async (req, res) => {
     try {
-      //! Sort order Descended to get most recent projects in feed.
-      const projects = await Project.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { projects: projects });
+      //?node: UUID -> Creates a unique number for companyID
+      //! Need to sort by users companyId to get 
+      const user = await User.findOne({_id: req.user._id});
+      const projects = await Project.find({companyIdNumber: user?.companyIdNumber}).sort({ createdAt: "desc" }).lean();
+
+      res.render("feed.ejs", {projects: projects});
+
     } catch (err) {
       console.log(err)
       // popup.alert({content:"Their is already a project with those parameters that exists"});
@@ -29,10 +35,9 @@ module.exports = {
     //   const company = await Company.find({companyIdNumber: req.params.id});
       const project = await Project.findById(req.params.id);
       const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).lean();
+      const employees = await Employee.find({project: req.params.id}).sort({createdAt: "desc"}).lean();
 
-   
-      res.render("project.ejs", { project: project, user: req.user, documents: documents });
-
+      res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees });
 
     } catch (err) {
       console.log(err);
@@ -47,8 +52,8 @@ module.exports = {
         projectName: req.body.projectName,
         projectNumber: req.body.projectNumber,
         projectDescription: req.body.projectDescription,
-        assignedEmployee: req.body.assignedEmployee,
         user: req.user.id,
+        companyIdNumber: createdUser.companyIdNumber,
         createdBy: createdUser.userName,
         createdById: req.user.id,
       });
@@ -73,4 +78,17 @@ module.exports = {
       res.redirect("/profile");
     }
   },
+  addEmployees: async(req,res)=>{
+    try{
+
+      await Employee.addOne({
+        userName: req.body.userName,
+        project: req.params.id,
+      })
+      console.log('employee added')
+      res.redirect('/project/'+req.params.id);
+    }catch(err){
+      console.log(err)
+    }
+  }
 };

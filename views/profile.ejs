@@ -7,7 +7,7 @@
               <p><strong>Email</strong>: <%= user.email %></p>
               <p><strong>Company</strong>: <%= user.company %></p>
               <!-- <a href="/projects" class="col-3 btn btn-primary">Projects</a> -->
-              <a href="/calendar" class="col-3 btn btn-primary">Check out the calendar!</a>
+              <a href="/calendar" class="col-3 btn btn-primary">Calendar</a>
               <a href="/settings" class="col-3 btn btn-primary">Website Settings</a>
               <a href="/logout" class="col-3 btn btn-primary">Logout</a>
               
@@ -24,10 +24,6 @@
                 <input type="text" class="form-control" id="projectNumber" name="projectNumber">
               </div>
               <div class="mb-3">
-                <label for="assignedEmployee" class="form-label">Assigned Employee</label>
-                <input type="text" class="form-control" id="assignedEmployee" name="assignedEmployee">
-              </div>
-              <div class="mb-3">
                 <label for="projectDescription" class="form-label">Project Description</label>
                 <textarea class="form-control" id="projectDescription" name="projectDescription"></textarea>
               </div>
@@ -37,7 +33,7 @@
       </div>
       <div class="col-6">
         <ul class="row list-unstyled">
-          <h2>List of your assigned projects</h2>
+          <h2>Projects you have created</h2>
             <% for(var i=0; i<projects.length; i++) {%>
               <li class="col-6 justify-content-between mt-5">
                 <a href="/project/<%= projects[i]._id%>">
@@ -47,7 +43,8 @@
             <% } %>
           </ul>
           <div class="row justify-content-center mt-5">
-            <a class="btn btn-primary" href="/feed">This is a list to all of the projects.</a>
+            <a class="btn btn-primary" href="/feed">See all of  
+              <%= user.company %> projects.</a>
           </div>  
 
         </div>  
