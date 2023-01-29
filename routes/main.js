@@ -5,7 +5,6 @@ const homeController = require("../controllers/home");
 const projectsController = require("../controllers/projects");
 const calendarController = require("../controllers/calendars");
 const forgotPasswordController = require("../controllers/forgotPassword");
-const settingsController = require("../controllers/settings");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 
@@ -19,8 +18,6 @@ router.get("/profile", ensureAuth, projectsController.getProfile);
 router.get("/feed", ensureAuth, projectsController.getFeed);
 
 router.get("/calendar", ensureAuth, calendarController.getCalendar);
-
-router.get("/settings", settingsController.getSettings);
 
 
 router.get("/login", authController.getLogin);
