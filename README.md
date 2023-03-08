@@ -19,7 +19,7 @@
 
 `npm start`
 
-# trinity-portal
+# Construx
 This is a project where employees can find project documents and look at schedules!
 
 

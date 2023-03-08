@@ -1,5 +1,5 @@
 {
-  "name": "trinity-project-portal",
+  "name": "construx",
   "version": "1.0.0",
   "description": "Small Construction Business Project Planning",
   "main": "server.js",
@@ -29,6 +29,7 @@
     "nodemon": "^2.0.7",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "pdf-lib": "^1.17.1",
     "pdfkit": "^0.13.0",
     "popups": "^1.1.3",
     "uuid": "^9.0.0",
@@ -39,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/morgancrawfordweb/trinity-portal.git"
+    "url": "git+https://github.com/morgancrawfordweb/Construx.git"
   },
   "keywords": [
     "Project",
@@ -47,7 +48,7 @@
     "portal"
   ],
   "bugs": {
-    "url": "https://github.com/morgancrawfordweb/trinity-portal/issues"
+    "url": "https://github.com/morgancrawfordweb/Construx/issues"
   },
-  "homepage": "https://github.com/morgancrawfordweb/trinity-portal#readme"
+  "homepage": "https://github.com/morgancrawfordweb/Construx#readme"
 }

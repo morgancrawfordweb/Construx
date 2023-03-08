@@ -8,9 +8,14 @@ const methodOverride = require("method-override");
 const flash = require("express-flash");
 const logger = require("morgan");
 const connectDB = require("./config/database");
+// const fs = require('fs')
+// const path = require('path')
+
+//node-module of pdf-lib. This will give me the ability to create a new PDF , hopefully be able to create new checklists from an HTML form
+// const pdfDocument= require("pdf-lib")
 
 const mainRoutes = require("./routes/main");
-const calendarRoutes = require("./routes/calendarDates");
+const eventRoutes = require("./routes/events")
 const projectRoutes = require("./routes/projects");
 const documentRoutes = require("./routes/documents");
 const companyRoutes = require("./routes/companies");
@@ -64,7 +69,7 @@ app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/calendar", calendarRoutes);
+app.use("/event", eventRoutes);
 app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/company", companyRoutes);

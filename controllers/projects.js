@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Project = require("../models/Project");
 const Document = require("../models/Document");
+const Event = require("../models/Event")
 // const Company = require("../models/Company");
 const Employee = require("../models/Employee");
 // var popup = require("popups");
@@ -10,7 +11,8 @@ module.exports = {
     try {
       //? I think this gives me all of the projects that i created with my userId
       const projects = await Project.find({ user: req.user.id}); //req ? {do this... check user ? {do this... check .id}}
-      res.render("profile.ejs", {projects: projects, user: req.user, company: req.company });
+      const event = await Event.find({user: req.user.id})
+      res.render("profile.ejs", {projects: projects, user: req.user, company: req.company,event: event});
     } catch (err) {
       console.log(err);
     }
@@ -78,17 +80,24 @@ module.exports = {
       res.redirect("/profile");
     }
   },
-  addEmployees: async(req,res)=>{
-    try{
+  // addProfilePicture: async(req,res)=>{
+  //   try{
+  //     const user = await User.findById(req.user.id)
+  //   }
+  // }
+  // addEmployees: async(req,res)=>{
+  //   try{
 
-      await Employee.addOne({
-        userName: req.body.userName,
-        project: req.params.id,
-      })
-      console.log('employee added')
-      res.redirect('/project/'+req.params.id);
-    }catch(err){
-      console.log(err)
-    }
-  }
+  //     const employee = await User.findById{}
+
+  //     await Employee.addOne({
+  //       userName: req.body.userName,
+  //       project: req.params.id,
+  //     })
+  //     console.log('employee added')
+  //     res.redirect('/project/'+req.params.id);
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
 };

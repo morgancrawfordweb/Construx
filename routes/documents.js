@@ -7,6 +7,7 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth');
 
 
 
+//for documents
 router.get("/:id", ensureAuth, documentsController.getDocument);
 
 router.get("/dowloadDocument/:projectId/:documentId", ensureAuth, documentsController.downloadDocument);
@@ -15,6 +16,18 @@ router.post("/createDocument/:id?", ensureAuth, upload.single('file'), documents
 
 router.delete("/deleteDocument/:projectId/:documentId", ensureAuth, documentsController.deleteDocument);
 
+
+
+//for templates that will be used for later
+router.get("/projectId/:id",ensureAuth, documentsController.getTemplate)
+
+router.post("/createTemplate/:id?",ensureAuth, upload.single("file"), documentsController.createTemplate)
+
+
+//This will take me to my docs controller. Then I will be able to create new checklists and documents that you can edit.
+// router.post("/renderTemplate",ensureAuth, documentsController.renderTemplate)
+
+router.put("/editTemplate/projectId/:id", ensureAuth, documentsController.editTemplate)
 
 
 module.exports = router;

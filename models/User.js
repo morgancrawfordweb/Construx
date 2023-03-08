@@ -18,7 +18,11 @@ const UserSchema = new mongoose.Schema({
   // },
   securityQuestion: {type: String, unique: true},
   securityAnswer: {type: String, unique: true},
-  // certifications:{type:String},
+  profilePicture:{type: String},
+  // certifications:{
+  //   type:[{
+  //     type:String
+  //   }]},
 });
 
 // Password hash middleware.

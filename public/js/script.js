@@ -1,84 +1,61 @@
-const date = new Date();
-
-const renderCalendar = () => {
-  date.setDate(1);
-
-  const monthDays = document.querySelector(".days");
-
-  const lastDay = new Date(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    0
-  ).getDate();
-
-  const prevLastDay = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    0
-  ).getDate();
-
-  const firstDayIndex = date.getDay();
-
-  const lastDayIndex = new Date(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    0
-  ).getDay();
-
-  const nextDays = 7 - lastDayIndex - 1;
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  document.querySelector(".date h1").innerHTML = months[date.getMonth()];
-
-  document.querySelector(".date p").innerHTML = new Date().toDateString();
-
-  let days = "";
-
-  for (let x = firstDayIndex; x > 0; x--) {
-    days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
-  }
-
-  for (let i = 1; i <= lastDay; i++) {
-    if (
-      i === new Date().getDate() &&
-      date.getMonth() === new Date().getMonth()
-    ) {
-      days += `<div class="today">${i}</div>`;
+// Function to toggle header menu in mobile view.
+function toggleMenu(flag) {
+    let value = document.getElementById("menu");
+    if (flag) {
+        value.classList.remove("hidden");
     } else {
-      days += `<div>${i}</div>`;
+        value.classList.add("hidden");
     }
+}
+
+
+//javascript for the calendar
+
+// Get the current date
+const today = new Date();
+
+// Set the date to the first day of the month
+const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+// Get the number of days in the month
+const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+const numDaysInMonth = lastDayOfMonth.getDate();
+
+// Calculate the day of the week of the first day of the month (0 = Sunday, 1 = Monday, etc.)
+const firstDayOfWeek = firstDayOfMonth.getDay();
+
+// Get a reference to the calendar body element
+const calendarBody = document.getElementById("calendar-body");
+
+// Clear the existing calendar
+calendarBody.innerHTML = "";
+
+// Generate the calendar rows and cells
+let date = 1;
+for (let row = 0; row < 6; row++) {
+  const calendarRow = document.createElement("tr");
+  for (let col = 0; col < 7; col++) {
+    const calendarCell = document.createElement("td");
+    const cellContent = document.createElement("div");
+    cellContent.classList.add("px-2", "py-2", "cursor-pointer", "flex", "w-full", "justify-center");
+
+    if (row === 0 && col < firstDayOfWeek) {
+      // This cell is in the "padding" before the first day of the month
+      cellContent.textContent = "";
+      calendarCell.appendChild(cellContent);
+    } else if (date > numDaysInMonth) {
+      // This cell is in the "padding" after the last day of the month
+      cellContent.textContent = "";
+      calendarCell.appendChild(cellContent);
+    } else {
+      // This cell is a valid date in the current month
+      cellContent.textContent = date;
+      calendarCell.appendChild(cellContent);
+      date++;
+    }
+
+    calendarRow.appendChild(calendarCell);
   }
 
-  for (let j = 1; j <= nextDays; j++) {
-    days += `<div class="next-date">${j}</div>`;
-    monthDays.innerHTML = days;
-  }
-};
-
-
-document.querySelector("#prevLeft").addEventListener("click", () => {
-  date.setMonth(date.getMonth() - 1);
-  renderCalendar();
-});
-
-document.querySelector("#nextRight").addEventListener("click", () => {
-  date.setMonth(date.getMonth() + 1);
-  renderCalendar();
-});
-
-
-renderCalendar();
+  calendarBody.appendChild(calendarRow);
+}

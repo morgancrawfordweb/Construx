@@ -7,6 +7,7 @@ const ProjectSchema = new mongoose.Schema({
   projectName: { type: String, require: true},
   projectNumber: { type: String,  require: true},
   projectDescription: {type: String, require: true},
+  // locationCoordinates:{type: String},
   assignedEmployee: [{
      type: String,
      ref:"User"

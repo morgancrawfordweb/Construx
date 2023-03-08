@@ -3,7 +3,6 @@ const router = express.Router();
 const authController = require("../controllers/auth");
 const homeController = require("../controllers/home");
 const projectsController = require("../controllers/projects");
-const calendarController = require("../controllers/calendars");
 const forgotPasswordController = require("../controllers/forgotPassword");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
@@ -13,11 +12,10 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 router.get("/", homeController.getIndex);
 // router.get("/", homeController.getCalendar);
 router.get("/profile", ensureAuth, projectsController.getProfile);
+// router.put("/profile/addProfilePicture", ensureAuth, projectsController.addProfilePicture)
 
 
 router.get("/feed", ensureAuth, projectsController.getFeed);
-
-router.get("/calendar", ensureAuth, calendarController.getCalendar);
 
 
 router.get("/login", authController.getLogin);
