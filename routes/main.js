@@ -10,7 +10,7 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Main Routes - simplified for now
 router.get("/", homeController.getIndex);
-// router.get("/", homeController.getCalendar);
+
 router.get("/profile", ensureAuth, projectsController.getProfile);
 // router.put("/profile/addProfilePicture", ensureAuth, projectsController.addProfilePicture)
 
@@ -25,6 +25,12 @@ router.post("/login", authController.postLogin);
 router.get("/logout", authController.logout);
 router.get("/signup", authController.getSignup);
 router.post("/signup", authController.postSignup);
+
+
+
+
+router.get("/about", homeController.getAbout)
+// router.get("/about", homeController.getAbout)
 
 
 

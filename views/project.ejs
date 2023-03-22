@@ -6,26 +6,34 @@
 
     </div>
     <div class="col-3 mt-5">
-      <p><h3>Created By:</h3><%=  project.createdBy%></p>
-      <p><h3>Project Number:</h3><%= project.projectNumber%></p>
-      <p><h3>Project Description:</h3><%= project.projectDescription%></p>
-      <!-- <p><h3>Assigned Employees:</h3></p>
-      <% for(var i=0; i<employees.length; i++) {%>
-        <h4><%= employees[i].userName%></h4>
-      <% } %> -->
+      <h3>Created By:</h3>
+      <%=project.createdBy%>
+      <p><br></p>
+      
+      <h3>Project Number:</h3>
+      <%=project.projectNumber%>
+      <p><br></p>
+      
+      <h3>Project Description:</h3>
+      <%=project.projectDescription%>
+      <p><br></p>
+
+      <h3>Assigned Employees:</h3><br>
+      <% for(var i=0; i<project.assignedEmployee.length; i++) {%>
+        <h4><%=project.assignedEmployee[i]%></h4>
+      <% } %>
 
  
-      <!-- <div class="mt-5">
-        <h2>Assign An Employee</h2>
+      <div class="mt-5">
         <form action="/project/addEmployees/<%=project._id%>" method="POST">
           <div class="mb-3">
-              <label for="comment" class="form-label">Assigned Employee</label>
-              <input type="text" class="form-control" id="employee" name="employee">
+              <label for="comment" class="form-label">Assign An Employee</label>
+              <input type="text" class="form-control" id="assignedEmployee" name="assignedEmployee">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-      </div> -->
-    </div>
+      </div>
+    </div> 
 
     <h3>Document Section</h3>
     
@@ -71,7 +79,9 @@
           </form>
         </div>
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
+      <a class="btn btn-primary" href="/feed">Return to <%= user.company %> projects.</a>
     </div>
+    
   </div>
 </div>
 

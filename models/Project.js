@@ -10,7 +10,6 @@ const ProjectSchema = new mongoose.Schema({
   // locationCoordinates:{type: String},
   assignedEmployee: [{
      type: String,
-     ref:"User"
     }],
   // companyIdNumberId:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
   companyIdNumber:{type: String, ref:"User"},

@@ -4,8 +4,19 @@ const Event = require("../models/Event");
 module.exports = {
   getCalendar: async (req, res) => {
     try {
-      const events = await Event.findById(req.params.id);
-      res.render("calendar.ejs", { events: events, user: req.user });
+
+
+  // Get the current month
+  const currentDate = moment().startOf('month').toDate();
+  
+  // Query the database for events in the current month
+  const events =  await Event.find({
+    $and: [
+      { start: { $gte: currentDate } },
+{ start: { $lt: moment( currentDate).add(1, 'month').toDate() } }
+    ]
+    });
+      res.render("calendar", { events: events, user: req.user });
     } catch (err) {
       console.log(err);
     }
@@ -22,8 +33,10 @@ module.exports = {
     try {
       await Event.create({
         title: req.body.title,
-        projectNumber: req.params.id,
-        employee: req.params.id,
+
+        //Might need to do req.params//
+        projectNumber: req.body.id,
+        employee: req.body.employee,
         start: new Date(req.body.start),
         end: new Date(req.body.end)
       });

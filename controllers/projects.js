@@ -85,19 +85,20 @@ module.exports = {
   //     const user = await User.findById(req.user.id)
   //   }
   // }
-  // addEmployees: async(req,res)=>{
-  //   try{
-
-  //     const employee = await User.findById{}
-
-  //     await Employee.addOne({
-  //       userName: req.body.userName,
-  //       project: req.params.id,
-  //     })
-  //     console.log('employee added')
-  //     res.redirect('/project/'+req.params.id);
-  //   }catch(err){
-  //     console.log(err)
-  //   }
-  // }
+  addEmployees: async(req,res)=>{
+    try{
+      const projectId= req.params.id
+      const assignedEmployee = req.body.assignedEmployee
+      //I think later on I want to be able to reference the users, but for now, lets just do string names.
+    await Project.updateOne(
+        { _id: projectId},
+        { $addToSet: { assignedEmployee: assignedEmployee } },
+      );
+      
+      console.log('Employee added')
+      res.redirect('/project/'+req.params.id);
+    }catch(err){
+      console.log(err)
+    }
+  }
 };

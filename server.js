@@ -8,6 +8,7 @@ const methodOverride = require("method-override");
 const flash = require("express-flash");
 const logger = require("morgan");
 const connectDB = require("./config/database");
+const fullCalendar = require("fullcalendar")
 // const fs = require('fs')
 // const path = require('path')
 

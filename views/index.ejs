@@ -18,16 +18,16 @@
              
           </button>
           <div id="menu" class="md:block lg:block hidden">
-              <button onclick="toggleMenu(false)" class=" dark:bg-white rounded block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 fixed focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white md:bg-transparent z-30 top-0 mt-3">
+              <button onclick="toggleMenu(false)" class="test dark:bg-white rounded block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 fixed focus:outline-none focus:ring-2 focus:ring-gray-500 bg-black md:bg-transparent z-30 top-0 mt-3">
                   <img class="h-8 w-8" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg5.svg" alt="hide"/>
                  
               </button>
-              <ul class="flex text-3xl md:text-base items-center py-8 md:flex flex-col md:flex-row justify-center fixed md:relative top-0 bottom-0 left-0 right-0 bg-white md:bg-transparent  z-20">
+              <ul  class=" flex text-3xl md:text-base items-center py-8 md:flex flex-col md:flex-row justify-center fixed md:relative top-0 bottom-0 left-0 right-0 bg-black md:bg-transparent  z-20">
                   <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                      <a href="./about.ejs">Company</a>
+                      <a href="javascript:void(0)">Company</a>
                   </li>
                   <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                      <a href="javascript:void(0)">Features</a>
+                      <a href="/about">Features</a>
                   </li>
                   <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
                       <a href="javascript:void(0)">Contact</a>
@@ -47,8 +47,8 @@
           <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-center text-white font-bold leading-tight">Keep your team on the same page</h1>
       </div>
       <div class="flex justify-center items-center mb-2 sm:mb-20">
-          <a href="/signup" class="hover:text-white hover:bg-transparent lg:text-xl hover:border-white border bg-white transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 ring-offset-indigo-700	focus:ring-white rounded text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm">Get Started</a>
-          <a href="/login" class="hover:bg-white hover:text-indigo-600 lg:text-xl hover:border-indigo-600 ml-3 sm:ml-6 bg-transparent transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 ring-offset-indigo-700 focus:ring-white hover:bg-indigo-700-800 rounded border border-white text-white px-4 sm:px-8 py-1 sm:py-3 text-sm">Already signed up?</a>
+          <a href="/signup" class="hover:text-black hover:bg-transparent lg:text-xl hover:border-white border bg-white transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 ring-offset-indigo-700	focus:ring-white rounded text-indigo-700 px-4 sm:px-8 py-1 sm:py-3 text-sm">Get Started</a>
+          <a href="/login" class="hover:bg-white hover:text-indigo-600 lg:text-xl hover:border-indigo-600 ml-3 sm:ml-6 bg-transparent transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 ring-offset-indigo-700 focus:ring-white hover:bg-indigo-700-800 rounded border border-white text-purple px-4 sm:px-8 py-1 sm:py-3 text-sm">Already signed up?</a>
       </div>
   </div>
   <div class="container mx-auto flex justify-center md:-mt-56 -mt-2 sm:-mt-40">
@@ -60,66 +60,6 @@
       
   </div>
 </div>
-
-    <!-- <div class = 'row align-items-start'>
-        <h1>Do you need help bringing your project management to a higher standard?</h1>
-    </div>
-    <br></br>
-
-
-    <div class = 'row'>
-        <div class = 'col-sm-9'>
-            <h2>Management tools to help the business grow</h2>
-                <div class = 'col-8 col-md-6'>
-                    <p>This is an application that is perfect for any small construction company. With this, construction plans and documents will be available to everyone on the go.</p>
-                </div>
-            </div>
-        </div>
-    
-    <div class = 'row'>
-        <div class = 'col-sm-9'>
-            <h2>More time to work on the things that matter.</h2>
-                <div class = 'col-8 col-md-6'>
-                    <p>This will free up managements time to keep each employee up to date with all of documents that are project specific. Leading everyone down a rabbit hole of productivity.</p>
-                </div>
-            </div>
-        </div>
-        <div class = 'row'>
-            <div class = 'col-sm-9'>
-                <h2>No more time wasted for employees.</h2>
-                    <div class = 'col-8 col-md-6'>
-                        <p>Each employee will no longer need to wait to get the documents needed to do the job! Self reliance is key to success.</p>
-                    </div>
-                </div>
-            </div>
-
-    <div class='row align-items-center'>
-        <h3>Are you ready?</h3>  
-    </div> -->
-    
-
-<!-- <div class ='container'>
-    <div class="row justify-content-around mt-5">
-        
-        <span>Existing User?</span>
-        <a href="/login" class="col-3 btn btn-primary"> Login Here!</a>
-        
-        <span>Just starting out at a new company?</span>
-        <a href="/signup" class="col-3 btn btn-primary"> Signup Here!</a>
-
-    </div>
-</div>
-
-    <div class = 'container'>
-        <div class = "row justify-content-around mt-5">
-            <span>Have a company registered already?</span>
-                <a href="/company/companyLogin" class="col-3 btn btn-primary">Log in to represent your company!</a>
-        </div>
-        <div class = "row justify-content-around mt-5">
-            <span>Want to put your company on this platform?</span>
-                <a href="/company/companySignup" class="col-3 btn btn-primary">Company Signup Here!</a>
-        </div>
-    </div> -->
 
     
 

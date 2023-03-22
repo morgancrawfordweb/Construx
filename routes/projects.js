@@ -15,7 +15,7 @@ router.post("/createProject", upload.single("file"), projectsController.createPr
 router.delete("/deleteProject/:id", projectsController.deleteProject);
 
 //Adds employees to the project
-// router.post("/addEmployees/:id", projectsController.addEmployees)
+router.post("/addEmployees/:id", projectsController.addEmployees)
 
 
 module.exports = router;
