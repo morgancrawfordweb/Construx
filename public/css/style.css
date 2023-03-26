@@ -36,3 +36,9 @@ content: "";
   filter: blur(5px);
   z-index: -1;
 }
+button{
+    background-color: #8e48af;
+}
+#menu *{
+    padding: 0 2px;
+}
