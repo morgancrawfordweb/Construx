@@ -1,4 +1,4 @@
-<head>
+<!-- <head>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
 <script>
@@ -45,4 +45,76 @@ function test(){
 
 </script>
 </head>
-<body></body>
+<body></body> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calendar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/main.min.css" integrity="sha512-qdW7aSCd5cG4GN8dpUQJlv0Y7PmRz0Ajy9EQpQHpdLZGK3+Qmy9cqUDT7E0Lgu6aOVa2v1kGQhJzchcFmK72lQ==" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-1JxgExTbFm1bPU5Jr+bn7/w8g24t6gegTj9D18+BCss1bVz0UzR4yXO9uQ07uYi/pA/qsJt2wYdbAvlw7TC4xg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/main.min.js" integrity="sha512-6n3tBtOgtXRAzUHMnBlI89UozwpO+V1KPLn7ANW5hJefDj8xYyo5+jjV57KbhWXkTKI3WlriZFvVOQErPOM1dg==" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <div id="calendar"></div>
+  
+
+  <% if (event) { %>
+    <form action="/updateEvent/<%= event._id %>" method="POST">
+      <input type="text" name="title" value="<%= event.title %>">
+      <button type="submit">Save</button>
+    </form>
+  <% } else { %>
+    <form action="/createEvent" method="POST">
+      <input type="text" name="title" placeholder="Add event...">
+      <button type="submit">Save</button>
+    </form>
+  <% } %>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        center: 'addEventButton'
+      },
+      customButtons: {
+        addEventButton: {
+          text: 'add event...',
+          click: function() {
+            var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+            var eventName = prompt('Event name goes here');
+            var date = new Date(dateStr + 'T00:00:00');
+
+            if (!isNaN(date.valueOf())) { 
+              calendar.addEvent({
+                title: eventName,
+                start: date,
+                allDay: true
+              });
+              alert('Great. Now, update your database...');
+            } else {
+              alert('Invalid date.');
+            }
+          }
+        }
+      }
+    });
+
+    calendar.render();
+  });
+
+  document.querySelector('td').addEventListener('click', test);
+
+  function test(){
+    console.log('worked');
+  }
+  </script>
+
+
+</body>
+</html>

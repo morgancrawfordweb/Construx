@@ -15,10 +15,6 @@ router.post("/createEvent", eventController.createEvent);
 
 router.put("/updateEvent/:id", eventController.updateEvent);
 
-
-// router.put("/likePost/:id", calendarController.likePost);
 router.delete("/deleteEvent/:id", eventController.deleteEvent);
-
-
 
 module.exports = router;

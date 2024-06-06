@@ -4,6 +4,7 @@ const Document = require("../models/Document");
 const Event = require("../models/Event")
 // const Company = require("../models/Company");
 const Employee = require("../models/Employee");
+const TaskSheet = require("../models/TaskSheet")
 // var popup = require("popups");
 
 module.exports = {
@@ -37,7 +38,7 @@ module.exports = {
     //   const company = await Company.find({companyIdNumber: req.params.id});
       const project = await Project.findById(req.params.id);
       const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).lean();
-      const employees = await Employee.find({project: req.params.id}).sort({createdAt: "desc"}).lean();
+      const employees = await Project.find({assignedEmployee: req.params.id}).sort({createdAt: "desc"}).lean();
 
       res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees });
 
@@ -85,18 +86,34 @@ module.exports = {
   //     const user = await User.findById(req.user.id)
   //   }
   // }
-  addEmployees: async(req,res)=>{
+  //TODO Since the array is a string, we need it to change. My bigger task is to reference these employees, to each person who shares a character code. Then grab from their names. That way it is always updated with the usernames or users.
+
+  //*But right now if I want to do something easier, it would be just to remove the item in the array with a button
+  addEmployee: async(req,res)=>{
     try{
       const projectId= req.params.id
-      const assignedEmployee = req.body.assignedEmployee
+      const employees = req.body.employees
       //I think later on I want to be able to reference the users, but for now, lets just do string names.
     await Project.updateOne(
         { _id: projectId},
-        { $addToSet: { assignedEmployee: assignedEmployee } },
+        { $addToSet: { employees: employees } },
       );
       
       console.log('Employee added')
       res.redirect('/project/'+req.params.id);
+    }catch(err){
+      console.log(err)
+    }
+  },
+  deleteEmployee: async(req,res)=>{
+    try{
+      const projectId= req.params.id
+      const employees = await Projects.employees.updateOne({_id: req.params.id})
+      await Project.deleteOne(
+        {_id: projectId},
+        {$pull: {employees: employees}},
+      );
+      console.log("Employee removed from project")
     }catch(err){
       console.log(err)
     }

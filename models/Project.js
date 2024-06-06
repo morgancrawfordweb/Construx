@@ -11,13 +11,19 @@ const ProjectSchema = new mongoose.Schema({
   assignedEmployee: [{
      type: String,
     }],
-  // companyIdNumberId:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
+  companyIdNumberId:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
   companyIdNumber:{type: String, ref:"User"},
-  // companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
+  companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
   user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   employeeIdNumber:{type: mongoose.Schema.Types.ObjectId, ref: "User"},
   createdBy:{type: String, ref:"User"},
-  createdById:{type: mongoose.Schema.Types.ObjectId, ref:"User"}
+  createdById:{type: mongoose.Schema.Types.ObjectId, ref:"User"},
+
+  //!progress tracker for the schema.
+  //!maybe get each TD and a name to follow or something
+  // progressTracker:[{
+  //   type: String,
+  // }]
   
 });
 

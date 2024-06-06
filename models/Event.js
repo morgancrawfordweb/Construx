@@ -7,8 +7,7 @@ const EventSchema = new mongoose.Schema({
       required: true 
     },
     projectNumber:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Project"
+      type: String,
     },
     employee:{
       type: mongoose.Schema.Types.ObjectId,

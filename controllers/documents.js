@@ -2,6 +2,7 @@ const cloudinary = require("../middleware/cloudinary");
 const Document = require("../models/Document");
 const User = require("../models/User");
 const Template = require("../models/Template")
+// const toastify = require("../")
 
 
 module.exports = {
@@ -48,7 +49,7 @@ module.exports = {
       } catch (err) {
         console.log(err);
       }
-  }, 
+  },
   downloadDocument: async(req,res)=>{
     try{
       

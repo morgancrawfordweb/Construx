@@ -5,7 +5,7 @@ module.exports = multer({
   storage: multer.diskStorage({}),
   fileFilter: (req, file, cb) => {
     let ext = path.extname(file.originalname);
-    if (ext !== ".pdf") {
+    if(ext !==".pdf" && ext !==".png" && ext !==".img"&& ext !==".jpg"&& ext !==".jpeg"){
       cb(new Error("File type is not supported, try using a pdf!"), false);
       return;
     }
@@ -18,8 +18,12 @@ module.exports = multer({
 //  storage = multer.diskStorage({
 //   destination: "./uploads",
 //   filename: function(req, file, cb) {
-//     // null as first argument means no error
-//     cb(null, Date.now() + "-" + file.originalname);
+//       if(ext !==".pdf"|| ext !==".png"|| ext !==".img"){
+//       cb(new Error("File type is not supported, try using a pdf!"), false);
+//       //       return;
+//       //     } 
+
+// cb(null, Date.now() + "-" + file.originalname);
 //   },
 // });
 // })
