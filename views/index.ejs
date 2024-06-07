@@ -6,32 +6,33 @@
   
 
 
-<nav class="w-full flex justify-evenly">
-              <ul  class=" w-full flex text-3xl md:text-base items-center py-8 md:flex md:flex-row justify-evenly fixed">
-                <li class="text-green text-lg hover:text-gray dark:text-white cursor-pointer pt-10">
-                    <a href="javascript:void(0)">What we Offer</a>
-                </li>
-                <li class="text-green text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                    <a href="/about">Features</a>
-                </li>
-                <li class="text-green text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                    <a href="javascript:void(0)">Contact</a>
-                </li>
-                <li class="text-green text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                  <a href="/login">Login</a>
-                </li>
-                <li class="text-green text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                    <div class="dropdown">
-                        <button class="dropbtn" onclick="myFunction()">Dropdown
-                          <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-content" id="myDropdown">
-                          <a href="#">Link 1</a>
-                          <a href="#">Link 2</a>
-                          <a href="#">Link 3</a>
-                        </div>
-                        </div> 
-                </li>
+
+<nav class="w-full">
+  <div class="container mx-auto px-6 flex items-center justify-between">
+      <div class="flex items-center" aria-label="Home" role="img">
+          <img class="cursor-pointer w-8 sm:w-auto" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg1.svg" alt="logo"/>     
+          <p class="ml-2 lg:ml-4 text-base lg:text-2xl font-bold text-gray-800 dark:text-white">The North</p>
+      </div>
+      <div>
+          <button onclick="toggleMenu(true)" class=" dark:bg-white rounded sm:block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
+              <img class="h-8 w-8" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg4.svg" alt="show"/>
+             
+          </button>
+          <div id="menu" class="md:block lg:block hidden">
+              <button onclick="toggleMenu(false)" class=" dark:bg-white rounded block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 fixed focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white md:bg-transparent z-30 top-0 mt-3 toggledMenu">
+                  <img class="h-8 w-8" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg5.svg" alt="hide"/>
+                 
+              </button>
+              <ul class="flex text-3xl md:text-base items-center py-8 md:flex flex-col md:flex-row justify-center fixed md:relative top-0 bottom-0 left-0 right-0 bg-black md:bg-transparent  z-20">
+                  <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
+                      <a href="./about.ejs">Company</a>
+                  </li>
+                  <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
+                      <a href="javascript:void(0)">Features</a>
+                  </li>
+                  <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
+                      <a href="javascript:void(0)">Contact</a>
+                  </li>
               </ul>
 </nav>
 
