@@ -7,7 +7,7 @@ const ProjectSchema = new mongoose.Schema({
   projectName: { type: String, require: true},
   projectNumber: { type: String,  require: true},
   projectDescription: {type: String, require: true},
-  // locationCoordinates:{type: String},
+  projectAddress:{type: String},
   assignedEmployee: [{
      type: String,
     }],
@@ -18,6 +18,10 @@ const ProjectSchema = new mongoose.Schema({
   employeeIdNumber:{type: mongoose.Schema.Types.ObjectId, ref: "User"},
   createdBy:{type: String, ref:"User"},
   createdById:{type: mongoose.Schema.Types.ObjectId, ref:"User"},
+  taskSheet:{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref:"TaskSheet"
+  }
 
   //!progress tracker for the schema.
   //!maybe get each TD and a name to follow or something

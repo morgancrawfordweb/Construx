@@ -1,7 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Document = require("../models/Document");
 const User = require("../models/User");
-const Template = require("../models/Template")
+// const Template = require("../models/Template")
 // const toastify = require("../")
 
 

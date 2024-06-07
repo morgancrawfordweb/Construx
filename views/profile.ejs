@@ -32,25 +32,10 @@
 
 
       <div class="col-4">
-        <a href="/tasks/createTaskSheetPage"  class="btn btn-primary">Create your Task Sheet Template</a>
+        <a href="task/getCreateTaskSheetPage"  class="btn btn-primary">Create your Task Sheet Template</a>
       </div>
 
 
-      <div class="col-6">
-        <div class="mt-5">
-          <h2>Add a template for later use for your projects!</h2>
-          <form action="/documents/createTemplate" enctype="multipart/form-data" method="POST">
-            <div class="mb-3">
-                <label for="name" class="form-label">Template Name</label>
-                <input type="text" class="form-control" id="name" name="templateName">
-            </div>
-            <div class ="mb-3">
-              <label for="templateUpload" class="form-label">Template PDF</label>
-              <input type="file" class="form-control" id="templateUpload" name="file">
-            </div>
-            <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
-          </form>
-        </div>
       <div class="col-6">
         <div class="mt-5">
           <h2>Add a project</h2>
@@ -89,7 +74,6 @@
       </div>  
     </div>
   </div>
-</div>
 </div>
 
 <%- include('partials/footer') -%>

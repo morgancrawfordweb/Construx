@@ -14,16 +14,16 @@
                         <div class="alert alert-info"><%= el.msg %></div>
                     <% }) %>    
                 <% } %>
-                <form action="/createTaskSheet" enctype="multipart/form-data" method="POST">
+                <form action="/task/createTaskSheetTemplate" enctype="multipart/form-data" method="POST">
                     <div class="mb-3">
-                        <label for="task" class="form-label">Task Title</label>
+                        <label for="templateName" class="form-label">Task Template</label>
                         <h5>*For Example: Grading Inspection Duties</h5>
-                        <input type="text" class="form-control" id="taskTitle" name="taskTitle">
+                        <input type="text" class="form-control" id="templateName" name="templateName">
                     </div>
                     <div class="mb-3">
-                        <label for="task" class="form-label">Task Name</label>
+                        <label for="tasks" class="form-label">Task </label>
                         <h5>*For Example: Ensured wires were trimmed</h5>
-                        <input type="text" class="form-control" id="taskName" name="taskName">
+                        <input type="text" class="form-control" id="tasks" name="tasks">
                     </div>                     
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </form>

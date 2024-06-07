@@ -77,7 +77,7 @@ app.use("/event", eventRoutes);
 app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/company", companyRoutes);
-app.use("/tasks", taskRoutes);
+app.use("/task", taskRoutes);
 
 //Server Running
 app.listen(process.env.PORT, () => {
