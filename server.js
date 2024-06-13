@@ -20,7 +20,7 @@ const eventRoutes = require("./routes/events")
 const projectRoutes = require("./routes/projects");
 const documentRoutes = require("./routes/documents");
 const companyRoutes = require("./routes/companies");
-const taskRoutes = require("./routes/tasks");
+const templateRoutes = require("./routes/templates");
 
 
 
@@ -44,6 +44,7 @@ app.use(express.static("public"));
 //Body Parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 //Logging
 app.use(logger("dev"));
@@ -77,7 +78,7 @@ app.use("/event", eventRoutes);
 app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/company", companyRoutes);
-app.use("/task", taskRoutes);
+app.use("/template", templateRoutes);
 
 //Server Running
 app.listen(process.env.PORT, () => {

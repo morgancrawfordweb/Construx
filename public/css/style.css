@@ -78,6 +78,22 @@ body{
   -webkit-text-stroke: 1px black;
 }
 
+.btn-primary{
+  font-family: 'Rubik';
+  background-color: var(--green);
+  border-radius: 10px;
+  border-color: var(--gray);
+  border-width: 3px;
+  color: var(--mint);
+
+
+}
+.btn-primary:hover{
+  background-color: var(--mint);
+  border-color: var(--green);
+  color: #1c5253;
+}
+
 .btn-secondary{
 
 }
@@ -92,3 +108,4 @@ body{
   
   .grid {
     display: flex;
+  }

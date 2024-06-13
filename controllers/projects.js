@@ -4,7 +4,7 @@ const Document = require("../models/Document");
 const Event = require("../models/Event")
 // const Company = require("../models/Company");
 const Employee = require("../models/Employee");
-const TaskSheet = require("../models/TaskSheet")
+const Template = require("../models/Template")
 // var popup = require("popups");
 
 module.exports = {
@@ -39,8 +39,9 @@ module.exports = {
       const project = await Project.findById(req.params.id);
       const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).lean();
       const employees = await Project.find({assignedEmployee: req.params.id}).sort({createdAt: "desc"}).lean();
+      const template = await Template.find({template: req.params.id}).lean();
 
-      res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees });
+      res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees, template: template});
 
     } catch (err) {
       console.log(err);
@@ -117,5 +118,5 @@ module.exports = {
     }catch(err){
       console.log(err)
     }
-  }
+  },
 };

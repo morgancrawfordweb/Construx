@@ -1,0 +1,77 @@
+<%- include('partials/header') -%>
+
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <section class="col-6 mt-5">
+                <% if (locals.messages.errors) { %>
+                    <% messages.errors.forEach( el => { %>
+                        <div class="alert alert-danger"><%= el.msg %></div>
+                    <% }) %>    
+                <% } %>
+                <% if (locals.messages.info) { %>
+                    <% messages.info.forEach( el => { %>
+                        <div class="alert alert-info"><%= el.msg %></div>
+                    <% }) %>    
+                <% } %>
+                <form action="/template/createTemplate" method="POST">
+                    <div class="mb-3">
+                        <label for="templateName" class="form-label">Task Template</label>
+                        <h5>*For Example: Grading Inspection Duties</h5>
+                        <input type="text" class="form-control" id="templateName" name="templateName">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="taskDetail" class="form-label">Task </label>
+                        <h5>*For Example: Ensured wires were trimmed</h5>
+                        <input type="text" class="form-control" id="taskDetail" name="taskDetail">
+
+
+                        <!-- <button id="addField" onClick="addField()">
+                            <i class="fa fa-3x fa-solid fa-plus">Add Another Task</i>
+                        </button>
+                        <button id="removeField" onClick="removeField()">
+                            <i class="fa fa-3x fa-solid fa-minus">Remove A Task</i>
+                        </button> -->                       
+
+                    </div>        
+                    <div class="mb-3">
+                        <label for="taskDetail" class="form-label">Task </label>
+                        <h5>*For Example: Ensured wires were trimmed</h5>
+                        <input type="text" class="form-control" id="taskDetail" name="taskDetail">
+
+
+                        <!-- <button id="addField" onClick="addField()">
+                            <i class="fa fa-3x fa-solid fa-plus">Add Another Task</i>
+                        </button>
+                        <button id="removeField" onClick="removeField()">
+                            <i class="fa fa-3x fa-solid fa-minus">Remove A Task</i>
+                        </button> -->                       
+
+                    </div>  
+                    <div class="mb-3">
+                        <label for="taskDetail" class="form-label">Task </label>
+                        <h5>*For Example: Ensured wires were trimmed</h5>
+                        <input type="text" class="form-control" id="taskDetail" name="taskDetail">
+
+
+                        <!-- <button id="addField" onClick="addField()">
+                            <i class="fa fa-3x fa-solid fa-plus">Add Another Task</i>
+                        </button>
+                        <button id="removeField" onClick="removeField()">
+                            <i class="fa fa-3x fa-solid fa-minus">Remove A Task</i>
+                        </button> -->                       
+
+                    </div>           
+                              
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                  <a class="mt-6 btn btn-primary" href="/profile">Return to Profile</a>
+
+            </section>
+
+        </div>
+    </main>      
+
+<%- include('partials/footer') -%>

@@ -58,6 +58,7 @@
             
         </div>
         
+        
       </div>
 
     <h3>Document Section</h3>
@@ -77,10 +78,10 @@
           <label for="fileUpload" class="form-label">Document File</label>
           <input type="file" class="form-control" id="documentUpload" name="file">
         </div>
-
           <button type="submit" class ="btn btn-primary">Submit Document</button>
       </form>
     </ul>
+
       <div class="row justify-content-center">
         <div class="col-6 mt-5">
             <ul>
@@ -95,9 +96,37 @@
               </li>
             <% } %>    
             </ul>
-            
         </div>
-        
+      </div>
+      <div class="row justify-content-center">
+        <h3> Generate Checklist From Template </h3>
+        <div class="col-6 mt-5">
+            <ul>
+              <% for (var i=0; i<taskSheet.length; i++){%>
+                <li class ="col-6 justify-content-between mt-5"> 
+                    <form action="/task/populateTaskSheet/<%=project._id%>/<%=taskSheet[i]._id %>?_method=POST" method="POST">
+                    </form>
+              </li>
+            <% } %>    
+            </ul>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <h3> Checklists </h3>
+        <div class="col-6 mt-5">
+            <ul>
+              <% for (var i=0; i<taskSheet.length; i++){%>
+                <li class ="col-6 justify-content-between mt-5"> 
+                    <form action="/task/taskSheet/<%=project._id%>/<%=taskSheet[i]._id %>?_method=DELETE" method="POST">
+                    <span>Uploaded By:  <%=  taskSheet[i].tasks%></span>
+                    <br>
+                      <button type="submit" class="btn btn-outline-danger">Delete <%=  taskSheet[i]%> Checklist?</button>
+                    </form>
+              </li>
+            <% } %>    
+            </ul>
+        </div>
       </div>
 
   
