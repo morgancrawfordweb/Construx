@@ -52,7 +52,6 @@ createTemplate: async (req, res) => {
           tasks: newTask,
           user: req.user.id,
           companyIdNumber: createdUser.companyIdNumber,
-          // project: project.id,
         });  
           
 

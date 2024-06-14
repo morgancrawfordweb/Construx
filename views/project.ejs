@@ -102,10 +102,9 @@
         <h3> Generate Checklist From Template </h3>
         <div class="col-6 mt-5">
             <ul>
-              <% for (var i=0; i<taskSheet.length; i++){%>
+              <% for (var i=0; i<template.length; i++){%>
                 <li class ="col-6 justify-content-between mt-5"> 
-                    <form action="/task/populateTaskSheet/<%=project._id%>/<%=taskSheet[i]._id %>?_method=POST" method="POST">
-                    </form>
+                    
               </li>
             <% } %>    
             </ul>
@@ -115,16 +114,19 @@
       <div class="row justify-content-center">
         <h3> Checklists </h3>
         <div class="col-6 mt-5">
+          <% template.forEach(object => { %>
+            <h2 class="templateHeading"><%= object.templateName %></h2>
             <ul>
-              <% for (var i=0; i<taskSheet.length; i++){%>
+                <% object.tasks.forEach(task => { %>
+                    <li class="templateTask">
+                        <%= task.taskDetail[0] %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% }) %>
                 <li class ="col-6 justify-content-between mt-5"> 
-                    <form action="/task/taskSheet/<%=project._id%>/<%=taskSheet[i]._id %>?_method=DELETE" method="POST">
-                    <span>Uploaded By:  <%=  taskSheet[i].tasks%></span>
                     <br>
-                      <button type="submit" class="btn btn-outline-danger">Delete <%=  taskSheet[i]%> Checklist?</button>
-                    </form>
-              </li>
-            <% } %>    
+                  </li>
             </ul>
         </div>
       </div>

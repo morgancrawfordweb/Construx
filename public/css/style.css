@@ -109,3 +109,11 @@ body{
   .grid {
     display: flex;
   }
+
+  .templateHeading{
+    font-size: 30px;
+  }
+  .templateTask{
+    font-size: 18px;
+    list-style: disc;
+  }
