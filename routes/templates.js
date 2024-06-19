@@ -14,12 +14,20 @@ router.get("/template", templatesController.getTemplate)
 
 router.post("/createTemplate", templatesController.createTemplate);
 
+// 
+//?This is the route to duplicate the task sheet for the specific project. so it COULD MAYBE have to have "/:projectId/populateTaskSheet" But im not sure yet.
+router.post("/populateTaskSheet", ensureAuth,  templatesController.populateTemplate);
 
-// router.post("/populateTaskSheet", ensureAuth,  tasksController.populateTaskSheet);
 
+
+
+
+
+
+
+// router.get("/:projectId'/templateId", ensureAuth, templatesController.deleteTemplate)
 
 //*Put method to change the document and put your signature on the task
-// router.put('/signTask', tasksController.signTask)
-
+// router.delete("/deleteTemplate/:projectId/:templateId", ensureAuth, templatesController.deleteTemplate)
 module.exports = router;
  

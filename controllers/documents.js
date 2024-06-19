@@ -65,40 +65,6 @@ module.exports = {
       console.log(err);
     }
   },
-    
-
-    //This portion of my documents controller relates to my template manipulting.
-    //For my use it will be for checklists, Maybe DFR's????
-
-    getTemplate: async(req,res)=>{
-      try{
-        const template = await Template.findById(req.params.id)
-        res.render("project.ejs", {template: template});
-
-      }catch(err){
-        console.log(err)
-      }
-    },
-    createTemplate: async(req,res)=>{
-      try{
-        const uploadUser = await User.findById(req.user.id)
-        const result = await cloudinary.uploader.upload(req.file.path, {pages:true, flag: attachment})
-
-        await Template.create({
-          name: req.body.name,
-          image: result.secure_url,
-          cloudinaryId: result.public_id,
-          createdBy: uploadUser.userName,
-          companyIdNumber: uploadUser.companyIdNumber,
-          project: req.params.id
-        })
-        console.log('Template added to the database')
-        res.redirect("/profile"+ req.params.id)
-
-      }catch(err){
-        console.log(err)
-      }
-    },
     // renderTemplate: async(req,res)=>{
     //   try{
     //       // const project = await Project.findById(req.params.id)
@@ -119,12 +85,5 @@ module.exports = {
     //     console.log(err)
     //   }
     // },
-    editTemplate: async(req,res)=>{
-      try{
-
-      }catch(err){
-        console.log(err)
-      }
-    },
 
   };

@@ -64,20 +64,25 @@ createTemplate: async (req, res) => {
       },
 
   //*This will be used for creating copies of the main templates for each project used
-  // populateTaskSheet: async ( req,res )=>{
-  //   //i need to have a form called populate, you will have a modal that pops up that asks for the location name.      
-  //   try {
-  //     const taskSheetTemplate = await TaskSheet.findOne();
-  //     const task = await Task.findById()
+  populateTemplate: async ( req,res )=>{
+    //i need to have a form called populate, you will have a modal that pops up that asks for the location name.      
+    try {
+            //finding this task by the ID of the ORIGINAL
 
-  //     //modify location on table and 
-  //    res.render("project.ejs", {taskSheetTemplate: taskSheetTemplate, task:task});
-  //         } catch (err) {
-  //     console.error(err);
-  //     // Handle errors appropriately
-  //     res.status(500).send('An error occurred while creating the task sheet from template.');
-  //   }
-  // },
+      const taskSheetTemplate = await Template.findOne();
+
+      const cloneTaskSheet = structuredClone(taskSheetTemplate)
+
+     
+
+      //modify location on table and 
+     res.render("project.ejs", {taskSheetTemplate: taskSheetTemplate });
+          } catch (err) {
+      console.error(err);
+      // Handle errors appropriately
+      res.status(500).send('An error occurred while creating the task sheet from template.');
+    }
+  },
 
   // //*This will be used to add your intials to the checklist
   // signTask: async ( req,res )=>{

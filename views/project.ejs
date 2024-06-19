@@ -121,6 +121,12 @@
                     <li class="templateTask">
                         <%= task.taskDetail[0] %>
                     </li>
+                    <li class=" border-gray signatureBox">
+                      <form action ="/template/signTask/<%=project._id%>/<%=template._id%>/<%=taskSignature[i]._id %>?_method=DELETE" method = "POST">
+                        <button  class="btn btn-primary" type="submit">Signature Here - <%=task.signature[0] %></button>
+                      </form>
+                        <%=task.signature.dateCompleted %>
+                    </li>
                 <% }) %>
             </ul>
         <% }) %>

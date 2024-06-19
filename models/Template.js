@@ -52,6 +52,10 @@ const TemplateSchema = new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User"
+    },
+    isOriginal:{
+        type: Boolean,
+        required: true
     }
 
 
