@@ -85,9 +85,8 @@ body{
   border-color: var(--gray);
   border-width: 3px;
   color: var(--mint);
-
-
 }
+
 .btn-primary:hover{
   background-color: var(--mint);
   border-color: var(--green);
@@ -95,7 +94,13 @@ body{
 }
 
 .btn-secondary{
-
+  background-color: var(--purple);
+  color: var(--white);
+  border-radius: 10px;
+  border-width: 3px;
+  width: 50%;
+  align-items: center;
+  font-size: 75%;
 }
 
 .form-control{
@@ -117,3 +122,8 @@ body{
     font-size: 18px;
     list-style: disc;
   }
+
+.pageTitle{
+  font-size: 40px;
+  font-weight: 500;
+}

@@ -112,28 +112,31 @@
       </div>
 
       <div class="row justify-content-center">
-        <h3> Checklists </h3>
+        <h3>Checklists</h3>
         <div class="col-6 mt-5">
           <% template.forEach(object => { %>
             <h2 class="templateHeading"><%= object.templateName %></h2>
             <ul>
-                <% object.tasks.forEach(task => { %>
-                    <li class="templateTask">
-                        <%= task.taskDetail[0] %>
-                    </li>
-                    <li class=" border-gray signatureBox">
-                      <form action ="/template/signTask/<%=project._id%>/<%=template._id%>/<%=taskSignature[i]._id %>?_method=DELETE" method = "POST">
-                        <button  class="btn btn-primary" type="submit">Signature Here - <%=task.signature[0] %></button>
-                      </form>
-                        <%=task.signature.dateCompleted %>
-                    </li>
-                <% }) %>
+              <% object.tasks.forEach(task => { %>
+                <li class="templateTask">
+                  <%= task.taskDetail %> <!-- Changed to display taskDetail as string -->
+                </li>
+                <li class="signatureBox">
+                  <% if (task.signature.length > 0) { %>
+                    <p>Signed by: <%= task.signature[0].userName %> on <%= new Date(task.signature[0].dateCompleted).toLocaleDateString() %></p>
+                  <% } else { %>
+                    <form action="/signTask/<%= object.project %>/<%= task._id %>" method="POST">
+                      <input type="hidden" name="_method" value="PUT">
+                      <button class="btn btn-primary" type="submit">Sign Task</button>
+                    </form>
+                  <% } %>
+                </li>
+              <% }) %>
             </ul>
-        <% }) %>
-                <li class ="col-6 justify-content-between mt-5"> 
-                    <br>
-                  </li>
-            </ul>
+          <% }) %>
+          <li class="col-6 justify-content-between mt-5">
+            <br>
+          </li>
         </div>
       </div>
 

@@ -14,6 +14,10 @@
                         <div class="alert alert-info"><%= el.msg %></div>
                     <% }) %>    
                 <% } %>
+                    <div class="mb-5">
+                        <h1 class="pageTitle">Template Creation</h1>
+                        <p>Use this to create templates for your company to use. You can use them </p>
+                    </div>
                 <form action="/template/createTemplate" method="POST">
                     <div class="mb-3">
                         <label for="templateName" class="form-label">Task Template</label>
@@ -22,24 +26,17 @@
                     </div>
 
                     <div class="mb-3" id="dynamicTaskDetailField">
-                        <label for="taskDetail" class="form-label">Task </label>
+                        <label for="taskDetail" class="form-label ">Create Tasks below</label>
                         <h5>*For Example: Ensured wires were trimmed</h5>
-                        <input type="text" class="form-control" id="taskDetail" name="taskDetail">                   
-                    </div>        
-
-                    <div>
-                        <button id="addField">
-                            <i class="fa fa-3x fa-solid fa-plus">Add Another Task</i>
-                        </button>
-                        <br/>
-                        <button id="removeField">
-                            <i class="fa fa-3x fa-solid fa-minus">Remove A Task</i>
-                        </button>                   
-                    </div>  
-
-                    
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="task-detail">
+                            <input type="text" class="form-control" placeholder="Enter your task here"  id="taskDetail" name="taskDetail[]">                 
+                                <button class="btn btn-secondary" type="button" onclick="removeField(this)">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addField()">Add Field</button>
+                    <button type="submit" class="btn tbn-primary">Submit</button>
                   </form>
+
                   <a class="mt-6 btn btn-primary" href="/profile">Return to Profile</a>
 
             </section>

@@ -67,37 +67,42 @@ createTemplate: async (req, res) => {
   populateTemplate: async ( req,res )=>{
     //i need to have a form called populate, you will have a modal that pops up that asks for the location name.      
     try {
-            //finding this task by the ID of the ORIGINAL
+      const userId = req.user._id;  // Assuming the user's ID is stored in req.user
+      const user = await User.findById(userId);
+      const userName = user.name.trim();
 
-      const taskSheetTemplate = await Template.findOne();
+      // Find the project by ID
+      const project = await Project.findById(req.params.projectId);
 
-      const cloneTaskSheet = structuredClone(taskSheetTemplate)
+      // Find the template by project ID and task ID
+      const template = await Template.findOne({
+        _id: project.template,
+        "tasks._id": req.params.taskId
+      });
 
-     
+      if (!template) {
+        return res.status(404).send("Task not found");
+      }
 
-      //modify location on table and 
-     res.render("project.ejs", {taskSheetTemplate: taskSheetTemplate });
-          } catch (err) {
+      // Find the task
+      const task = template.tasks.id(req.params.taskId);
+
+      // Append the signature
+      task.signature.push({
+        userId: userId,
+        userName: userName,
+        dateCompleted: new Date()
+      });
+
+      // Save the template
+      await template.save();
+
+      res.redirect(`/projects/${req.params.projectId}`);
+    } catch (err) {
       console.error(err);
-      // Handle errors appropriately
-      res.status(500).send('An error occurred while creating the task sheet from template.');
+      res.status(500).send('An error occurred while signing off the task.');
     }
   },
-
-  // //*This will be used to add your intials to the checklist
-  // signTask: async ( req,res )=>{
-  //   try {
-  //     const userName = await User.findById()
-  //     const task = await Task.findById()
-
-
-  //     res.redirect(`/projects/${req.params.id}`);
-  //   } catch (err) {
-  //     console.error(err);
-  //     // Handle errors appropriately
-  //     res.status(500).send('An error occurred while creating the task sheet from template.');
-  //   }
-  // },
 
   
 }

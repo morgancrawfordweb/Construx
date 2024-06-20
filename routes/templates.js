@@ -18,7 +18,7 @@ router.post("/createTemplate", templatesController.createTemplate);
 //?This is the route to duplicate the task sheet for the specific project. so it COULD MAYBE have to have "/:projectId/populateTaskSheet" But im not sure yet.
 router.post("/populateTaskSheet", ensureAuth,  templatesController.populateTemplate);
 
-
+router.put("/signTask/:projectId/:taskId", ensureAuth, templatesController.signTask)
 
 
 
