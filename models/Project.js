@@ -18,9 +18,9 @@ const ProjectSchema = new mongoose.Schema({
   employeeIdNumber:{type: mongoose.Schema.Types.ObjectId, ref: "User"},
   createdBy:{type: String, ref:"User"},
   createdById:{type: mongoose.Schema.Types.ObjectId, ref:"User"},
-  taskSheet:{
+  template:{
     type: mongoose.Schema.Types.ObjectId, 
-    ref:"TaskSheet"
+    ref:"Template"
   }
 
   //!progress tracker for the schema.

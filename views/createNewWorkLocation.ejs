@@ -1,0 +1,22 @@
+<%- include('partials/header') -%>
+
+<div class="container">
+  <h1>Create a New Work Location</h1>
+  <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=project._id%>" method="POST">
+    <div class="form-group">
+      <label for="templateSelect">Select Template:</label>
+      <select class="form-control" id="templateSelect" name="selectedTemplate" required>
+        <% templates.forEach(template => { %>
+          <option value="<%= template._id %>"><%= template.templateName %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <input type="text" class="form-control" id="location" name="location" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Work Location</button>
+  </form>
+</div>
+
+<%- include('partials/footer') -%>

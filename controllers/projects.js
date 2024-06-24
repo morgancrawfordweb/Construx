@@ -39,9 +39,9 @@ module.exports = {
       const project = await Project.findById(req.params.id);
       const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).lean();
       const employees = await Project.find({assignedEmployee: req.params.id}).sort({createdAt: "desc"}).lean();
-      const template = await Template.findById(req.params.id)
+      const templates = await Template.find({companyIdNumber: req.user.companyIdNumber})
 
-      res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees, template: template});
+      res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees, templates: templates});
 
     } catch (err) {
       console.log(err);

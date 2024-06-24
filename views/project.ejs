@@ -28,6 +28,9 @@
         </li>
       <% } %>    
       </ul>
+      <div class="col-4">
+        <a href="/template/getWorkLocationCreator"  class="btn btn-primary">Make a new work location</a>
+      </div> 
  
       <div class="mt-5">
         <form action="/project/addEmployees/<%=project._id%>" method="POST">
@@ -60,6 +63,25 @@
         
         
       </div>
+      <div class="container">
+        <h>Create a New Work Location</h3>
+        <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=project._id%>" method="POST">
+          <div class="form-group">
+            <label for="templateSelect">Select Template:</label>
+            <select class="form-control" id="templateSelect" name="selectedTemplate" required>
+              <% templates.forEach(template => { %>
+                <option value="<%= template._id %>"><%= template.templateName %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Work Location</button>
+        </form>
+      </div>
+      
 
     <h3>Document Section</h3>
     
@@ -98,45 +120,35 @@
             </ul>
         </div>
       </div>
-      <div class="row justify-content-center">
-        <h3> Generate Checklist From Template </h3>
-        <div class="col-6 mt-5">
-            <ul>
-              <% for (var i=0; i<template.length; i++){%>
-                <li class ="col-6 justify-content-between mt-5"> 
-                    
-              </li>
-            <% } %>    
-            </ul>
-        </div>
-      </div>
 
       <div class="row justify-content-center">
-        <h3>Checklists</h3>
+        <h3> Checklists </h3>
         <div class="col-6 mt-5">
-          <% template.forEach(object => { %>
+          <% templates.forEach(object => { %>
+            <% if(object.isOriginal===false){ %>
             <h2 class="templateHeading"><%= object.templateName %></h2>
             <ul>
-              <% object.tasks.forEach(task => { %>
-                <li class="templateTask">
-                  <%= task.taskDetail %> <!-- Changed to display taskDetail as string -->
-                </li>
-                <li class="signatureBox">
-                  <% if (task.signature.length > 0) { %>
-                    <p>Signed by: <%= task.signature[0].userName %> on <%= new Date(task.signature[0].dateCompleted).toLocaleDateString() %></p>
-                  <% } else { %>
-                    <form action="/signTask/<%= object.project %>/<%= task._id %>" method="POST">
-                      <input type="hidden" name="_method" value="PUT">
-                      <button class="btn btn-primary" type="submit">Sign Task</button>
-                    </form>
-                  <% } %>
-                </li>
-              <% }) %>
+                <% object.tasks.forEach(task => { %>
+                    <li class="templateTask">
+                        <%= task.taskDetail[0] %>
+                    </li>
+                    <li class=" border-gray signatureBox">
+                      <form action ="" method = "POST">
+                        <a  class="btn btn-primary" type="submit">Signature Here</a>
+                        <%= task.signature[0] %>
+                      </form>
+                        <%=task.signature.dateCompleted %>
+                    </li>
+                    <% }) %>
+                <% }else { %>
+                  <li>No Checklists yet</li>
+                <%}%>
             </ul>
-          <% }) %>
-          <li class="col-6 justify-content-between mt-5">
-            <br>
-          </li>
+        <% }) %>
+                <li class ="col-6 justify-content-between mt-5"> 
+                    <br>
+                  </li>
+            </ul>
         </div>
       </div>
 

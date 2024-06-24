@@ -21,9 +21,9 @@ module.exports = {
 //*This will render your selected task sheet for your project.
 getTemplateFeed: async (req,res)=>{
   try{
-    const templates = await Template.findById(req.params.id)
+    const template = await Template.findById(req.params.id)
 
-    res.render('project.ejs', {templates: templates});
+    res.render('project.ejs', {template: template});
   }catch(err){
     console.log(`${err}, there was an error in the getting your template`)
   }
@@ -52,6 +52,7 @@ createTemplate: async (req, res) => {
           tasks: newTask,
           user: req.user.id,
           companyIdNumber: createdUser.companyIdNumber,
+          isOriginal: true
         });  
           
 
@@ -64,43 +65,82 @@ createTemplate: async (req, res) => {
       },
 
   //*This will be used for creating copies of the main templates for each project used
-  populateTemplate: async ( req,res )=>{
-    //i need to have a form called populate, you will have a modal that pops up that asks for the location name.      
-    try {
-      const userId = req.user._id;  // Assuming the user's ID is stored in req.user
-      const user = await User.findById(userId);
-      const userName = user.name.trim();
+  // populateTemplate: async ( req,res )=>{
+  //   //i need to have a form called populate, you will have a modal that pops up that asks for the location name.      
+  //   try {
+  //     const userId = req.user._id;  // Assuming the user's ID is stored in req.user
+  //     const user = await User.findById(userId);
+  //     const userName = user.name.trim();
 
-      // Find the project by ID
-      const project = await Project.findById(req.params.projectId);
+  //     // Find the project by ID
+  //     const project = await Project.findById(req.params.projectId);
 
-      // Find the template by project ID and task ID
-      const template = await Template.findOne({
-        _id: project.template,
-        "tasks._id": req.params.taskId
-      });
+  //     // Find the template by project ID and task ID
+  //     const template = await Template.findOne({
+  //       _id: project.template,
+  //       "tasks._id": req.params.taskId
+  //     });
 
-      if (!template) {
-        return res.status(404).send("Task not found");
+  //     if (!template) {
+  //       return res.status(404).send("Task not found");
+  //     }
+
+  //     // Find the task
+  //     const task = template.tasks.id(req.params.taskId);
+
+  //     // Append the signature
+  //     task.signature.push({
+  //       userId: userId,
+  //       userName: userName,
+  //       dateCompleted: new Date()
+  //     });
+
+  //     // Save the template
+  //     await template.save();
+
+  //     res.redirect(`/projects/${req.params.projectId}`);
+  //   } catch (err) {
+  //     console.error(err);
+  //     res.status(500).send('An error occurred while signing off the task.');
+  //   }
+  // },
+  getWorkLocationCreationPage: async (req,res)=>{
+      try{
+        
+        const templates = await Template.find({ companyIdNumber: req.user.companyIdNumber });
+      res.render('createNewWorkLocation.ejs', { templates:templates });
+      }catch (err){
+        console.log(`${err}, there was an error in the getting your this page`)
       }
+  },
+  createNewWorkLocation: async (req,res)=>{
+    //Choose between templates and then clone that object but add the parameters of Location
+      //use this to find all of the templates that were created with users that share the same companyId
+      try {
+        const { selectedTemplate, location } = req.body;
+        const template = await Template.findById(selectedTemplate);
+        // const
+  
+        if (!template) {
+          return res.status(404).send('Template not found');
+        }
+  
+        // Clone the template and add additional parameters
+        const newTemplate = new Template({
+          templateName: template.templateName,
+          location,
+          tasks: template.tasks,
+          project: req.params.id,
+          companyIdNumber: req.user.companyIdNumber,
+          user: req.user.id,
+          isOriginal: false
+        });
+  
+        await newTemplate.save();
+        res.redirect("/project/"+req.params.id)
 
-      // Find the task
-      const task = template.tasks.id(req.params.taskId);
-
-      // Append the signature
-      task.signature.push({
-        userId: userId,
-        userName: userName,
-        dateCompleted: new Date()
-      });
-
-      // Save the template
-      await template.save();
-
-      res.redirect(`/projects/${req.params.projectId}`);
-    } catch (err) {
-      console.error(err);
-      res.status(500).send('An error occurred while signing off the task.');
+    }catch(err){
+      console.log(err)
     }
   },
 
