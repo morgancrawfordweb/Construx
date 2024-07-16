@@ -28,10 +28,6 @@
         </li>
       <% } %>    
       </ul>
-      <div class="col-4">
-        <a href="/template/getWorkLocationCreator"  class="btn btn-primary">Make a new work location</a>
-      </div> 
- 
       <div class="mt-5">
         <form action="/project/addEmployees/<%=project._id%>" method="POST">
           <div class="mb-3">
@@ -44,25 +40,8 @@
     </div> 
 
 
-    <div class="row justify-content-center">
-        <div class="col-6 mt-5">
-            <ul>
-              <% for (var i=0; i<documents.length; i++){%>
-                <li class ="col-6 justify-content-between mt-5"> 
-                  <a href="<%=documents[i].image%>" download><%=documents[i].fileName%><a>
-                    <form action="/document/deleteDocument/<%=project._id%>/<%=documents[i]._id %>?_method=DELETE" method="POST">
-                    <span>Uploaded By:  <%=  documents[i].uploadedBy%></span>
-                    <br>
-                      <button type="submit" class="btn btn-outline-danger">Delete Document</button>
-                    </form>
-              </li>
-            <% } %>    
-            </ul>
-            
-        </div>
-        
-        
-      </div>
+    
+
       <div class="container">
         <h>Create a New Work Location</h3>
         <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=project._id%>" method="POST">
@@ -125,14 +104,18 @@
         <h3> Checklists </h3>
         <div class="col-6 mt-5">
           <% templates.forEach(object => { %>
-            <% if(object.isOriginal===false){ %>
-            <h2 class="templateHeading"><%= object.templateName %></h2>
+            <% if(object.isOriginal===false && object){ %>
+            <details>
+            <summary>
+              <h4 class="templateHeading">Location:<%= object.location%></h4>
+              <h5 class="templateHeading"><%= object.templateName %></h5>
+            </summary>
             <ul>
                 <% object.tasks.forEach(task => { %>
                     <li class="templateTask">
                         <%= task.taskDetail[0] %>
                     </li>
-                    <li class=" border-gray signatureBox">
+                    <li class="signatureBox">
                       <form action ="" method = "POST">
                         <a  class="btn btn-primary" type="submit">Signature Here</a>
                         <%= task.signature[0] %>
@@ -140,15 +123,12 @@
                         <%=task.signature.dateCompleted %>
                     </li>
                     <% }) %>
+                  </details>
                 <% }else { %>
                   <li>No Checklists yet</li>
                 <%}%>
             </ul>
         <% }) %>
-                <li class ="col-6 justify-content-between mt-5"> 
-                    <br>
-                  </li>
-            </ul>
         </div>
       </div>
 

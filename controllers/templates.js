@@ -36,10 +36,6 @@ createTemplate: async (req, res) => {
 
         try {
           const createdUser = await User.findById(req.user.id)
-          // const taskSheet = await TaskSheet.findById(req.taskSheet.id)
-          // Need this for when you populate
-          // const project = await Project.findById(req.params.id)
-          // const newTaskSheet = await TaskSheet.findById(req.params.id)
           const newTaskDetail = req.body.taskDetail
           const newTask = newTaskDetail.map(taskDetail=>({
             taskDetail: taskDetail,
@@ -64,7 +60,50 @@ createTemplate: async (req, res) => {
         }
       },
 
-  //*This will be used for creating copies of the main templates for each project used
+  // getWorkLocationCreationPage: async (req,res)=>{
+  //     try{
+        
+  //       const templates = await Template.find({ companyIdNumber: req.user.companyIdNumber });
+  //     res.render('createNewWorkLocation.ejs', { templates:templates });
+  //     }catch (err){
+  //       console.log(`${err}, there was an error in the getting your this page`)
+  //     }
+  // },
+  createNewWorkLocation: async (req,res)=>{
+    //Choose between templates and then clone that object but add the parameters of Location
+      //use this to find all of the templates that were created with users that share the same companyId
+      try {
+        const { selectedTemplate, location } = req.body;
+        const template = await Template.findById(selectedTemplate);
+        // const
+  
+        if (!template) {
+          return res.status(404).send('Template not found');
+        }
+  
+        // Clone the template and add additional parameters
+        const newTemplate = new Template({
+          templateName: template.templateName,
+          location,
+          tasks: template.tasks,
+          project: req.params.id,
+          companyIdNumber: req.user.companyIdNumber,
+          user: req.user.id,
+          isOriginal: false
+        });
+  
+        await newTemplate.save();
+        res.redirect("/project/"+req.params.id)
+
+    }catch(err){
+      console.log(err)
+    }
+  },
+
+
+
+  //!7.16.24--This is some code that I am not using and the site is functioning. Comeing back from 3 week break.
+    //*This will be used for creating copies of the main templates for each project used
   // populateTemplate: async ( req,res )=>{
   //   //i need to have a form called populate, you will have a modal that pops up that asks for the location name.      
   //   try {
@@ -104,45 +143,6 @@ createTemplate: async (req, res) => {
   //     res.status(500).send('An error occurred while signing off the task.');
   //   }
   // },
-  getWorkLocationCreationPage: async (req,res)=>{
-      try{
-        
-        const templates = await Template.find({ companyIdNumber: req.user.companyIdNumber });
-      res.render('createNewWorkLocation.ejs', { templates:templates });
-      }catch (err){
-        console.log(`${err}, there was an error in the getting your this page`)
-      }
-  },
-  createNewWorkLocation: async (req,res)=>{
-    //Choose between templates and then clone that object but add the parameters of Location
-      //use this to find all of the templates that were created with users that share the same companyId
-      try {
-        const { selectedTemplate, location } = req.body;
-        const template = await Template.findById(selectedTemplate);
-        // const
-  
-        if (!template) {
-          return res.status(404).send('Template not found');
-        }
-  
-        // Clone the template and add additional parameters
-        const newTemplate = new Template({
-          templateName: template.templateName,
-          location,
-          tasks: template.tasks,
-          project: req.params.id,
-          companyIdNumber: req.user.companyIdNumber,
-          user: req.user.id,
-          isOriginal: false
-        });
-  
-        await newTemplate.save();
-        res.redirect("/project/"+req.params.id)
-
-    }catch(err){
-      console.log(err)
-    }
-  },
 
   
 }

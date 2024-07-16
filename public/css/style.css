@@ -59,24 +59,44 @@ body{
   background-color: var(--purple);
 }
 
-.border-mint{
+.textBorder-mint{
   -webkit-text-stroke: 2px var(--mint);
 }
-.border-green{
+.textBorder-green{
   -webkit-text-stroke: 2px var(--green);
 }
-.border-gray{
+.textBorder-gray{
   -webkit-text-stroke: 2px var(--gray);
 }
-.border-cream{
+.textBorder-cream{
   -webkit-text-stroke: 2px var(--cream);
 }
-.border-purple{
+.textBorder-purple{
   -webkit-text-stroke: 1px var(--purple);
 }
-.border-black{
+.textBorder-black{
   -webkit-text-stroke: 1px black;
 }
+
+.border-mint{
+  border: solid 2px var(--mint);
+}
+.border-green{
+  border: solid 2px var(--green);
+}
+.border-gray{
+  border: solid 2px var(--gray);
+}
+.border-cream{
+  border: solid 2px var(--cream);
+}
+.border-purple{
+  border: solid 2px var(--purple);
+}
+.border-black{
+  border: solid 2px black;
+}
+
 
 .btn-primary{
   font-family: 'Rubik';
@@ -157,3 +177,4 @@ text-align: left;
 #popup-container a{
   cursor: pointer;
 }
+

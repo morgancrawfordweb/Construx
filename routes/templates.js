@@ -9,10 +9,17 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth');
 //Create a task sheet maybe in a modal? 
 //!This will need to be ("/createTaskSheet/:id?") Lets just keep it generic and make the list and then reference it when we pull it for a project. Not sure how to do that yet
 // router.get('/', tasksController.getTaskTemplates)
-router.get("/getTemplateFeed", ensureAuth, templatesController.getTemplateFeed);
+
+//*This will render your selected task sheet for your project.
+router.get("/getTemplateFeed/:id", ensureAuth, templatesController.getTemplateFeed);
+
+//*This gets the EJS page to create the template
 router.get("/template", templatesController.getTemplate);
 
 router.post("/createTemplate/:id?", templatesController.createTemplate);
+
+//*Route for creating a new work location from the project working
+router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.createNewWorkLocation)
 
 // 
 //?This is the route to duplicate the task sheet for the specific project. so it COULD MAYBE have to have "/:projectId/populateTaskSheet" But im not sure yet.
@@ -25,18 +32,7 @@ router.post("/createTemplate/:id?", templatesController.createTemplate);
 // router.put("/:projectId/:taskId", ensureAuth, templatesController.signTask)
 
 //Route for getting the modal to allow me to add a work location. I want this to be a small box so you know that you are still on the project.ejs page
-router.get("/getWorkLocationCreator", ensureAuth, templatesController.getWorkLocationCreationPage)
-
-//Route for creating a new work location from the project
-router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.createNewWorkLocation)
-
-
-
-
-
-
-
-
+// router.get("/getWorkLocationCreator", ensureAuth, templatesController.getWorkLocationCreationPage)
 
 // router.get("/:projectId'/templateId", ensureAuth, templatesController.deleteTemplate)
 
