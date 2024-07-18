@@ -53,22 +53,12 @@ createTemplate: async (req, res) => {
           
 
           console.log("Task sheet has been created");
-          res.redirect("/template/template");
+          res.redirect("/template/createTemplatePage");
         } catch (err) {
           console.log(err);
           // alert('Their is already a project with those parameters in the database.')
         }
       },
-
-  // getWorkLocationCreationPage: async (req,res)=>{
-  //     try{
-        
-  //       const templates = await Template.find({ companyIdNumber: req.user.companyIdNumber });
-  //     res.render('createNewWorkLocation.ejs', { templates:templates });
-  //     }catch (err){
-  //       console.log(`${err}, there was an error in the getting your this page`)
-  //     }
-  // },
   createNewWorkLocation: async (req,res)=>{
     //Choose between templates and then clone that object but add the parameters of Location
       //use this to find all of the templates that were created with users that share the same companyId
@@ -99,7 +89,18 @@ createTemplate: async (req, res) => {
       console.log(err)
     }
   },
+  deleteWorkLocation: async (req, res) => {
+    try {
+      let workLocation = await Template.findById({_id: req.params.templateId})
 
+      await Template.deleteOne({ _id: req.params.templateId })
+      console.log("document has been removed")
+      res.redirect("/project/"+req.params.projectId);
+    } catch (err) {
+      console.log(`${err}, there was an error in deleting this working location.`);
+    }
+},
+}
 
 
   //!7.16.24--This is some code that I am not using and the site is functioning. Comeing back from 3 week break.
@@ -145,4 +146,3 @@ createTemplate: async (req, res) => {
   // },
 
   
-}

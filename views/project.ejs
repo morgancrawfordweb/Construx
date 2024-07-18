@@ -109,6 +109,9 @@
             <summary>
               <h4 class="templateHeading">Location:<%= object.location%></h4>
               <h5 class="templateHeading"><%= object.templateName %></h5>
+              <form action ="/template/deleteWorkLocation/<%=project._id%>/<%=templates[i]._id%>?_method=DELETE" method = "POST">
+                <button  class="btn btn-secondary" type="submit">Delete this Project</button>
+              </form>
             </summary>
             <ul>
                 <% object.tasks.forEach(task => { %>
