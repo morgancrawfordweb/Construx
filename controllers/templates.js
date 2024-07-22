@@ -21,14 +21,25 @@ module.exports = {
 //*This will render your selected task sheet for your project.
 getTemplateFeed: async (req,res)=>{
   try{
+    console.log('getTemplateFeed')
     const template = await Template.findById(req.params.id)
 
     res.render('project.ejs', {template: template});
   }catch(err){
+
     console.log(`${err}, there was an error in the getting your template`)
   }
   },
 
+  getCompanyTemplates: async (req,res)=>{
+    try{
+      const templates = await Template.findById(req.params.id)
+
+      res.render("template.ejs", {templates:templates});
+    }catch{
+      console.log(`${err}, there was an error in the getting your template`)
+    }
+  },
 
 //*This is to be used to actually create your new template. You can use this for any list of duties you need your employee's to check.
 createTemplate: async (req, res) => {
@@ -91,15 +102,19 @@ createTemplate: async (req, res) => {
   },
   deleteWorkLocation: async (req, res) => {
     try {
-      let workLocation = await Template.findById({_id: req.params.templateId})
-
-      await Template.deleteOne({ _id: req.params.templateId })
+      await Template.findByIdAndDelete({ _id: req.params.id })
       console.log("document has been removed")
       res.redirect("/project/"+req.params.projectId);
     } catch (err) {
       console.log(`${err}, there was an error in deleting this working location.`);
     }
 },
+
+signTask: async ( req,res ) => {
+  try{
+    console.log('You have signed off on this')
+  }catch{}
+}
 }
 
 

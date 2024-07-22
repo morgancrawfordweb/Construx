@@ -13,12 +13,14 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth');
 //*This will render your selected task sheet for your project.
 router.get("/getTemplateFeed/:id", ensureAuth, templatesController.getTemplateFeed);
 
+//*This gets the EJS page to create the template.
+router.get("/createTemplatePage",ensureAuth, templatesController.getTemplate);
 
-//*This gets the EJS page to create the template
-router.get("/createTemplatePage", templatesController.getTemplate);
+//*This is supposed to get all of your company templates. This way you can what you have created or not.
+router.get("/getCompanyTemplates/:id?",ensureAuth, templatesController.getCompanyTemplates)
 
 //This creates the BASIC worksheet template. Example - Grading Checklist 
-router.post("/createTemplate/:id?", templatesController.createTemplate);
+router.post("/createTemplate/:id?",ensureAuth, templatesController.createTemplate);
 
 //*Route for creating a new work location from the project working
 router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.createNewWorkLocation)
@@ -38,7 +40,7 @@ router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.creat
 
 // router.get("/:projectId'/templateId", ensureAuth, templatesController.deleteTemplate)
 
-//*Put method to change the document and put your signature on the task
-router.delete("/deleteWorkLocation/:projectId/:templateId", ensureAuth, templatesController.deleteWorkLocation)
+//*Deletes task successfully
+router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesController.deleteWorkLocation)
 module.exports = router;
  

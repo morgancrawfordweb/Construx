@@ -48,9 +48,13 @@
           <div class="form-group">
             <label for="templateSelect">Select Template:</label>
             <select class="form-control" id="templateSelect" name="selectedTemplate" required>
-              <% templates.forEach(template => { %>
-                <option value="<%= template._id %>"><%= template.templateName %></option>
-              <% }) %>
+              
+                <% templates.forEach(template => { %>
+                  <% if(template.isOriginal===true){ %>
+                  <option value="<%= template._id %>"><%= template.templateName %></option>
+                  <% } %>
+                <% }) %>
+              
             </select>
           </div>
           <div class="form-group">
@@ -88,7 +92,7 @@
             <ul>
               <% for (var i=0; i<documents.length; i++){%>
                 <li class ="col-6 justify-content-between mt-5"> 
-                  <a href="<%=documents[i].image%>" download><%=documents[i].fileName%><a>
+                  <a href="<%=documents[i].image%>" download><%=documents[i].fileName%></a>
                     <form action="/document/deleteDocument/<%=project._id%>/<%=documents[i]._id %>?_method=DELETE" method="POST">
                     <span>Uploaded By:  <%=  documents[i].uploadedBy%></span>
                     <br>
@@ -105,13 +109,11 @@
         <div class="col-6 mt-5">
           <% templates.forEach(object => { %>
             <% if(object.isOriginal===false && object){ %>
+
             <details>
             <summary>
               <h4 class="templateHeading">Location:<%= object.location%></h4>
               <h5 class="templateHeading"><%= object.templateName %></h5>
-              <form action ="/template/deleteWorkLocation/<%=project._id%>/<%=templates[i]._id%>?_method=DELETE" method = "POST">
-                <button  class="btn btn-secondary" type="submit">Delete this Project</button>
-              </form>
             </summary>
             <ul>
                 <% object.tasks.forEach(task => { %>
@@ -119,7 +121,7 @@
                         <%= task.taskDetail[0] %>
                     </li>
                     <li class="signatureBox">
-                      <form action ="" method = "POST">
+                      <form action ="/template/signTask/<%=project._id%>/<%=templates[i]._id%>/" method = "POST">
                         <a  class="btn btn-primary" type="submit">Signature Here</a>
                         <%= task.signature[0] %>
                       </form>
@@ -127,10 +129,13 @@
                     </li>
                     <% }) %>
                   </details>
+                  <form action ="/template/deleteWorkLocation/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
+                    <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
+                  </form>
                 <% }else { %>
-                  <li>No Checklists yet</li>
                 <%}%>
             </ul>
+            
         <% }) %>
         </div>
       </div>

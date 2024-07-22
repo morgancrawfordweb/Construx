@@ -10,6 +10,7 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth');
 //for documents
 router.get("/:id", ensureAuth, documentsController.getDocument);
 
+//Download the document that you choose.
 router.get("/dowloadDocument/:projectId/:documentId", ensureAuth, documentsController.downloadDocument);
 
 router.post("/createDocument/:id?", ensureAuth, upload.single('file'), documentsController.createDocument);

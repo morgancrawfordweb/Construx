@@ -17,6 +17,8 @@ router.delete("/deleteProject/:id", projectsController.deleteProject);
 
 //Adds employees to the project
 router.post("/addEmployees/:id", projectsController.addEmployee)
+
+
 router.delete("/deleteEmployees/:projectId/:employeeId", projectsController.deleteEmployee)
 
 

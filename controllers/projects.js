@@ -70,7 +70,11 @@ module.exports = {
   },
   deleteProject: async (req, res) => {
     try {
-
+      // Find post by id
+      // let project = await Project.findById({ _id: req.params.id });
+      // Delete image from cloudinary
+      // await cloudinary.uploader.destroy(project.cloudinaryId);
+      // Delete post from db
       await Project.deleteOne({ _id: req.params.id });
       console.log("This project has been deleted");
       res.redirect("/profile");
