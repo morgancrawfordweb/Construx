@@ -41,17 +41,17 @@ const TemplateSchema = new mongoose.Schema({
     //when the template is generated we need a way to grab the params on the project and add that to them. This way checklists stay per project.
     project: {
         type: mongoose.Schema.Types.ObjectId, 
-        Ref: "Project"
+        Ref: "Project",
     },
     //whoever created the checklist, only other users that share a companyIdNumber can see the checklists
     companyIdNumber:{
         type: String, 
-        ref:"User"
+        ref:"User",
     },
     //The user who created the checklist
     user:{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref:"User",
     },
     //This will check and see if it is an original. We set original to true with not putting in a location. When there is no location, it is set as an original.
     isOriginal:{

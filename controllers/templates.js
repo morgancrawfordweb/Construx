@@ -7,21 +7,13 @@ module.exports = {
 
 
   //*This gets the page to fill out your template to be used at a later time.//
-  getTemplate: (req,res)=>{
+  getTemplatePage: (req,res)=>{
       res.render("template.ejs")
   },
 
-
-  //*This is to grab the templates to use across multiple projects//
-  // getTaskTemplates: async (req,res)=>{
-  //   const taskTemplates = await TaskSheet.find();
-  //   res.render('taskSheets/index',{taskTemplates})
-  // },
-
-//*This will render your selected task sheet for your project.
+//*This will render your workLocations on your project pages
 getTemplateFeed: async (req,res)=>{
   try{
-    console.log('getTemplateFeed')
     const template = await Template.findById(req.params.id)
 
     res.render('project.ejs', {template: template});
@@ -31,6 +23,8 @@ getTemplateFeed: async (req,res)=>{
   }
   },
 
+  //*This code gets the templates that your company has created.
+  //*Not quite ready yet
   getCompanyTemplates: async (req,res)=>{
     try{
       const templates = await Template.findById(req.params.id)
@@ -41,10 +35,8 @@ getTemplateFeed: async (req,res)=>{
     }
   },
 
-//*This is to be used to actually create your new template. You can use this for any list of duties you need your employee's to check.
+//*This is to be used to actually create your new template on the template.ejs page. You can use this for any list of duties you need your employee's to check.
 createTemplate: async (req, res) => {
-    
-
         try {
           const createdUser = await User.findById(req.user.id)
           const newTaskDetail = req.body.taskDetail
@@ -70,6 +62,8 @@ createTemplate: async (req, res) => {
           // alert('Their is already a project with those parameters in the database.')
         }
       },
+
+      //*This uses the templates that you have already created, and adds additional items to your template and creates a New template called a work location. This way the original tempalte doesnt get modified.
   createNewWorkLocation: async (req,res)=>{
     //Choose between templates and then clone that object but add the parameters of Location
       //use this to find all of the templates that were created with users that share the same companyId
@@ -100,6 +94,8 @@ createTemplate: async (req, res) => {
       console.log(err)
     }
   },
+
+  //*Deletes a work location. Most likely not going to be used but it is able to delete specific work locations.
   deleteWorkLocation: async (req, res) => {
     try {
       await Template.findByIdAndDelete({ _id: req.params.id })
@@ -110,6 +106,7 @@ createTemplate: async (req, res) => {
     }
 },
 
+//*Gives the ability to sign off on a task and record the date of it.
 signTask: async ( req,res ) => {
   try{
     console.log('You have signed off on this')

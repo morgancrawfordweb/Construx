@@ -11,15 +11,15 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth');
 // router.get('/', tasksController.getTaskTemplates)
 
 //*This will render your selected task sheet for your project.
-router.get("/getTemplateFeed/:id", ensureAuth, templatesController.getTemplateFeed);
+router.get("/:id", ensureAuth, templatesController.getTemplateFeed);
 
 //*This gets the EJS page to create the template.
-router.get("/createTemplatePage",ensureAuth, templatesController.getTemplate);
+router.get("/createTemplatePage",ensureAuth, templatesController.getTemplatePage);
 
 //*This is supposed to get all of your company templates. This way you can what you have created or not.
 router.get("/getCompanyTemplates/:id?",ensureAuth, templatesController.getCompanyTemplates)
 
-//This creates the BASIC worksheet template. Example - Grading Checklist 
+//*This creates the ORIGINAL template for the NewWorkLocation to work
 router.post("/createTemplate/:id?",ensureAuth, templatesController.createTemplate);
 
 //*Route for creating a new work location from the project working

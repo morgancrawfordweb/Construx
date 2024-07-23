@@ -18,7 +18,9 @@
 
 //TODO Create a list of already created templates in the "Create Template Page" to make sure you dont add more than one template. Copy code from the drop-down menu
 
-//TODO - creating a feed to let you know what templates you have already created. But am getting a server 500 error. Template not defined? Not quite sure.
+//TODO - creating a feed to let you know what templates you have already created on the template.ejs page. But am getting a server 500 error. Template not defined? Not quite sure.
+
+//TODO - Work on seperating the work locations by the project. Check the way that the documents grab the PARAms from the project. It should work the same way.
 
 ///// TODO - Application is grabbing every template regardless if it is true/false in the Select Template Dropdown menu. 
 
