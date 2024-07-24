@@ -7,13 +7,15 @@ module.exports = {
 
 
   //*This gets the page to fill out your template to be used at a later time.//
-  getTemplatePage: (req,res)=>{
+  getCreateTemplatePage: (req,res)=>{
       res.render("template.ejs")
   },
 
-//*This will render your workLocations on your project pages
+
+//*This will render your selected task sheet for your project.
 getTemplateFeed: async (req,res)=>{
   try{
+    console.log('getTemplateFeed')
     const template = await Template.findById(req.params.id)
 
     res.render('project.ejs', {template: template});
@@ -24,7 +26,6 @@ getTemplateFeed: async (req,res)=>{
   },
 
   //*This code gets the templates that your company has created.
-  //*Not quite ready yet
   getCompanyTemplates: async (req,res)=>{
     try{
       const templates = await Template.findById(req.params.id)
@@ -108,10 +109,35 @@ createTemplate: async (req, res) => {
 
 //*Gives the ability to sign off on a task and record the date of it.
 signTask: async ( req,res ) => {
-  try{
-    console.log('You have signed off on this')
-  }catch{}
-}
+  try {
+    const { projectId, templateId, objectId, taskId } = req.params;
+    console.log('Parameters:', { projectId, templateId, objectId, taskId });
+
+    const result = await Template.findOneAndUpdate(
+      { "_id": templateId, "tasks._id": taskId },
+      {
+        $push: {
+          "tasks.$.signature": {
+            initial: req.user._id,
+            dateCompleted: new Date()
+          }
+        }
+      },
+      { new: true }
+    );
+
+    if (result) {
+      console.log('Update successful:', result);
+      res.redirect("/project/" + projectId);
+    } else {
+      console.log('Task or Template not found');
+      res.status(404).send('Task or Template not found');
+    }
+  } catch (err) {
+    console.error('Server Error:', err);
+    res.status(500).send('Server Error');
+  }
+},
 }
 
 
