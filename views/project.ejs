@@ -7,10 +7,6 @@
 
     </div>
     <div class="col-3 mt-5">
-      <h3>Created By:</h3>
-      <%=project.createdBy%>
-      <p><br></p>
-      
       <h3>Project Number:</h3>
       <%=project.projectNumber%>
       <p><br></p>
@@ -124,10 +120,10 @@
                       <form method="POST" action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" >
                         <button class="btn btn-primary signature-btn" type="submit">Signature Here</button>
                       </form>
-                      <% task.signature.forEach(sig => { %>
+                      <% task.signature.forEach(signature => { %>
                         <div>
-                          <span><%= sig.initial %></span>
-                          <span><%= sig.dateCompleted.toDateString() %></span>
+                          <span><b>Signed by</b> - <%= signature.initial %></span> /
+                          <span><b>Date</b> - <%= signature.dateCompleted.toDateString() %></span>
                         </div>
                       <% }) %>
                     </li>

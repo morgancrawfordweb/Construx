@@ -2,12 +2,13 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  userName: { type: String, unique: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   email: { type: String, unique: true },
   password: String,
   company: {type: String, require:true},
   phoneNumber:{type:String, required:true},
-  employeeIdNumber:{type:String,required:true, unique: true},
+  // employeeIdNumber:{type:String,required:true, unique: true},
   companyIdNumber:{type:String,required:true},
   // roles: {
   //   type: [{
@@ -16,8 +17,8 @@ const UserSchema = new mongoose.Schema({
   //   }],
   //   default: ['user']
   // },
-  securityQuestion: {type: String, unique: true},
-  securityAnswer: {type: String, unique: true},
+  // securityQuestion: {type: String, unique: true},
+  // securityAnswer: {type: String, unique: true},
   profilePicture:{type: String},
   // certifications:{
   //   type:[{
@@ -26,7 +27,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 // Password hash middleware.
-
 UserSchema.pre("save", function save(next) {
   const user = this;
   if (!user.isModified("password")) {
@@ -46,28 +46,27 @@ UserSchema.pre("save", function save(next) {
   });
 });
 
-//Security Answer Hash
+//CompanyId Number Hash
 UserSchema.pre("save", function save(next) {
   const user = this;
-  if (!user.isModified("securityAnswer")) {
+  if (!user.isModified("companyIdNumber")) {
     return next();
   }
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       return next(err);
     }
-    bcrypt.hash(user.securityAnswer, salt, (err, hash) => {
+    bcrypt.hash(user.companyIdNumber, salt, (err, hash) => {
       if (err) {
         return next(err);
       }
-      user.securityAnswer = hash;
+      user.companyIdNumber = hash;
       next();
     });
   });
 });
 
 // Helper method for validating user's password.
-
 UserSchema.methods.comparePassword = function comparePassword(
   candidatePassword,
   cb

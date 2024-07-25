@@ -14,8 +14,7 @@ const templates = require("./controllers/templates")
 //COMPLETED  Be able to store checklists inside mongoDB and then populate them per project.
 //COMPLETED Make the templates collapsible per location
 
-//TODO Add a signature for attached to the tasks.
-//!NO WAY I THINK IT WORKS
+//COMPLETED Add a signature for attached to the tasks.
 
 //COMPLETED Have the tasksheet check the user ID and the projectID to make sure only the company that created the sheet can use it, and they only show up on certain projectID
 
@@ -33,7 +32,15 @@ const templates = require("./controllers/templates")
 
 //TODO be able to edit tasks in templates
 
-//TODO be able to remove signatures
+//TODO be able to remove signatures at another button press. Right now it just duplicates signature.
+
+//TODO Actually design the App in figma and create a dashboard that looks better.
+
+//TODO Use google maps API to create addresses and add them to the the project. Render the map on the project dashboard.
+
+//TODO Work on creating a more Unique Identifier when determining companyID
+
+
 
 
 //?THIS IS SUCH A GREAT IDEA

@@ -30,19 +30,6 @@ getTemplateFeed: async (req,res)=>{
     console.log(`${err}, there was an error in the getting your template`)
   }
   },
-
-  //*This code gets the templates that your company has created. This will be rendered wherever you make your templates.
-  // getCompanyTemplates: async (req,res)=>{
-  //   try{
-  //     const user = await User.findOne({_id: req.user._id});
-  //     const templates = await Template.find({companyIdNumber: req.user.companyIdNumber});
-
-  //     res.render("template.ejs", {templates:templates});
-  //   }catch{
-  //     console.log(`${err}, there was an error in the getting your template`)
-  //   }
-  // },
-
 //*This is to be used to actually create your new template on the template.ejs page. You can use this for any list of duties you need your employee's to check.
 createTemplate: async (req, res) => {
         try {
@@ -117,6 +104,9 @@ createTemplate: async (req, res) => {
 //*Gives the ability to sign off on a task and record the date of it.
 signTask: async (req, res) => {
     try {
+
+      const user = await User.findOne({_id: req.user._id});
+
       const { projectId, templateId, objectId, taskId } = req.params;
       console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
       console.log('Request User:', req.user);
@@ -127,7 +117,7 @@ signTask: async (req, res) => {
         {
           $push: {
             "tasks.$[task].signature": {
-              initial: req.user.userName,
+              initial: `${req.user.firstName} ${req.user.lastName}`, // Updated here
               dateCompleted: new Date()
             }
           }
@@ -151,48 +141,4 @@ signTask: async (req, res) => {
     }
   },
 };
-
-
-  //!7.16.24--This is some code that I am not using and the site is functioning. Comeing back from 3 week break.
-    //*This will be used for creating copies of the main templates for each project used
-  // populateTemplate: async ( req,res )=>{
-  //   //i need to have a form called populate, you will have a modal that pops up that asks for the location name.      
-  //   try {
-  //     const userId = req.user._id;  // Assuming the user's ID is stored in req.user
-  //     const user = await User.findById(userId);
-  //     const userName = user.name.trim();
-
-  //     // Find the project by ID
-  //     const project = await Project.findById(req.params.projectId);
-
-  //     // Find the template by project ID and task ID
-  //     const template = await Template.findOne({
-  //       _id: project.template,
-  //       "tasks._id": req.params.taskId
-  //     });
-
-  //     if (!template) {
-  //       return res.status(404).send("Task not found");
-  //     }
-
-  //     // Find the task
-  //     const task = template.tasks.id(req.params.taskId);
-
-  //     // Append the signature
-  //     task.signature.push({
-  //       userId: userId,
-  //       userName: userName,
-  //       dateCompleted: new Date()
-  //     });
-
-  //     // Save the template
-  //     await template.save();
-
-  //     res.redirect(`/projects/${req.params.projectId}`);
-  //   } catch (err) {
-  //     console.error(err);
-  //     res.status(500).send('An error occurred while signing off the task.');
-  //   }
-  // },
-
   

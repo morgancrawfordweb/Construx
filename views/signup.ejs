@@ -16,8 +16,13 @@
                 <% } %>
                 <form action="/signup" method="POST">
                     <div class="mb-3">
-                        <label for="userName" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="userName" name="userName">
+                        <label for="userName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                      </div>
+                    <div class="mb-3">
+                      <div class="mb-3">
+                        <label for="userName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName">
                       </div>
                     <div class="mb-3">
                       <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -25,28 +30,12 @@
                       <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="mb-3">
-                      <label for="securityQuestion" class="form-label">Security Question</label>
-                      <input type="text" class="form-control" id="securityQuestion" name="securityQuestion">
-                    </div>
-                    <div class="mb-3">
-                      <label for="securityAnswer" class="form-label">Security Answer</label>
-                      <input type="password" class="form-control" id="securityAnswer" name="securityAnswer">
-                    </div>
-                    <div class="mb-3">
-                      <label for="company" class="form-label">Company</label>
+                      <label for="company" class="form-label">Company Name</label>
                       <input type="text" class="form-control" id="company" name="company">
                     </div>
                     <div class="mb-3">
                       <label for="phoneNumber" class="form-label">Phone Number</label>
                       <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber">
-                    </div>
-                    <div class="mb-3">
-                      <label for="workEmail" class="form-label">Work Email</label>
-                      <input type="text" class="form-control" id="workEmail" name="workEmail">
-                    </div>
-                    <div class="mb-3">
-                      <label for="employeeIdNumber" class="form-label">Employee ID Number</label>
-                      <input type="text" class="form-control" id="employeeIdNumber" name="employeeIdNumber">
                     </div>
                     <div class="mb-3">
                       <label for="companyIdNumber" class="form-label">Company ID Number</label>

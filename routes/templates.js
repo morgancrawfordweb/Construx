@@ -26,8 +26,6 @@ router.post("/createTemplate/:id?",ensureAuth, templatesController.createTemplat
 router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.createNewWorkLocation)
 
 
-// EJS for signTask?/template/signTask/<%=project._id%>/<%=template._id%>/<%=taskSignature[i]._id %>?_method=DELETE
-
 router.put("/signTask/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.signTask);
 
 //*Deletes task successfully

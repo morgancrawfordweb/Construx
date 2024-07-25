@@ -23,6 +23,8 @@ exports.postLogin = (req, res, next) => {
     validationErrors.push({ msg: "Please enter a valid email address." });
   if (validator.isEmpty(req.body.password))
     validationErrors.push({ msg: "Password cannot be blank." });
+    if (validator.isEmpty(req.body.companyIdNumber))
+    validationErrors.push({ msg: "This company number cannot be blank." });
 
   if (validationErrors.length) {
     req.flash("errors", validationErrors);
@@ -91,26 +93,30 @@ exports.postSignup = (req, res, next) => {
   });
 
   const user = new User({
-    userName: req.body.userName,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
     company: req.body.company,
     companyIdNumber: req.body.companyIdNumber,
-    employeeIdNumber: req.body.employeeIdNumber,
-    securityQuestion: req.body.securityQuestion,
-    securityAnswer: req.body.securityAnswer
+    // employeeIdNumber: req.body.employeeIdNumber,
+    // securityQuestion: req.body.securityQuestion,
+    // securityAnswer: req.body.securityAnswer
   });
 
   User.findOne(
-    { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+    { $or: [{ email: req.body.email }, 
+      // { firstName: req.body.firstName }, { lastName: req.body.lastName }
+    
+    ] },
     (err, existingUser) => {
       if (err) {
         return next(err);
       }
       if (existingUser) {
         req.flash("errors", {
-          msg: "Account with that email address or username already exists.",
+          msg: "Account with that email address already exists",
         });
         return res.redirect("../signup");
       }
