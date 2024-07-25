@@ -121,11 +121,15 @@
                         <%= task.taskDetail %>
                     </li>
                     <li class="signatureBox">
-                      <form action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= task._id %>?_method=PUT" method="POST">
+                      <form method="POST" action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" >
                         <button class="btn btn-primary signature-btn" type="submit">Signature Here</button>
-                        <%= task.signature[0]?.initial %>
-                        <%= task.signature[0]?.dateCompleted %>
                       </form>
+                      <% task.signature.forEach(sig => { %>
+                        <div>
+                          <span><%= sig.initial %></span>
+                          <span><%= sig.dateCompleted.toDateString() %></span>
+                        </div>
+                      <% }) %>
                     </li>
                     <% }) %>
                   </details>

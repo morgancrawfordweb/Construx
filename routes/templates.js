@@ -17,7 +17,7 @@ router.get("/createTemplatePage/:id", ensureAuth, templatesController.getTemplat
 router.get("/createTemplatePage",ensureAuth, templatesController.getCreateTemplatePage);
 
 //*This is supposed to get all of your company templates. This way you can what you have created or not.
-router.get("/getCompanyTemplates/:id?",ensureAuth, templatesController.getCompanyTemplates)
+// router.get("/getCompanyTemplates/:id?",ensureAuth, templatesController.getCompanyTemplates)
 
 //*This creates the ORIGINAL template for the NewWorkLocation to work
 router.post("/createTemplate/:id?",ensureAuth, templatesController.createTemplate);
@@ -28,7 +28,7 @@ router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.creat
 
 // EJS for signTask?/template/signTask/<%=project._id%>/<%=template._id%>/<%=taskSignature[i]._id %>?_method=DELETE
 
-router.put("/signTask/:projectId/:templateId/:objectId/:id?", ensureAuth, templatesController.signTask)
+router.put("/signTask/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.signTask);
 
 //*Deletes task successfully
 router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesController.deleteWorkLocation)

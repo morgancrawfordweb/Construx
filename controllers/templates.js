@@ -7,8 +7,14 @@ module.exports = {
 
 
   //*This gets the page to fill out your template to be used at a later time.//
-  getCreateTemplatePage: (req,res)=>{
-      res.render("template.ejs")
+  getCreateTemplatePage: async (req,res)=>{
+    try{
+      const templates = await Template.find({companyIdNumber: req.user.companyIdNumber});
+
+      res.render("template.ejs",{templates:templates})
+    }catch(err){
+      console.log(err)
+    }
   },
 
 
@@ -25,16 +31,17 @@ getTemplateFeed: async (req,res)=>{
   }
   },
 
-  //*This code gets the templates that your company has created.
-  getCompanyTemplates: async (req,res)=>{
-    try{
-      const templates = await Template.findById(req.params.id)
+  //*This code gets the templates that your company has created. This will be rendered wherever you make your templates.
+  // getCompanyTemplates: async (req,res)=>{
+  //   try{
+  //     const user = await User.findOne({_id: req.user._id});
+  //     const templates = await Template.find({companyIdNumber: req.user.companyIdNumber});
 
-      res.render("template.ejs", {templates:templates});
-    }catch{
-      console.log(`${err}, there was an error in the getting your template`)
-    }
-  },
+  //     res.render("template.ejs", {templates:templates});
+  //   }catch{
+  //     console.log(`${err}, there was an error in the getting your template`)
+  //   }
+  // },
 
 //*This is to be used to actually create your new template on the template.ejs page. You can use this for any list of duties you need your employee's to check.
 createTemplate: async (req, res) => {
@@ -108,37 +115,42 @@ createTemplate: async (req, res) => {
 },
 
 //*Gives the ability to sign off on a task and record the date of it.
-signTask: async ( req,res ) => {
-  try {
-    const { projectId, templateId, objectId, taskId } = req.params;
-    console.log('Parameters:', { projectId, templateId, objectId, taskId });
+signTask: async (req, res) => {
+    try {
+      const { projectId, templateId, objectId, taskId } = req.params;
+      console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
+      console.log('Request User:', req.user);
 
-    const result = await Template.findOneAndUpdate(
-      { "_id": templateId, "tasks._id": taskId },
-      {
-        $push: {
-          "tasks.$.signature": {
-            initial: req.user._id,
-            dateCompleted: new Date()
+      // Use array filters to target the specific task
+      const result = await Template.findOneAndUpdate(
+        { "_id": templateId, "tasks._id": taskId },
+        {
+          $push: {
+            "tasks.$[task].signature": {
+              initial: req.user.userName,
+              dateCompleted: new Date()
+            }
           }
+        },
+        {
+          new: true,
+          arrayFilters: [{ "task._id": taskId }]
         }
-      },
-      { new: true }
-    );
+      );
 
-    if (result) {
-      console.log('Update successful:', result);
-      res.redirect("/project/" + projectId);
-    } else {
-      console.log('Task or Template not found');
-      res.status(404).send('Task or Template not found');
+      if (result) {
+        console.log('Update successful:', result);
+        res.redirect("/project/" + projectId);
+      } else {
+        console.log('Task or Template not found');
+        res.status(404).send('Task or Template not found');
+      }
+    } catch (err) {
+      console.error('Server Error:', err);
+      res.status(500).send('Server Error');
     }
-  } catch (err) {
-    console.error('Server Error:', err);
-    res.status(500).send('Server Error');
-  }
-},
-}
+  },
+};
 
 
   //!7.16.24--This is some code that I am not using and the site is functioning. Comeing back from 3 week break.

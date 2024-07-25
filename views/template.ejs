@@ -42,6 +42,22 @@
             </section>
 
         </div>
+        <div class="container">
+            <h3>Company Templates</h3>
+              <div>
+                <ul>                  
+                    
+
+                    <% for(var i=0; i<templates.length; i++) {%>
+                        <li class="col-6 justify-content-between mt-5">
+                            <h4><%= templates[i].templateName%></h4>
+                        </li>
+                      <% } %>
+                </ul>
+                
+              </div>
+
+          </div>
 
     </main>      
 

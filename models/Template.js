@@ -23,7 +23,7 @@ const TemplateSchema = new mongoose.Schema({
         //Signature of the person who completed it pulled from my UserId.name.trim()
         signature: [{
             initial: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: String,
                 ref: "User",
             },
             //The day that the person completed it. 
