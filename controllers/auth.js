@@ -23,8 +23,6 @@ exports.postLogin = (req, res, next) => {
     validationErrors.push({ msg: "Please enter a valid email address." });
   if (validator.isEmpty(req.body.password))
     validationErrors.push({ msg: "Password cannot be blank." });
-    if (validator.isEmpty(req.body.companyIdNumber))
-    validationErrors.push({ msg: "This company number cannot be blank." });
 
   if (validationErrors.length) {
     req.flash("errors", validationErrors);

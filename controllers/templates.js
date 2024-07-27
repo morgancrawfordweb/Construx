@@ -35,8 +35,11 @@ createTemplate: async (req, res) => {
         try {
           const createdUser = await User.findById(req.user.id)
           const newTaskDetail = req.body.taskDetail
-          const newTask = newTaskDetail.map(taskDetail=>({
+          const newReference = req.body.reference
+
+          const newTask = newTaskDetail.map((taskDetail, index)=>({
             taskDetail: taskDetail,
+            reference: newReference[index] || null,
             signature: []
           }))
 
@@ -46,6 +49,7 @@ createTemplate: async (req, res) => {
           tasks: newTask,
           user: req.user.id,
           companyIdNumber: createdUser.companyIdNumber,
+          reference: req.body.reference,
           isOriginal: true
         });  
           

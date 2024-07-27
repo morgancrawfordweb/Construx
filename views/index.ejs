@@ -1,78 +1,41 @@
 <%- include('partials/header') -%>
 
 
-
-
-  
-
-
-
-<nav class="w-full">
-  <div class="container mx-auto px-6 flex items-center justify-between">
-      <div class="flex items-center" aria-label="Home" role="img">
-          <img class="cursor-pointer w-8 sm:w-auto" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg1.svg" alt="logo"/>     
-          <p class="ml-2 lg:ml-4 text-base lg:text-2xl font-bold text-gray-800 dark:text-white">The North</p>
-      </div>
-      <div>
-          <button onclick="toggleMenu(true)" class=" dark:bg-white rounded sm:block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
-              <img class="h-8 w-8" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg4.svg" alt="show"/>
-             
-          </button>
-          <div id="menu" class="md:block lg:block hidden">
-              <button onclick="toggleMenu(false)" class=" dark:bg-white rounded block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 fixed focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white md:bg-transparent z-30 top-0 mt-3 toggledMenu">
-                  <img class="h-8 w-8" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg5.svg" alt="hide"/>
-                 
-              </button>
-              <ul class="flex text-3xl md:text-base items-center py-8 md:flex flex-col md:flex-row justify-center fixed md:relative top-0 bottom-0 left-0 right-0 bg-black md:bg-transparent  z-20">
-                  <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                      <a href="./about.ejs">Company</a>
-                  </li>
-                  <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                      <a href="javascript:void(0)">Features</a>
-                  </li>
-                  <li class="text-gray-600 text-lg hover:text-gray-800 dark:text-white cursor-pointer md:ml-10 pt-10 md:pt-0">
-                      <a href="javascript:void(0)">Contact</a>
-                  </li>
+<nav>
+              <ul class="menu">
+                  <li><a href="./about.ejs">Company</a></li>
+                  <li><a href="#">Features</a></li>
+                  <li><a href="#">Contact</a></li>
+                  <li class="sign"><a href="/signup" >Get Started</a></li>
+                  <li class="sign"><a href="/login" >Already signed up?</a></li>
               </ul>
 </nav>
 
-
-<div class="w-full px-6">
-  <div class="mt-8 relative rounded-lg bg-indigo-700 container mx-auto flex flex-col items-center pt-12 sm:pt-24 pb-24 sm:pb-32 md:pb-48 lg:pb-56 xl:pb-64">
-     
-      <div class="w-11/12 sm:w-2/3 mb-5 sm:mb-10">
-          
-          <h1 class="text-4xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-center text-purple font-bold leading-tight">Keep your team on the same page</h1>
-      </div>
-      <div>
-          <p>When projects ramp up and things get busy, its important to stay up to date.</p>
-      </div>
-      
-      <div class="flex justify-center items-center mb-2 sm:mb-20">
-          <a href="/signup" class="btn btn-primary">Get Started</a>
-          <a href="/login" class="btn btn-primary m-5">Already signed up?</a>
-      </div>
-      
-  </div>
-</div>
-<div>
-    <div>
-       <div
-        class=""
-        style="background-image: url(./img/construxLandingPagePicture.jpg); background-size: 45%; background-repeat: no-repeat;"
-        >
-            <ul>
-                <i class="fa fa-users fa-5x" aria-hidden="true"></i>
-                <i class="fa fa-map-marker fa-5x" aria-hidden="true"></i>
-                <i class="fa fa-paper-airplane fa-5x" aria-hidden="true"></i>
-            </ul>
+<main>
+    <section class="background">
+        <h1>Construx</h1>
+        <span>Keep your team on the same page</span>
+    </section>
+    <section>
+        <p>When projects ramp up and things get busy, its important to stay up to date.</p>
+    </section>
+    <section class="grid-container">
+        <div class="grid-item">
+            <i class="fa fa-users" aria-hidden="true"></i><span class="gridSpan">Have all of your users stay up to date with project tasks</span>
         </div>
+        <div class="grid-item">
+            <i class="fa fa-file" aria-hidden="true"></i><span class="gridSpan">Give your employees the ease of access with one-click file downloads</span>
+        </div>
+        <div class="grid-item">
+            <i class="fa fa-check-square" aria-hidden="true"></i><span class="gridSpan">Checklists to stay on track with your objectives in the field</span>
+        </div>
+        <div class="grid-item">
+            <i class="fa fa-clock" aria-hidden="true"></i><span class="gridSpan">Save time and energy keeping your employees up to date</span>
+        </div>
+    </section>
+</main>
       
-    </div>
+      
 
-
-</div>
-
-    
 
 <%- include('partials/footer') -%>

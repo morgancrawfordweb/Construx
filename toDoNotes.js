@@ -38,9 +38,9 @@ const templates = require("./controllers/templates")
 
 //TODO Use google maps API to create addresses and add them to the the project. Render the map on the project dashboard.
 
-//TODO Work on creating a more Unique Identifier when determining companyID
+//TODO Work on creating a more Unique Identifier when determining companyID. Hash CompanyId
 
-
+//TODO Create an EJS page to view the entire checklist. This will be the basis of creating the page to print off for a report.
 
 
 //?THIS IS SUCH A GREAT IDEA

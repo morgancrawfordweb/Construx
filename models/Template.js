@@ -17,8 +17,11 @@ const TemplateSchema = new mongoose.Schema({
     tasks: [{
             //Task detail is the name of the task that needs to be taken care of
         taskDetail: {
-            type: [String],  
+            type: String,  
             required: true,
+        },
+        reference:{
+            type: String,
         },
         //Signature of the person who completed it pulled from my UserId.name.trim()
         signature: [{
@@ -32,6 +35,7 @@ const TemplateSchema = new mongoose.Schema({
                 default: Date.now(),
             },
         }],
+        
         //The template that the task is related to.
         template: {
             type: mongoose.Schema.Types.ObjectId,

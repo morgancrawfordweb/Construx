@@ -6,6 +6,7 @@ function addField() {
             newField.innerHTML = `
                 <label for="taskDetail" class="form-label">Task</label>
                 <input type="text" class=" form-control" placeholder="Enter your task here" id="taskDetail" name="taskDetail[]">
+                <input type="text" class=" form-control" placeholder="References" id="reference" name="reference[]">
                 <button type="button" class="btn btn-secondary" onclick="removeField(this)">Remove</button>
             `;
             container.appendChild(newField);
