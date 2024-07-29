@@ -163,8 +163,8 @@ nav{
 
 
 h1{
-  font-size: 100px;
-  justify-self: center;
+  font-size: 8rem;
+  justify-self: left;
 }
 
 
@@ -176,12 +176,41 @@ h1{
   padding: 10px;
 }
 .grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(115, 212, 69, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
   padding: 20px;
-  font-size: 30px;
+  font-size: 40px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 .gridSpan{
-  font-size: 16px;
+  font-size: 28px;
+  padding: 2% 4%;
+
+}
+
+.parallax-image{
+  background-image: url('../img/Construx\ Image\ -\ Dark.png');
+  height: 600px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 50px;
+}
+
+.landingPageContent {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  margin: 0 0 0 10%;
+  padding: 50px;
+  background-color: #cbcec5ed;
+  width: 43%;
+  border-radius: 5%;
+}
+
+.our-mission{
+  height: 500px;
 }
