@@ -42,6 +42,8 @@ module.exports = {
       const templates = await Template.find({companyIdNumber: req.user.companyIdNumber});
       const workLocations = await Template.find({project: req.params.id})
 
+      
+
       res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees, templates: templates, workLocations: workLocations});
 
     } catch (err) {

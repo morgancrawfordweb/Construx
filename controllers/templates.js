@@ -24,6 +24,8 @@ getTemplateFeed: async (req,res)=>{
     console.log('getTemplateFeed')
     const template = await Template.findById(req.params.id)
 
+    
+
     res.render('project.ejs', {template: template});
   }catch(err){
 
@@ -97,18 +99,27 @@ createTemplate: async (req, res) => {
   //*Deletes a work location. Most likely not going to be used but it is able to delete specific work locations.
   deleteWorkLocation: async (req, res) => {
     try {
-      await Template.findByIdAndDelete({ _id: req.params.id })
+      await Template.deleteOne({ _id: req.params.id })
       console.log("document has been removed")
       res.redirect("/project/"+req.params.projectId);
     } catch (err) {
       console.log(`${err}, there was an error in deleting this working location.`);
     }
 },
+deleteTemplate: async (req, res) => {
+  try {
+   await Template.deleteOne({ _id: req.params.templateId })
+    console.log(`Company template has been removed`)
+    res.redirect("/template/createTemplatePage");
+  } catch (err) {
+    console.log(`${err}, there was an error in deleting this company template.`);
+  }
+},
 
 //*Gives the ability to sign off on a task and record the date of it.
 signTask: async (req, res) => {
     try {
-
+      
       const user = await User.findOne({_id: req.user._id});
 
       const { projectId, templateId, objectId, taskId } = req.params;
@@ -144,5 +155,64 @@ signTask: async (req, res) => {
       res.status(500).send('Server Error');
     }
   },
+    //*Deletes a work location. Most likely not going to be used but it is able to delete specific work locations.
+    deleteSignature: async (req, res) => {
+      try {
+      
+        const user = await User.findOne({_id: req.user._id});
+  
+        const { projectId, templateId, objectId, taskId } = req.params;
+        console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
+        console.log('Request User:', req.user);
+  
+        // Use array filters to target the specific task
+        const result = await Template.findOneAndUpdate(
+          { "_id": templateId, "tasks._id": taskId },
+          {
+            $pop: {
+              "tasks.$[task].signature": {
+                initial: `${req.user.firstName} ${req.user.lastName}`, // Updated here
+                dateCompleted: new Date()
+              }
+            }
+          },
+          {
+            new: true,
+            arrayFilters: [{ "task._id": taskId }]
+          }
+        );
+  
+        if (result) {
+          console.log('Update successful:', result);
+          res.redirect("/project/" + projectId);
+        } else {
+          console.log('Task or Template not found');
+          res.status(404).send('Task or Template not found');
+        }
+      } catch (err) {
+        console.error('Server Error:', err);
+        res.status(500).send('Server Error');
+      }
+    },
+  getEditTemplatePage: async (req,res) => {
+    try{
+        const templates = await Template.find({_id: req.params.templateId});
+
+        
+        res.redirect('/template/'+req.params.id);
+        
+      }catch(err){
+        console.log(err)
+      }
+  },
+
+editTaskInTemplate: async (req,res)=>{
+  try{
+    const templates = await Template.find
+
+  }catch(err){
+
+  }
+}
 };
   

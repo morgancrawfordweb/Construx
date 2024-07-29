@@ -25,10 +25,19 @@ router.post("/createTemplate/:id?",ensureAuth, templatesController.createTemplat
 //*Route for creating a new work location from the project working
 router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.createNewWorkLocation)
 
-
+//*This route is for putting your signature on a task
 router.put("/signTask/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.signTask);
 
-//*Deletes task successfully
-router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesController.deleteWorkLocation)
+//*Deletes a signature.
+router.delete("/deleteSignature/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.deleteSignature);
+
+//*Deletes task successfully in the project.
+router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesController.deleteWorkLocation);
+
+//*Deletes original company templates.
+router.delete("/deleteTemplate/:templateId", ensureAuth, templatesController.deleteTemplate);
+
+
+
 module.exports = router;
  

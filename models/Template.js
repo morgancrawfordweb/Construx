@@ -60,6 +60,9 @@ const TemplateSchema = new mongoose.Schema({
     //This will check and see if it is an original. We set original to true with not putting in a location. When there is no location, it is set as an original.
     isOriginal:{
         type: Boolean,
+    },
+    progressTracker:{
+        type:Number,
     }
 
 

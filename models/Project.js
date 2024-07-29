@@ -21,13 +21,11 @@ const ProjectSchema = new mongoose.Schema({
   template:{
     type: mongoose.Schema.Types.ObjectId, 
     ref:"Template"
+  },
+  progressTracker:{
+    type: Number,
+    ref:'Template'
   }
-
-  //!progress tracker for the schema.
-  //!maybe get each TD and a name to follow or something
-  // progressTracker:[{
-  //   type: String,
-  // }]
   
 });
 

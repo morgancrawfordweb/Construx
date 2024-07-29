@@ -28,7 +28,7 @@ const templates = require("./controllers/templates")
 
 //COMPLETED - When I delete a work location, it just deletes the first one and not the specific work location. If I have Locations 1, 2, and 3, and I delete #2. . . It deletes the first one. AND I can ALSO delete the originals which is NOT good.
 
-//TODO Be able to delete original templates
+//COMPLETED  Be able to delete original templates
 
 //TODO be able to edit tasks in templates
 
@@ -42,14 +42,19 @@ const templates = require("./controllers/templates")
 
 //TODO Create an EJS page to view the entire checklist. This will be the basis of creating the page to print off for a report.
 
+//TODO Figure a way to have the objects named as the taskdetail instead of Object. Might have to change the schema
 
-//?THIS IS SUCH A GREAT IDEA
+
+//?Ideas that would be fun to work on.
 //TODO From the template EJS, I want to make it to where you can see the tasks and who signed it, and then eventually I want to make it to where you can print off/save your checklist like a report.
-//!
-//!
-//!
-//!
-//!
+
+//TODO Create a way to let you know what percentage of projects are completed maybe per location.
+	
+//TODO Take total number of tasks and divide them by the number of tasks that have signatures then do the same for the projects and work locations. Be able to display the graph inside of your dashboard. and say "X% of tasks have been completed."
+
+//TODO -Maybe create another widget that will tell me what percentage of my tasks are X or Y.
+
+//TODO Display a percentage of what signatures are by a certain employee, and then maybe use those for your profile? Something like "MC has signed off on X% percentage of work on this project.
 
 
 

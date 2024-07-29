@@ -161,8 +161,11 @@ nav{
   color: #b6174b;
 }
 
-
 h1{
+  font-size: 5rem;
+}
+
+.titleHeading{
   font-size: 8rem;
   justify-self: left;
 }
