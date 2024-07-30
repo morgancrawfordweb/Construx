@@ -68,6 +68,7 @@ createTemplate: async (req, res) => {
   createNewWorkLocation: async (req,res)=>{
     //Choose between templates and then clone that object but add the parameters of Location
       //use this to find all of the templates that were created with users that share the same companyId
+      const project = await Project.findById(req.params.id)
       try {
         const { selectedTemplate, location } = req.body;
         const template = await Template.findById(selectedTemplate);
@@ -84,6 +85,7 @@ createTemplate: async (req, res) => {
           tasks: template.tasks,
           project: req.params.id,
           companyIdNumber: req.user.companyIdNumber,
+          projectName: project.projectName,
           user: req.user.id,
           isOriginal: false
         });
@@ -161,7 +163,7 @@ signTask: async (req, res) => {
       
         const user = await User.findOne({_id: req.user._id});
   
-        const { projectId, templateId, objectId, taskId } = req.params;
+        const { projectId, templateId, objectId, taskId, signatureId } = req.params;
         console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
         console.log('Request User:', req.user);
   
@@ -169,17 +171,12 @@ signTask: async (req, res) => {
         const result = await Template.findOneAndUpdate(
           { "_id": templateId, "tasks._id": taskId },
           {
-            $pop: {
-              "tasks.$[task].signature": {
-                initial: `${req.user.firstName} ${req.user.lastName}`, // Updated here
-                dateCompleted: new Date()
+            $pull: {
+              "tasks.$.signature": { _id: signatureId }
               }
-            }
-          },
-          {
-            new: true,
-            arrayFilters: [{ "task._id": taskId }]
-          }
+            },
+          
+          { new: true }
         );
   
         if (result) {
@@ -199,16 +196,24 @@ signTask: async (req, res) => {
         const templates = await Template.find({_id: req.params.templateId});
 
         
-        res.redirect('/template/'+req.params.id);
-        
+        res.redirect('editTemplate.ejs', {templates:templates});
+        e
       }catch(err){
         console.log(err)
       }
   },
 
 editTaskInTemplate: async (req,res)=>{
-  try{
-    const templates = await Template.find
+  try {
+
+    //Need to be able to change the templateName,
+    const user = await User.find({companyIdNumber: req.params.id});
+
+    const template = await Template.findById(req.params.id);
+
+    
+
+    res.render("editTemplate.ejs", { user: req.user, template: template});
 
   }catch(err){
 

@@ -2,66 +2,18 @@
 
 
     <main class="container">
-        <div class="row justify-content-center">
-            <section class="col-6 mt-5">
-                <% if (locals.messages.errors) { %>
-                    <% messages.errors.forEach( el => { %>
-                        <div class="alert alert-danger"><%= el.msg %></div>
-                    <% }) %>    
-                <% } %>
-                <% if (locals.messages.info) { %>
-                    <% messages.info.forEach( el => { %>
-                        <div class="alert alert-info"><%= el.msg %></div>
-                    <% }) %>    
-                <% } %>
-                    <div class="mb-5">
-                        <h1 class="pageTitle">Template Creation</h1>
-                        <p>Use this to create templates for your company to use. You can use them </p>
-                    </div>
-                <form action="/template/createTemplate" method="POST">
-                    <div class="mb-3">
-                        <label for="templateName" class="form-label">Task Template</label>
-                        <h5>*For Example: Grading Inspection Duties</h5>
-                        <input type="text" class="form-control" id="templateName" name="templateName">
-                    </div>
+        <section>
+            <%= for (var i=0; i<=templates.length; i++) { %>
+                if(templates.isOriginal===true){
+                    <h4>templates.templateName</h4>
+                }
+            }
+        </section>
 
-                    <div class="mb-6" id="dynamicTaskDetailField">
-                        <label for="taskDetail" class="form-label ">Create Tasks below</label>
-                        <h5>*For Example: Ensured wires were trimmed</h5>
-                        <div class="mb-3 task-detail">
-                            <input type="text" class="form-control" placeholder="Enter your task here"  id="taskDetail" name="taskDetail[]">
-                            <input type="text" class="form-control" placeholder="Reference"  id="reference" name="reference[]">              
-                                <button class="btn btn-secondary" type="button" onclick="removeField(this)">Remove</button>
-                        </div>
-                    </div>
-                    <button type="button" onclick="addField()">Add Field</button>
-                    <button type="submit" class="btn tbn-primary">Submit</button>
-                  </form>
+        <div class="col-4">
+            <a href="/template/createTemplatePage"  class="btn btn-primary">Back</a>
+        </div>  
 
-                  <a class="mt-6 btn btn-primary" href="/profile">Return to Profile</a>
-
-            </section>
-
-        </div>
-        <div class="container">
-            <h3>Company Templates</h3>
-              <div>
-                <ul>                  
-                    
-
-                    <% templates.forEach(template => { %>
-                        <% if(template.isOriginal===true){ %>
-                        <h4><%= template.templateName %></h4>
-                        <form action ="/template/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
-                        <button type="submit" class="btn btn-secondary">Delete Template</button>
-                        </form>
-                        <% } %>
-                      <% }) %>
-                </ul>
-                
-              </div>
-
-          </div>
 
     </main>      
 

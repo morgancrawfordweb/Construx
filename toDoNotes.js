@@ -30,9 +30,8 @@ const templates = require("./controllers/templates")
 
 //COMPLETED  Be able to delete original templates
 
-//TODO be able to edit tasks in templates
 
-//TODO be able to remove signatures at another button press. Right now it just duplicates signature.
+//COMPLETED be able to remove signatures at another button press. Right now it just duplicates signature.
 
 //TODO Actually design the App in figma and create a dashboard that looks better.
 
@@ -43,7 +42,6 @@ const templates = require("./controllers/templates")
 //TODO Create an EJS page to view the entire checklist. This will be the basis of creating the page to print off for a report.
 
 //TODO Figure a way to have the objects named as the taskdetail instead of Object. Might have to change the schema
-
 
 //?Ideas that would be fun to work on.
 //TODO From the template EJS, I want to make it to where you can see the tasks and who signed it, and then eventually I want to make it to where you can print off/save your checklist like a report.

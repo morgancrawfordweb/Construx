@@ -16,7 +16,7 @@
                 <% } %>
                     <div class="mb-5">
                         <h1 class="pageTitle">Template Creation</h1>
-                        <p>Use this to create templates for your company to use. You can use them </p>
+                        <p>Use this to create templates for your company to use.</p>
                     </div>
                 <form action="/template/createTemplate" method="POST">
                     <div class="mb-3">
@@ -51,7 +51,7 @@
 
                     <% templates.forEach(template => { %>
                         <% if(template.isOriginal===true){ %>
-                        <h4><%= template.templateName %></h4>
+                            <a href="/template/editTaskInTemplate/<%= template._id%>"><h4><%= template.templateName %></h4></a>
                         <form action ="/template/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
                         <button type="submit" class="btn btn-secondary">Delete Template</button>
                         </form>

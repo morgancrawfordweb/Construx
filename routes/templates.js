@@ -29,13 +29,20 @@ router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.creat
 router.put("/signTask/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.signTask);
 
 //*Deletes a signature.
-router.delete("/deleteSignature/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.deleteSignature);
+router.delete("/deleteSignature/:projectId/:objectId/:templateId/:taskId/:signatureId?", ensureAuth, templatesController.deleteSignature);
 
 //*Deletes task successfully in the project.
 router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesController.deleteWorkLocation);
 
 //*Deletes original company templates.
 router.delete("/deleteTemplate/:templateId", ensureAuth, templatesController.deleteTemplate);
+
+
+//*This will get the page for editing your template.
+router.get("/getEditTemplate/:id?", ensureAuth, templatesController.getEditTemplatePage);
+
+//*Edit a task inside of your template
+router.put("/editTaskInTemplate/:id", ensureAuth, templatesController.editTaskInTemplate);
 
 
 

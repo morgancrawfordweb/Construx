@@ -217,3 +217,8 @@ h1{
 .our-mission{
   height: 500px;
 }
+
+.fa-trash{
+  color: #b6174b;
+  padding: 5px
+}
