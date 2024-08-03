@@ -11,6 +11,7 @@ const connectDB = require("./config/database");
 // const fullCalendar = require("fullcalendar")
 // const fs = require('fs')
 const path = require('path')
+const cryptoJS = require('crypto-js')
 
 //node-module of pdf-lib. This will give me the ability to create a new PDF , hopefully be able to create new checklists from an HTML form
 // const pdfDocument= require("pdf-lib")

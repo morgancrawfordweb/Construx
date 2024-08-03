@@ -82,6 +82,10 @@ exports.postSignup = (req, res, next) => {
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.company || !req.body.phoneNumber || !req.body.companyIdNumber) {
+      validationErrors.push({ msg: "All fields are required." });
+    }
+
   if (validationErrors.length) {
     req.flash("errors", validationErrors);
     return res.redirect("../signup");
@@ -102,6 +106,8 @@ exports.postSignup = (req, res, next) => {
     // securityQuestion: req.body.securityQuestion,
     // securityAnswer: req.body.securityAnswer
   });
+
+  
 
   User.findOne(
     { $or: [{ email: req.body.email }, 

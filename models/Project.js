@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 
 //This is for the user adds a project with some details.
 
@@ -28,6 +28,8 @@ const ProjectSchema = new mongoose.Schema({
   }
   
 });
+
+
 
 
 module.exports = mongoose.model("Project", ProjectSchema);

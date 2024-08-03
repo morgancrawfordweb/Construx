@@ -40,9 +40,13 @@ module.exports = {
       const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).lean();
       const employees = await Project.find({assignedEmployee: req.params.id}).sort({createdAt: "desc"}).lean();
       const templates = await Template.find({companyIdNumber: req.user.companyIdNumber});
-      const workLocations = await Template.find({project: req.params.id})
+      const workLocations = await Template.find({project: req.params.id}).lean();
 
-      
+      //*Checks how many signatures were signed and renders them on the EJS
+      workLocations.forEach(location => {
+        location.totalSignatures = location.tasks.filter(task => 
+          task.signature.length >= 1).length;
+      });
 
       res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees, templates: templates, workLocations: workLocations});
 

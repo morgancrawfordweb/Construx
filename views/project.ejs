@@ -15,6 +15,9 @@
       <%=project.projectDescription%>
       <p><br></p>
 
+      <h3>Total locations created : <b><%= workLocations.length %></b></h3>
+      <p></br></p>
+
       <h3>Assigned Employees:</h3><br>
       <ul>
         <% for (var i=0; i<employees.length; i++){%>
@@ -100,10 +103,10 @@
         </div>
       </div>
 
-      <div class="row justify-content-center">
+      <div class="row gridDisplay">
         <h3> Checklists </h3>
         <div class="col-6 mt-5">
-          <h5 class="templateHeading">Total locations created : <%= workLocations.length %></h5>
+          
           <% workLocations.forEach(object => { %>
             <% if(object.isOriginal===false && object){ %>
 
@@ -111,13 +114,16 @@
             <summary>
               <h4 class="templateHeading">Location:<%= object.location%></h4>
               <h5 class="templateHeading"><%= object.templateName %></h5>
-              TESTLENGTH<h5 class="templateHeading"><%= object.tasks.length %></h5>
-              
+              <h5 class="templateHeading">Task completion: <%= object.totalSignatures %> / <%= object.tasks.length %></h5>
+
+
             </summary>
             <ul>
                 <% object.tasks.forEach(task => { %>
                     <li class="templateTask">
                         <%= task.taskDetail %>
+
+                        
                     </li>
                     <li class="signatureBox">
                       <form action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
@@ -126,20 +132,19 @@
                       <% task.signature.forEach(signature => { %>
                         
                         <div>
-                          <span><b>Signed by</b> - <%= signature.initial %></span> /
-                          <span><b>Date</b> - <%= signature.dateCompleted.toDateString() %></span>
-                          <form action ="/template/deleteSignature/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST">
-                            <button><i class="fa-solid fa-trash"></i></button>
+                          <span><b>Signed by</b>: <%= signature.initial %></span> /
+                          <span><b>Date</b>: <%= signature.dateCompleted.toDateString() %></span>
+                          <form action ="/template/deleteSignature/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST"><button><i class="fa-solid fa-trash"></i></button>
                           </form>
                         </div>
 
                       <% }) %>
                     </li>
                     <% }) %>
+                    <form action ="/template/deleteWorkLocation/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
+                      <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
+                    </form>
                   </details>
-                  <form action ="/template/deleteWorkLocation/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
-                    <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
-                  </form>
                 <% }else { %>
                 <%}%>
             </ul>

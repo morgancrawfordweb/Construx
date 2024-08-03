@@ -1,15 +1,16 @@
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
+const CryptoJS = require('crypto-js')
 
 const UserSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, unique: true },
   password: String,
-  company: {type: String, require:true},
-  phoneNumber:{type:String, required:true},
+  company: {type: String, require:true },
+  phoneNumber:{type:String, required:true },
   // employeeIdNumber:{type:String,required:true, unique: true},
-  companyIdNumber:{type:String,required:true},
+  companyIdNumber: String,
   // roles: {
   //   type: [{
   //       type: String,
@@ -46,25 +47,14 @@ UserSchema.pre("save", function save(next) {
   });
 });
 
-//CompanyId Number Hash
-UserSchema.pre("save", function save(next) {
-  const user = this;
-  if (!user.isModified("companyIdNumber")) {
-    return next();
+//properly hashes the companyIdNumber to add more security to documents and templates.
+UserSchema.pre('save', function(next) {
+  if (this.isModified('companyIdNumber')) {
+    this.companyIdNumber = CryptoJS.SHA256(this.companyIdNumber).toString(CryptoJS.enc.Hex);
   }
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) {
-      return next(err);
-    }
-    bcrypt.hash(user.companyIdNumber, salt, (err, hash) => {
-      if (err) {
-        return next(err);
-      }
-      user.companyIdNumber = hash;
-      next();
-    });
-  });
+  next();
 });
+
 
 // Helper method for validating user's password.
 UserSchema.methods.comparePassword = function comparePassword(
@@ -75,5 +65,7 @@ UserSchema.methods.comparePassword = function comparePassword(
     cb(err, isMatch);
   });
 };
+
+
 
 module.exports = mongoose.model("User", UserSchema);

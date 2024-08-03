@@ -1,4 +1,6 @@
 const mongoose = require("mongoose")
+const bcrypt = require("bcrypt");
+
 
 //this is a schema to act as an activity tracker. The calendar is still seperate. The project will be imported
 const TemplateSchema = new mongoose.Schema({
@@ -58,7 +60,7 @@ const TemplateSchema = new mongoose.Schema({
     },
     //The user who created the checklist
     user:{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId, 
         ref:"User",
     },
     //This will check and see if it is an original. We set original to true with not putting in a location. When there is no location, it is set as an original.
@@ -71,6 +73,10 @@ const TemplateSchema = new mongoose.Schema({
 
 
 })
+
+  
+
+
 
 module.exports = mongoose.model("Template", TemplateSchema);
 

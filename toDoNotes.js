@@ -33,6 +33,8 @@ const templates = require("./controllers/templates")
 
 //COMPLETED be able to remove signatures at another button press. Right now it just duplicates signature.
 
+//COMPLETED - Properly hased with cryptoJS to secure your companyIdNumber
+
 //TODO Actually design the App in figma and create a dashboard that looks better.
 
 //TODO Use google maps API to create addresses and add them to the the project. Render the map on the project dashboard.
@@ -53,6 +55,8 @@ const templates = require("./controllers/templates")
 //TODO -Maybe create another widget that will tell me what percentage of my tasks are X or Y.
 
 //TODO Display a percentage of what signatures are by a certain employee, and then maybe use those for your profile? Something like "MC has signed off on X% percentage of work on this project.
+
+//TODO create a new UUID for companies whenever they sign up.
 
 
 

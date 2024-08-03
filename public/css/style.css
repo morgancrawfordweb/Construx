@@ -218,7 +218,26 @@ h1{
   height: 500px;
 }
 
+
+.right-mission-image{
+  background-image: url('../img/Project\ Papers\ Image\ -\ Dark.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 500px;
+  display: flex;
+  justify-self: end;
+}
+
 .fa-trash{
   color: #b6174b;
   padding: 5px
+}
+
+.gridDisplay{
+  display: flex;
+
+}
+
+.signatureBox{
+
 }
