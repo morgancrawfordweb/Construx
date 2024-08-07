@@ -2,49 +2,89 @@
 
 
 <nav>
-              <ul class="menu">
-                  <li><a href="./about.ejs">Company</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Contact</a></li>
-                  <li class="sign"><a href="/signup" >Get Started</a></li>
-                  <li class="sign"><a href="/login" >Already signed up?</a></li>
-              </ul>
+    <div class="ham-menu" id="ham-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul class="menu">
+        <li class="menu-item"><a href="#">Company</a></li>
+        <li class="menu-item"><a href="#">Features</a></li>
+        <li class="menu-item"><a href="#">Contact</a></li>
+        <li class="menu-item"><a href="/signup">Get Started</a></li>
+        <li class="menu-item"><a href="/login">Already signed up?</a></li>
+    </ul>
+    <div class="off-screen-menu" id="off-screen-menu">
+        <button class="close-menu" id="close-menu">X</button>
+        <ul>
+            <li class="menu-item"><a href="#">Company</a></li>
+            <li class="menu-item"><a href="#">Features</a></li>
+            <li class="menu-item"><a href="#">Contact</a></li>
+            <li class="menu-item"><a href="/signup">Get Started</a></li>
+            <li class="menu-item"><a href="/login">Already signed up?</a></li>
+        </ul>
+    </div>
 </nav>
 
+
+
+
+
 <main>
-    <section class="parallax-image">
-        <section class="landingPageContent">
-            <h1 class="titleHeading">Construx</h1>
-            <span>Keep your team on the same page</span>
+    <section class="parallax-main-image">
+        <section class="landing-page-content">
+            <h1 class="title-heading">Construx</h1>
+            <span class="tagline">Keep your team on the same page</span>
         </section>
     </section>
-    <section>
-        <p>When projects ramp up and things get busy, its important to stay up to date.</p>
-    </section>
+
+    
+        <section class="mission-statement">
+            <span>Your project, up to date, when you want it to be.</span>
+        </section>
+
+
     <section class="grid-container">
         <div class="grid-item">
-            <i class="fa fa-users" aria-hidden="true"></i><span class="gridSpan">Have all of your users stay up to date with project tasks</span>
+            <i class="fa fa-users" aria-hidden="true"></i><span class="grid-span">Have all of your users stay up to date with project tasks.</span>
         </div>
         <div class="grid-item">
-            <i class="fa fa-file" aria-hidden="true"></i><span class="gridSpan">Give your employees the ease of access with one-click file downloads</span>
+            <i class="fa fa-file" aria-hidden="true"></i><span class="grid-span">Give your employees the ease of access with one-click file downloads.</span>
         </div>
         <div class="grid-item">
-            <i class="fa fa-check-square" aria-hidden="true"></i><span class="gridSpan">Checklists to stay on track with your objectives in the field</span>
+            <i class="fa fa-check-square" aria-hidden="true"></i><span class="grid-span">Checklists to stay on track with your objectives in the field.</span>
         </div>
         <div class="grid-item">
-            <i class="fa fa-clock" aria-hidden="true"></i><span class="gridSpan">Save time and energy keeping your employees up to date</span>
+            <i class="fa fa-clock" aria-hidden="true"></i><span class="grid-span">Save time and energy keeping your employees up to date.</span>
         </div>
     </section>
-    <section class="our-mission">
-        <section class="left-mission">
-            <p>
-                This is some information about the left side of the 
-            </p>
-        </section>
-        <section class="right-mission-image">
-            <p>This will be an image </p>
+
+    <section class="about-us-parallax-image">
+        <section class="about-us">
+            <h2 class="about-us-title">About Us</h2>
+            <p>This web application was developed to help my co-workers in the field with struggles that we noticed in the field. With project rotation and daily duties were constantly changing we had to adapt. The struggles included our field representatives not having the most up to date plans, missing plans, or we were missing inspections. This causes big problems</p>
+            <br>
+            <p>In an effort to save time, this website gives the users simpler way to stay up to date with any kind of project changes. This application removes the need for physical paper hand-offs and lowers the liability of unfulfilled paperwork.</p>
         </section>
     </section>
+
+    <section class="disclaimer">
+        <h2 class="about-us-title">DISCLAIMER</h2>
+        <p>Thank you for participating in the beta testing of our application. We are committed to providing you with the best possible experience, and your involvement is crucial to achieving this goal. However, please be aware of the following:</p><br>
+            <ul>
+                <li><b>Beta Phase</b>: Our application is currently in its beta phase, which means it is still under development and refinement. During this period, you may encounter bugs or unexpected issues. We appreciate your understanding and patience as we work to improve the application.</li><br>
+            
+                <li><b>Data Integrity</b>: While we prioritize the security and integrity of your data, there is a possibility of data loss or corruption due to external factors such as database issues or AWS-related problems. We strongly recommend that you maintain backups of any important data.</li><br>
+            
+                <li><b>Liability</b> Please note that we cannot be held liable for any data loss, corruption, or other issues that may arise during this beta phase. By using the application, you acknowledge and accept this limitation of liability.</li><br>
+            
+                <li><b>Feedback</b> Your feedback is invaluable to us. If you encounter any issues or have suggestions for improvement, please do not hesitate to contact us. Your input helps us to enhance the application and provide a better experience for all users.</li><br>
+            </ul>
+                <span>Thank you for your participation and support.</span>
+    </section>
+
+
+
 </main>
       
       

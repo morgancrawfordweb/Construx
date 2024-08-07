@@ -16,8 +16,8 @@ const ProjectSchema = new mongoose.Schema({
   companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
   user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   employeeIdNumber:{type: mongoose.Schema.Types.ObjectId, ref: "User"},
-  createdBy:{type: String, ref:"User"},
-  createdById:{type: mongoose.Schema.Types.ObjectId, ref:"User"},
+  // createdBy:{type: String, ref:"User"},
+  // createdById:{type: mongoose.Schema.Types.ObjectId, ref:"User"},
   template:{
     type: mongoose.Schema.Types.ObjectId, 
     ref:"Template"
@@ -25,7 +25,10 @@ const ProjectSchema = new mongoose.Schema({
   progressTracker:{
     type: Number,
     ref:'Template'
-  }
+  },
+  // currentWeather:{
+
+  // }
   
 });
 

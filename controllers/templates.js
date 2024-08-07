@@ -191,33 +191,14 @@ signTask: async (req, res) => {
         res.status(500).send('Server Error');
       }
     },
-  getEditTemplatePage: async (req,res) => {
-    try{
-        const templates = await Template.find({_id: req.params.templateId});
-
+    editOriginalTemplate: async (req,res)=>{
+      try {
         
-        res.redirect('editTemplate.ejs', {templates:templates});
-        e
-      }catch(err){
-        console.log(err)
-      }
-  },
+        const updateTemplate = await Template.findByIdAndUpdate({ _id: req.params.templateId })
 
-editTaskInTemplate: async (req,res)=>{
-  try {
-
-    //Need to be able to change the templateName,
-    const user = await User.find({companyIdNumber: req.params.id});
-
-    const template = await Template.findById(req.params.id);
-
-    
-
-    res.render("editTemplate.ejs", { user: req.user, template: template});
-
-  }catch(err){
-
-  }
-}
-};
-  
+         res.redirect("/template/createTemplatePage");
+       } catch (err) {
+         console.log(`${err}, there was an error in deleting this company template.`);
+       };
+    },
+} 

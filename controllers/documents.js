@@ -16,7 +16,6 @@ module.exports = {
   },
   createDocument: async (req, res) => {
     try {
-      const uploadUser = await User.findById(req.user.id)
       const result = await cloudinary.uploader.upload(req.file.path, { pages : true, flag : "attachment" });
       
       await Document.create({
@@ -25,10 +24,8 @@ module.exports = {
         cloudinaryId: result.public_id,
         project: req.params.id,
         image: result.secure_url,
-        cloudinaryId: result.public_id,
-        user: req.user.id,
-        uploadedBy: uploadUser.userName,
         uploadedById: req.user.id,
+        dateSubmitted: new Date()
       });
 
       console.log("Document has been added!");

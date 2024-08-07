@@ -15,7 +15,7 @@
                     <% }) %>    
                 <% } %>
                     <div class="mb-5">
-                        <h1 class="pageTitle">Template Creation</h1>
+                        <h1 class="page-title">Template Creation</h1>
                         <p>Use this to create templates for your company to use.</p>
                     </div>
                 <form action="/template/createTemplate" method="POST">
@@ -34,33 +34,43 @@
                                 <button class="btn btn-secondary" type="button" onclick="removeField(this)">Remove</button>
                         </div>
                     </div>
-                    <button type="button" onclick="addField()">Add Field</button>
-                    <button type="submit" class="btn tbn-primary">Submit</button>
+                    <button class="btn btn-primary" type="button" onclick="addField()">Add Field</button>
+                    <button class="btn btn-primary" type="submit" >Submit</button>
                   </form>
 
                   <a class="mt-6 btn btn-primary" href="/profile">Return to Profile</a>
 
-            </section>
+            </section> 
 
         </div>
-        <div class="container">
-            <h3>Company Templates</h3>
-              <div>
-                <ul>                  
-                    
 
+
+        <div class="container">
+            <h3 class="project-heading">Company Templates</h3>
+              <div class="location-container ">
+                                
                     <% templates.forEach(template => { %>
                         <% if(template.isOriginal===true){ %>
-                            <a href="/template/editTaskInTemplate/<%= template._id%>"><h4><%= template.templateName %></h4></a>
-                        <form action ="/template/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
-                        <button type="submit" class="btn btn-secondary">Delete Template</button>
-                        </form>
+
+                        <details class="work-location">
+                            <summary>
+                                <h4>Template Name: <%= template.templateName %></h4>
+                            </summary>
+                            <ul>
+                             <% template.tasks.forEach(task =>{ %>
+                                <li class=template-task><b>Task Detail: </b><%= task.taskDetail %></li>
+                             <% }) %>
+                            </ul>
+
+                            
+                            <form action ="/template/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
+                              <button type="submit" class="btn btn-secondary">Delete Template</button>
+                            </form>
+                        </details>
                         <% } %>
                       <% }) %>
-                </ul>
                 
               </div>
-
           </div>
 
     </main>      

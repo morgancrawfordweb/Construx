@@ -34,6 +34,9 @@ module.exports = {
   },
   getProject: async (req, res) => {
     try {
+
+      
+
       const user = await User.find({companyIdNumber: req.params.id});
     //   const company = await Company.find({companyIdNumber: req.params.id});
       const project = await Project.findById(req.params.id);
@@ -48,7 +51,24 @@ module.exports = {
           task.signature.length >= 1).length;
       });
 
-      res.render("project.ejs", { project: project, user: req.user, documents: documents, employees: employees, templates: templates, workLocations: workLocations});
+    // Helper function to check if a file is an image
+    const isImageFile = (image) => {
+      if (!image) return false; // Check if filename is undefined or null
+      const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+      const fileExtension = image.split('.').pop().toLowerCase();
+      console.log(image)
+      return imageExtensions.includes(fileExtension);
+    };
+
+  
+    // Separate documents into images and non-images
+    const imageDocuments = documents.filter(doc => isImageFile(doc.image));
+    const nonImageDocuments = documents.filter(doc => !isImageFile(doc.image));
+
+    console.log("Image Documents:", imageDocuments);
+    console.log("Non-Image Documents:", nonImageDocuments);
+      
+      res.render("project.ejs", { project: project, user: req.user, imageDocuments: imageDocuments, nonImageDocuments:nonImageDocuments, employees: employees, templates: templates, workLocations: workLocations});
 
     } catch (err) {
       console.log(err);
@@ -65,8 +85,7 @@ module.exports = {
         projectDescription: req.body.projectDescription,
         user: req.user.id,
         companyIdNumber: createdUser.companyIdNumber,
-        createdBy: createdUser.userName,
-        createdById: req.user.id,
+        // createdById: req.user.id,
       });
       console.log("Project has been created");
       res.redirect("/profile");

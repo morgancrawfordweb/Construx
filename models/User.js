@@ -11,13 +11,13 @@ const UserSchema = new mongoose.Schema({
   phoneNumber:{type:String, required:true },
   // employeeIdNumber:{type:String,required:true, unique: true},
   companyIdNumber: String,
-  // roles: {
-  //   type: [{
-  //       type: String,
-  //       enum: ['user', 'admin']
-  //   }],
-  //   default: ['user']
-  // },
+  roles: {
+    type: [{
+        type: String,
+        enum: ['user', 'employer']
+    }],
+    default: ['user']
+  },
   // securityQuestion: {type: String, unique: true},
   // securityAnswer: {type: String, unique: true},
   profilePicture:{type: String},

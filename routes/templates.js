@@ -37,12 +37,9 @@ router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesContro
 //*Deletes original company templates.
 router.delete("/deleteTemplate/:templateId", ensureAuth, templatesController.deleteTemplate);
 
+//*Edit original company templates.
+router.put("/editOriginalTemplate/:templateId", ensureAuth, templatesController.editOriginalTemplate);
 
-//*This will get the page for editing your template.
-router.get("/getEditTemplate/:id?", ensureAuth, templatesController.getEditTemplatePage);
-
-//*Edit a task inside of your template
-router.put("/editTaskInTemplate/:id", ensureAuth, templatesController.editTaskInTemplate);
 
 
 

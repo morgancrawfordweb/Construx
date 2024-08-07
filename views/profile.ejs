@@ -2,15 +2,14 @@
 <div class="container">
   <div class="row mt-5">
       <div class="col-6">
-        <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-          <span class="font-medium text-gray-600 dark:text-gray-300"><%=user.firstName%><%=user.lastName%></span>
-          
+        <div class="">
+          <span class="userName"><%=user.firstName%> <%=user.lastName%></span>
         </div>
 
           <div>
               <a href="/logout" class="col-3 btn btn-primary ">Logout</a>
           </div>
-          <div class="flex items-center justify-between pt-12 overflow-x-auto">
+          <!-- <div class="flex items-center justify-between pt-12 overflow-x-auto">
             <table class="w-full">
               <thead>
                 <tr>
@@ -53,7 +52,7 @@
               </thead>
               <tbody id="calendar-body"></tbody>
             </table>
-          </div>
+          </div> -->
           <!-- calendar is above -->
           <!-- Schedule where everyone should be going or what you have going on
         maybe include your schedule first and foremost, check companyID and then render the events if they share the same ID. Sort Ascending by the persons name. -->

@@ -1,21 +1,49 @@
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
-const CompanySchema = new mongoose.Schema({
-  companyName: { type: String, required: true },
-  address:{type: String, unique:true},
-  emailAddress: { type: String, unique: true },
-  companyPassword: String,
-  phoneNumber:{type: String, unique:true},
-  companyIdNumber: String,
-//   hoursOfOperation: {type: Date, required: false}
 
-  // listOfEmployees:[{
-  //   user: {type: mongoose.Schema.Types.ObjectId, ref: "employeeIdNumber"},
-  //   usercompany: {type: mongoose.Schema.Types.ObjectId, ref: "companyIdNumber"},
-  // }]
-  
+const CompanySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  companyIdNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  subscription: {
+    stripeCustomerId: {
+      type: String,
+      required: true,
+    },
+    stripeSubscriptionId: {
+      type: String,
+      required: true,
+    },
+    tier: {
+      type: String,
+      enum: ['Basic', 'Standard', 'Premium'],
+      required: true,
+    },
+    projectsCount: {
+      type: Number,
+      default: 0,
+    },
+  },
+  projects: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Project',
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
+
+const Company = mongoose.model('Company', CompanySchema);
+module.exports = Company;
+
 
 
 //comanyID hash middleware
