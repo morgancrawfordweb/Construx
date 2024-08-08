@@ -2,41 +2,47 @@
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-6">
-      <h2><%= project.projectName %></h2>
+      <div>
 
+        <h3><b>Project Name: </b><span><%= project.projectName %></span></h3>
+        <br>
 
+        <h3><b>Project Number: </b><span><%= project.projectNumber %></span></h3>
+        <br>
+        
+        <h3><b>Project Description: </b><span><%= project.projectDescription %></span></h3>
+        <br>
+  
+        <h3>Total locations created: <b><%= workLocations.length %></b></h3>
+        <br>
+  
+        
+      </div>
     </div>
-    <div class="col-3 mt-5">
-      <h3>Project Number:</h3>
-      <%= project.projectNumber %>
-      <p><br></p>
-      
-      <h3>Project Description:</h3>
-      <%= project.projectDescription %>
-      <p><br></p>
-
-      <h3>Total locations created : <b><%= workLocations.length %></b></h3>
-      <p></br></p>
-
-      <h3>Assigned Employees:</h3><br>
-      <ul>
-        <% for (var i=0; i<employees.length; i++){%>
-          <li class ="col-6 justify-content-between mt-5"> 
-              <span>Uploaded By:  <%= employees[i]%></span>
-              <br>
-        </li>
-      <% } %>    
-      </ul>
+  
+    <div class="col-6"> <!-- New column for adding employees -->
+      <h3 class="project-heading">Assign an Employee</h3>
       <div class="mt-5">
-        <form action="/project/addEmployees/<%=project._id%>" method="POST">
+        <form action="/project/addEmployees/<%= project._id %>" method="POST">
           <div class="mb-3">
-              <label for="comment" class="form-label">Assign An Employee</label>
-              <input type="text" class="form-control" id="assignedEmployee" name="assignedEmployee">
+            <label for="assignedEmployee" class="form-label">Assign An Employee</label>
+            <input type="text" class="form-control" id="assignedEmployee" name="assignedEmployee">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <ul>
+          <% project.assignedEmployee.forEach(employee=> { %>
+            <li class=""> 
+              <span>-<%= employee %></span>
+              <br>
+            </li>
+          <% }) %>    
+        </ul>
       </div>
     </div>
+  </div>
+  
+    
       
 
     <h3 class="project-heading">Document Section</h3>
@@ -94,7 +100,7 @@
             <label for="location">Location:</label>
             <input type="text" class="form-control" id="location" name="location" required>
           </div>
-          <button type="submit" class="btn btn-primary">Create Work Location</button>
+          <button type="submit" class="btn btn-primary mt-1 mb-3">Create Work Location</button>
         </form>
       </div>
 
@@ -107,10 +113,9 @@
 
             <details class="work-location">
             <summary>
-              <h4 class="template-heading">Location:</h4>
-                <h6 class="template-heading-detail"><%= object.location%></h6>
-              <h5 class="template-heading">Work Performed:</h5><%= object.templateName %>
-              <h5 class="template-heading">Task completion:</h5> <%= object.totalSignatures %> / <%= object.tasks.length %></h5>
+              <h4 class="template-heading"><b>Location:</b> <span><%= object.location%></span></h4>
+              <h5 class="template-heading"><b>Work Performed:</b> <span><%= object.templateName %></span> </h5>
+              <h5 class="template-heading"><b>Task completion:</b> <span><%= object.totalSignatures %> / <%= object.tasks.length %></span></h5>
 
 
             </summary>
@@ -155,15 +160,14 @@
             <div>
               <ul class="flex-grid">
                 <% for (var i=0; i<imageDocuments.length; i++){%>
-                  <li class ="image-item"> 
-                    <a class ="template-heading document-heading" href="<%=imageDocuments[i].image%>" download><%=imageDocuments[i].fileName%></a>
+                  <li class ="image-item "> 
+                    <a class ="template-heading document-heading mt-2 mb-2" href="<%=imageDocuments[i].image%>" download><%=imageDocuments[i].fileName%></a>
                     <img class="images" src="<%=imageDocuments[i].image%>">
-                    <p><b>Image Description:</b> <%= imageDocuments[i].description %></p>
-                      <form action="/document/deleteDocument/<%=project._id%>/<%=imageDocuments[i]._id %>?_method=DELETE" method="POST">
-                        <br>
+                      <br>
                         <span><b>Date Submitted:</b> <%= imageDocuments[i].dateSubmitted.toDateString()%></span>
                         <span><b>Submitted By:</b> <%= imageDocuments[i].uploadedById.firstName%> <%= imageDocuments[i].uploadedById.lastName%></span>
-
+                        <p><b>Image Description:</b> <%= imageDocuments[i].description %></p>
+                      <form class="pt-5 pb-2 m-auto" action="/document/deleteDocument/<%=project._id%>/<%=imageDocuments[i]._id %>?_method=DELETE" method="POST">
                         <button type="submit" class="btn btn-secondary">Delete Document</button>
                       </form>
                 </li>

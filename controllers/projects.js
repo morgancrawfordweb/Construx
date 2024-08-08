@@ -10,10 +10,11 @@ const Template = require("../models/Template")
 module.exports = {
   getProfile: async (req, res) => {
     try {
-      //? I think this gives me all of the projects that i created with my userId
       const projects = await Project.find({ user: req.user.id}); //req ? {do this... check user ? {do this... check .id}}
       const event = await Event.find({user: req.user.id})
-      res.render("profile.ejs", {projects: projects, user: req.user, company: req.company,event: event});
+      const coworkers = await User.find({companyId: req.user.companyId});
+
+      res.render("profile.ejs", {projects: projects, user: req.user, company: req.company,event: event, coworkers:coworkers});
     } catch (err) {
       console.log(err);
     }
@@ -34,9 +35,6 @@ module.exports = {
   },
   getProject: async (req, res) => {
     try {
-
-      
-
       const user = await User.find({companyId: req.params.id});
     //   const company = await Company.find({companyId: req.params.id});
       const project = await Project.findById(req.params.id);
@@ -118,11 +116,11 @@ module.exports = {
   addEmployee: async(req,res)=>{
     try{
       const projectId= req.params.id
-      const employees = req.body.employees
+      const assignedEmployee = req.body.assignedEmployee
       //I think later on I want to be able to reference the users, but for now, lets just do string names.
     await Project.updateOne(
         { _id: projectId},
-        { $addToSet: { employees: employees } },
+        { $addToSet: { assignedEmployee: assignedEmployee } },
       );
       
       console.log('Employee added')

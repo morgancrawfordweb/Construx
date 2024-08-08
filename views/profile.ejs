@@ -10,7 +10,7 @@
 
     <div class="col-6">
       <div class="mt-5">
-        <h2 class="project-heading">Add a project</h2>
+        <h3 class="project-heading">Add a project</h2>
         <form action="/project/createProject" enctype="multipart/form-data" method="POST">
           <div class="mb-3">
             <label for="projectName" class="form-label">Project Name</label>
@@ -37,7 +37,7 @@
     </div>  
 
     <div class="col-4">
-      <h2 class="project-heading">Projects you have created</h2>
+      <h3 class="project-heading">Projects you have created</h2>
       <ul class="flex-grid">
         <% for(var i=0; i<projects.length; i++) {%>
           <li class="p-2 document-item">
@@ -46,8 +46,21 @@
             </a>
           </li>
         <% } %>
-        <a class="btn btn-primary" href="/feed">See all of <%= user.company %> projects.</a>
+        
       </ul>
+        <a class="btn btn-primary" href="/feed">See all of <%= user.company %> projects.</a>
+      <div>
+        <h3 class="project-heading">Employee Directory</h3>
+        <ul class="flex-grid">
+          <% for(var i=0; i<coworkers.length; i++) {%>
+            <li class="p-2 document-item">
+                <h4><%= coworkers[i].firstName %> <%= coworkers[i].lastName %></h4>
+                <h4>Contact: <%= coworkers[i].phoneNumber%>
+              </a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
     </div>  
 
   </div> <!-- Close the row here -->

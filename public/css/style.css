@@ -100,6 +100,9 @@ body{
 /* ! */
 /* Button Styles */
 /* ! */
+.btn{
+  margin: 0 0 2% 0;
+}
 .btn-primary{
   font-family: 'Rubik';
   background-color: var(--green);
@@ -135,7 +138,6 @@ body{
 .template-heading{
   font-size: 18px;
   padding: 0 0.2% 0 2%;
-  font-weight: 600;
 }
 .template-task{
   font-size: 18px;
@@ -260,7 +262,9 @@ body{
   padding: 3% 0;
 }
 
-
+.our-audience{
+  background-color: var(--lightPurple);
+}
 .fa-trash{
   color: var(--green);
   padding: 5px
@@ -288,6 +292,7 @@ body{
   font-size: 1.4rem;
 }
 
+
 /* ! */
 /* Styling for project display */
 /* ! */
@@ -295,10 +300,11 @@ body{
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
   margin: 2% 0;
+  padding: 0 2%;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.3);
 }
 
-details summary {
+.details summary{
   list-style: none;
   cursor: pointer;
   position: relative;
@@ -313,7 +319,7 @@ details summary {
 }
 
 .template-task{
-  padding: 1% 0 0 2%
+  padding: 1% 0;
 }
 
 .work-location summary{
@@ -351,6 +357,7 @@ details summary {
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
   margin: 2% 0;
+  padding: 0 2%;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
   width: auto;
   display: flex;
@@ -513,7 +520,7 @@ nav {
 /* ! */
 /* ! */
 /* Responsive Styles for cell phone*/
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .ham-menu {
       display: flex;
       margin-right: 10%;
@@ -562,11 +569,15 @@ nav {
   padding: 3% 0;
 }
 .off-screen-menu{
-  width: 60%;
+  width: 40%;
 }
 .disclaimer{
   margin-bottom: 15%;
   font-size: 1.2rem;
+}
+ .work-location summary{
+  display: flex;
+  flex-direction: column;
 }
 }
 
