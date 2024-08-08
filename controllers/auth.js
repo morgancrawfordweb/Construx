@@ -82,7 +82,7 @@ exports.postSignup = (req, res, next) => {
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
-    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.company || !req.body.phoneNumber || !req.body.companyIdNumber) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.company || !req.body.phoneNumber || !req.body.companyId) {
       validationErrors.push({ msg: "All fields are required." });
     }
 
@@ -101,10 +101,8 @@ exports.postSignup = (req, res, next) => {
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
     company: req.body.company,
-    companyIdNumber: req.body.companyIdNumber,
-    // employeeIdNumber: req.body.employeeIdNumber,
-    // securityQuestion: req.body.securityQuestion,
-    // securityAnswer: req.body.securityAnswer
+    companyId: req.body.companyId,
+
   });
 
   

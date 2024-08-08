@@ -9,7 +9,7 @@ module.exports = {
   //*This gets the page to fill out your template to be used at a later time.//
   getCreateTemplatePage: async (req,res)=>{
     try{
-      const templates = await Template.find({companyIdNumber: req.user.companyIdNumber});
+      const templates = await Template.find({companyId: req.user.companyId});
 
       res.render("template.ejs",{templates:templates})
     }catch(err){
@@ -50,7 +50,7 @@ createTemplate: async (req, res) => {
           templateName: req.body.templateName,
           tasks: newTask,
           user: req.user.id,
-          companyIdNumber: createdUser.companyIdNumber,
+          companyId: createdUser.companyId,
           reference: req.body.reference,
           isOriginal: true
         });  
@@ -84,7 +84,7 @@ createTemplate: async (req, res) => {
           location,
           tasks: template.tasks,
           project: req.params.id,
-          companyIdNumber: req.user.companyIdNumber,
+          companyId: req.user.companyId,
           projectName: project.projectName,
           user: req.user.id,
           isOriginal: false

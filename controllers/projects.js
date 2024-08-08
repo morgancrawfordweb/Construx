@@ -23,9 +23,9 @@ module.exports = {
       //?node: UUID -> Creates a unique number for companyID
       //! Need to sort by users companyId to get 
       const user = await User.findOne({_id: req.user._id});
-      const projects = await Project.find({companyIdNumber: user?.companyIdNumber}).sort({ createdAt: "desc" }).lean();
+      const projects = await Project.find({companyId: user?.companyId}).sort({ createdAt: "desc" }).lean();
 
-      res.render("feed.ejs", {projects: projects});
+      res.render("feed.ejs", {projects: projects, user: user});
 
     } catch (err) {
       console.log(err)
@@ -37,12 +37,12 @@ module.exports = {
 
       
 
-      const user = await User.find({companyIdNumber: req.params.id});
-    //   const company = await Company.find({companyIdNumber: req.params.id});
+      const user = await User.find({companyId: req.params.id});
+    //   const company = await Company.find({companyId: req.params.id});
       const project = await Project.findById(req.params.id);
-      const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).lean();
+      const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).populate('uploadedById', 'firstName lastName').lean();
       const employees = await Project.find({assignedEmployee: req.params.id}).sort({createdAt: "desc"}).lean();
-      const templates = await Template.find({companyIdNumber: req.user.companyIdNumber});
+      const templates = await Template.find({companyId: req.user.companyId});
       const workLocations = await Template.find({project: req.params.id}).lean();
 
       //*Checks how many signatures were signed and renders them on the EJS
@@ -84,13 +84,12 @@ module.exports = {
         projectNumber: req.body.projectNumber,
         projectDescription: req.body.projectDescription,
         user: req.user.id,
-        companyIdNumber: createdUser.companyIdNumber,
-        // createdById: req.user.id,
+        companyId: createdUser.companyId,
       });
       console.log("Project has been created");
       res.redirect("/profile");
     } catch (err) {
-      // console.log(err);
+      console.log(err);
       // alert('Their is already a project with those parameters in the database.')
     }
   },

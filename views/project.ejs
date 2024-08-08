@@ -66,9 +66,9 @@
                 <li class ="document-item"> 
                   <a class ="template-heading" href="<%=nonImageDocuments[i].image%>" download><%=nonImageDocuments[i].fileName%></a>
                     <form action="/document/deleteDocument/<%=project._id%>/<%=nonImageDocuments[i]._id %>?_method=DELETE" method="POST">
-                    <span>Uploaded By:  <%=  nonImageDocuments[i].uploadedBy%></span>
+                    <span>Uploaded By:  <%=  nonImageDocuments[i].uploadedById.firstName%> <%=  nonImageDocuments[i].uploadedById.lastName%></span>
                     <br>
-                      <button type="submit" class="btn btn-outline-danger">Delete Document</button>
+                      <button type="submit" class="btn btn-secondary">Delete Document</button>
                     </form>
               </li>
             <% } %>    
@@ -158,11 +158,13 @@
                   <li class ="image-item"> 
                     <a class ="template-heading document-heading" href="<%=imageDocuments[i].image%>" download><%=imageDocuments[i].fileName%></a>
                     <img class="images" src="<%=imageDocuments[i].image%>">
-                    <p><%= imageDocuments[i].description %></p>
+                    <p><b>Image Description:</b> <%= imageDocuments[i].description %></p>
                       <form action="/document/deleteDocument/<%=project._id%>/<%=imageDocuments[i]._id %>?_method=DELETE" method="POST">
                         <br>
-                        <span><b>Date Submitted:</b> <%= imageDocuments[i].dateSubmitted.toDateString()%>
-                        <button type="submit" class="btn btn-outline-danger">Delete Document</button>
+                        <span><b>Date Submitted:</b> <%= imageDocuments[i].dateSubmitted.toDateString()%></span>
+                        <span><b>Submitted By:</b> <%= imageDocuments[i].uploadedById.firstName%> <%= imageDocuments[i].uploadedById.lastName%></span>
+
+                        <button type="submit" class="btn btn-secondary">Delete Document</button>
                       </form>
                 </li>
               <% } %>    

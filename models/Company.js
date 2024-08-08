@@ -7,7 +7,7 @@ const CompanySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  companyIdNumber: {
+  companyId: {
     type: String,
     required: true,
     unique: true,
@@ -71,18 +71,18 @@ CompanySchema.pre("save", function save(next) {
 //CompanyID Hash
 // CompanySchema.pre("save", function save(next) {
 //   const company = this;
-//   if (!company.isModified("companyIdNumber")) {
+//   if (!company.isModified("companyId")) {
 //     return next();
 //   }
 //   bcrypt.genSalt(10, (err, salt) => {
 //     if (err) {
 //       return next(err);
 //     }
-//     bcrypt.hash(company.companyIdNumber, salt, (err, hash) => {
+//     bcrypt.hash(company.companyId, salt, (err, hash) => {
 //       if (err) {
 //         return next(err);
 //       }
-//       company.companyIdNumber = hash;
+//       company.companyId = hash;
 //       next();
 //     });
 //   });
@@ -109,7 +109,7 @@ CompanySchema.methods.compareCompanyPassword = function compareCompanyPassword(
 //   candidateCompanyIdNumber,
 //   cb
 // ) {
-//   bcrypt.compare(candidateCompanyIdNumber, this.companyIdNumber, (err, isMatch) => {
+//   bcrypt.compare(candidateCompanyIdNumber, this.companyId, (err, isMatch) => {
 //     cb(err, isMatch);
 //   });
 // };

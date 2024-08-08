@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
   company: {type: String, require:true },
   phoneNumber:{type:String, required:true },
   // employeeIdNumber:{type:String,required:true, unique: true},
-  companyIdNumber: String,
+  companyId: String,
   roles: {
     type: [{
         type: String,
@@ -47,10 +47,10 @@ UserSchema.pre("save", function save(next) {
   });
 });
 
-//properly hashes the companyIdNumber to add more security to documents and templates.
+//properly hashes the companyId to add more security to documents and templates.
 UserSchema.pre('save', function(next) {
-  if (this.isModified('companyIdNumber')) {
-    this.companyIdNumber = CryptoJS.SHA256(this.companyIdNumber).toString(CryptoJS.enc.Hex);
+  if (this.isModified('companyId')) {
+    this.companyId = CryptoJS.SHA256(this.companyId).toString(CryptoJS.enc.Hex);
   }
   next();
 });

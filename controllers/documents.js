@@ -62,25 +62,5 @@ module.exports = {
       console.log(err);
     }
   },
-    // renderTemplate: async(req,res)=>{
-    //   try{
-    //       // const project = await Project.findById(req.params.id)
-    //       const originalTemplate = await Template.findById(req.params.id)
-    //       const uploadedUser = await User.findById(req.user.id)
-    //       const result = await cloudinary.uploader.upload(req.file.path, { pages : true, flag : "attachment" });
-
-    //       const newTemplate = new Template({
-    //         name: originalTemplate.name,
-    //         location: req.body.location,
-    //         createdBy: uploadedUser.userName,
-    //         image: originalTemplate.image,
-    //         cloudinaryId: result.public_id,
-    //         companyIdNumber: uploadedUser.companyIdNumber,
-    //         project: req.params.id,
-    //       })
-    //   }catch(err){
-    //     console.log(err)
-    //   }
-    // },
 
   };
