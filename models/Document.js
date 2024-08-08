@@ -25,21 +25,13 @@ cloudinaryId: {
     type: String,
     require: true,
   },
-user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-},
-createdAt: {
-    default: Date.now(),
-    type: Date,
-},
-uploadedById: {
+uploadedById:{
   type: mongoose.Schema.Types.ObjectId,
   ref:"User",
 },
-uploadedBy:{
-  type: String,
-  ref:"User",
+dateSubmitted:{
+  type: Date,
+  default: Date.now(),
 }
 });
 

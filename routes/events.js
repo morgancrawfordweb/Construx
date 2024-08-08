@@ -7,7 +7,7 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 router.get("/", ensureAuth, eventController.getCalendar);
 
-router.get("/", ensureAuth, eventController.getEvent);
+router.get("/getEvent", ensureAuth, eventController.getEvent);
 
 
 //This is for creating my calendar days where someone will work.
@@ -15,10 +15,6 @@ router.post("/createEvent", eventController.createEvent);
 
 router.put("/updateEvent/:id", eventController.updateEvent);
 
-
-// router.put("/likePost/:id", calendarController.likePost);
 router.delete("/deleteEvent/:id", eventController.deleteEvent);
-
-
 
 module.exports = router;

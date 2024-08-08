@@ -3,18 +3,18 @@ const mongoose = require("mongoose");
 
 const EventSchema = new mongoose.Schema({
     title:{
-      type: String
+      type: String,
+      required: true 
     },
     projectNumber:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ProjectNumber"
+      type: String,
     },
     employee:{
       type: mongoose.Schema.Types.ObjectId,
-      ref:"UserName"
+      ref:"User"
     },
     start:{
-      type:Date,
+      type:Date
     },
     end:{
       type:Date

@@ -82,6 +82,10 @@ exports.postSignup = (req, res, next) => {
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.company || !req.body.phoneNumber || !req.body.companyId) {
+      validationErrors.push({ msg: "All fields are required." });
+    }
+
   if (validationErrors.length) {
     req.flash("errors", validationErrors);
     return res.redirect("../signup");
@@ -91,26 +95,30 @@ exports.postSignup = (req, res, next) => {
   });
 
   const user = new User({
-    userName: req.body.userName,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
     company: req.body.company,
-    companyIdNumber: req.body.companyIdNumber,
-    employeeIdNumber: req.body.employeeIdNumber,
-    securityQuestion: req.body.securityQuestion,
-    securityAnswer: req.body.securityAnswer
+    companyId: req.body.companyId,
+
   });
 
+  
+
   User.findOne(
-    { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+    { $or: [{ email: req.body.email }, 
+      // { firstName: req.body.firstName }, { lastName: req.body.lastName }
+    
+    ] },
     (err, existingUser) => {
       if (err) {
         return next(err);
       }
       if (existingUser) {
         req.flash("errors", {
-          msg: "Account with that email address or username already exists.",
+          msg: "Account with that email address already exists",
         });
         return res.redirect("../signup");
       }

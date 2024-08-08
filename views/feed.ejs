@@ -1,22 +1,23 @@
 <%- include('partials/header') -%>
   <div class="container">
-    <div class="row justify-content-center mt-5">
-      <ul class="row list-unstyled">
-        <h1 class="row justify-content-center mt-5">Ongoing projects</h1>
+    <div class="justify-content-center mt-5">
+        <h1 class="project-heading mb-5"><%= user.company%>: ongoing projects</h1>
         <% if (projects.length === 0) { %>
-          <h2>No Projects can be found for your company in the database!</h2>
+          <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
         <% }  %>
+        <ul class="grid-container m-5">
         <% for(var i=0; i<projects.length; i++) {%>
-          <li class="col-6 justify-content-between mt-5">
+          <li class="grid-item">
             <a href="/project/<%= projects[i]._id%>">
               <h4><%= projects[i].projectName%></h4>
             </a>
           </li>
         <% } %>
         </ul>
-        <div class="row justify-content-center mt-5">
-          <a class="btn btn-primary" href="/profile">Return to your profile!</a>
-        </div>  
+        
     </div>
+    <div class="row justify-content-center">
+      <a class=" mb-5 btn btn-primary" href="/profile">Return to your profile!</a>
+    </div>  
   </div>  
 <%- include('partials/footer') -%>

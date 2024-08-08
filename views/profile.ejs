@@ -1,117 +1,69 @@
 <%- include('partials/header') -%>
 <div class="container">
-  <div class="row mt-5">
-      <div class="col-6">
-        <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-          <span class="font-medium text-gray-600 dark:text-gray-300"><%=user.userName%></span>
-        </div>
-          <div>
-              <a href="/logout" class="col-3 btn btn-primary ">Logout</a>
-          </div>
-          <div class="flex items-center justify-between pt-12 overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr>
-                  <th>
-                    <div class="w-full flex justify-center">
-                      <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Mo</p>
-                    </div>
-                  </th>
-                  <th>
-                    <div class="w-full flex justify-center">
-                      <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Tu</p>
-                    </div>
-                  </th>
-                  <th>
-                    <div class="w-full flex justify-center">
-                      <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">We</p>
-                    </div>
-                  </th>
-                  <th>
-                    <div class="w-full flex justify-center">
-                      <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Th</p>
-                    </div>
-                  </th>
-                  <th>
-                    <div class="w-full flex justify-center">
-                      <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Fr</p>
-                    </div>
-                  </th>
-                  <th>
-                    <div class="w-full flex justify-center">
-                      <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Sa</p>
-                    </div>
-                  </th>
-                  <th>
-                    <div class="w-full flex justify-center">
-                      <p class="text-base font-medium text-center text-gray-800 dark:text-gray-100">Su</p>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="calendar-body"></tbody>
-            </table>
-          </div>
-          <!-- calendar is above -->
-          <!-- Schedule where everyone should be going or what you have going on
-        maybe include your schedule first and foremost, check companyID and then render the events if they share the same ID. Sort Ascending by the persons name. -->
-
-
-      </div>
-      <div class="col-6">
-        <div class="mt-5">
-          <h2>Add a template for later use for your projects!</h2>
-          <form action="/documents/createTemplate" enctype="multipart/form-data" method="POST">
-            <div class="mb-3">
-                <label for="name" class="form-label">Template Name</label>
-                <input type="text" class="form-control" id="name" name="templateName">
-            </div>
-            <div class ="mb-3">
-              <label for="templateUpload" class="form-label">Template PDF</label>
-              <input type="file" class="form-control" id="templateUpload" name="file">
-            </div>
-            <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
-          </form>
-        </div>
-      <div class="col-6">
-        <div class="mt-5">
-          <h2>Add a project</h2>
-          <form action="/project/createProject" enctype="multipart/form-data" method="POST">
-            <div class="mb-3">
-                <label for="projectName" class="form-label">Project Name</label>
-                <input type="text" class="form-control" id="projectName" name="projectName">
-            </div>
-            <div class="mb-3">
-              <label for="projectNumber" class="form-label">Project Number</label>
-              <input type="text" class="form-control" id="projectNumber" name="projectNumber">
-            </div>
-            <div class="mb-3">
-              <label for="projectDescription" class="form-label">Project Description</label>
-              <textarea class="form-control" id="projectDescription" name="projectDescription"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
-          </form>
-        </div>
-        <ul class="row list-unstyled">
-          <h2>Projects you have created</h2>
-            <% for(var i=0; i<projects.length; i++) {%>
-              <li class="col-6 justify-content-between mt-5">
-                <a href="/project/<%= projects[i]._id%>">
-                  <h4><%= projects[i].projectName%></h4>
-                </a>
-              </li>
-            <% } %>
-          </ul>
-          <div class="row justify-content-center mt-5">
-            <a class="btn btn-primary" href="/feed">See all of  
-              <%= user.company %> projects.</a>
-          </div>  
-
-        </div>  
-      </div>  
-    </div>
+  
+  <div class="col-12">
+    <span class="userName">Logged in as: <b><%=user.firstName%> <%=user.lastName%></b></span>
   </div>
-</div>
+
+  <div class="row"> <!-- Add this row wrapper -->
+
+
+    <div class="col-6">
+      <div class="mt-5">
+        <h3 class="project-heading">Add a project</h2>
+        <form action="/project/createProject" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="projectName" class="form-label">Project Name</label>
+            <input type="text" class="form-control" id="projectName" name="projectName">
+          </div>
+          <div class="mb-3">
+            <label for="projectNumber" class="form-label">Project Number</label>
+            <input type="text" class="form-control" id="projectNumber" name="projectNumber">
+          </div>
+          <div class="mb-3">
+            <label for="projectDescription" class="form-label">Project Description</label>
+            <textarea class="form-control" id="projectDescription" name="projectDescription"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+      
+      <div class="row justify-content-center mt-5">
+        <a href="/template/createTemplatePage" class="m-3 btn btn-primary">Template Creation Page</a>
+      </div>  
+      <div>
+        <a href="/logout" class="col-3 btn btn-primary mt-10">Logout</a>
+      </div>
+    </div>  
+
+    <div class="col-4">
+      <h3 class="project-heading">Projects you have created</h2>
+      <ul class="flex-grid">
+        <% for(var i=0; i<projects.length; i++) {%>
+          <li class="p-2 document-item">
+            <a class="template-heading" href="/project/<%= projects[i]._id%>">
+              <h4><%= projects[i].projectName%></h4>
+            </a>
+          </li>
+        <% } %>
+        
+      </ul>
+        <a class="btn btn-primary" href="/feed">See all of <%= user.company %> projects.</a>
+      <div>
+        <h3 class="project-heading">Employee Directory</h3>
+        <ul class="flex-grid">
+          <% for(var i=0; i<coworkers.length; i++) {%>
+            <li class="p-2 document-item">
+                <h4><%= coworkers[i].firstName %> <%= coworkers[i].lastName %></h4>
+                <h4>Contact: <%= coworkers[i].phoneNumber%>
+              </a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>  
+
+  </div> <!-- Close the row here -->
 </div>
 
 <%- include('partials/footer') -%>

@@ -2,34 +2,51 @@
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-6">
-      <h2><%= project.projectName %></h2>
+      <div>
 
+        <h3><b>Project Name: </b><span><%= project.projectName %></span></h3>
+        <br>
+
+        <h3><b>Project Number: </b><span><%= project.projectNumber %></span></h3>
+        <br>
+        
+        <h3><b>Project Description: </b><span><%= project.projectDescription %></span></h3>
+        <br>
+  
+        <h3>Total locations created: <b><%= workLocations.length %></b></h3>
+        <br>
+  
+        
+      </div>
     </div>
-    <div class="col-3 mt-5">
-      <p><h3>Created By:</h3><%=  project.createdBy%></p>
-      <p><h3>Project Number:</h3><%= project.projectNumber%></p>
-      <p><h3>Project Description:</h3><%= project.projectDescription%></p>
-      <!-- <p><h3>Assigned Employees:</h3></p>
-      <% for(var i=0; i<employees.length; i++) {%>
-        <h4><%= employees[i].userName%></h4>
-      <% } %> -->
-
- 
-      <!-- <div class="mt-5">
-        <h2>Assign An Employee</h2>
-        <form action="/project/addEmployees/<%=project._id%>" method="POST">
+  
+    <div class="col-6"> <!-- New column for adding employees -->
+      <h3 class="project-heading">Assign an Employee</h3>
+      <div class="mt-5">
+        <form action="/project/addEmployees/<%= project._id %>" method="POST">
           <div class="mb-3">
-              <label for="comment" class="form-label">Assigned Employee</label>
-              <input type="text" class="form-control" id="employee" name="employee">
+            <label for="assignedEmployee" class="form-label">Assign An Employee</label>
+            <input type="text" class="form-control" id="assignedEmployee" name="assignedEmployee">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-      </div> -->
+        <ul>
+          <% project.assignedEmployee.forEach(employee=> { %>
+            <li class=""> 
+              <span>-<%= employee %></span>
+              <br>
+            </li>
+          <% }) %>    
+        </ul>
+      </div>
     </div>
-
-    <h3>Document Section</h3>
+  </div>
+  
     
-    <%#You can submit all of your documents here%>
+      
+
+    <h3 class="project-heading">Document Section</h3>
+      <span>Files accepted: .pdf, .png, .img, .jpg, and .jpeg</span>
     <ul>
       <form action="/document/createDocument/<%=project._id%>" enctype="multipart/form-data" method="POST">
         <div class ="mb-3">
@@ -44,25 +61,120 @@
           <label for="fileUpload" class="form-label">Document File</label>
           <input type="file" class="form-control" id="documentUpload" name="file">
         </div>
-
           <button type="submit" class ="btn btn-primary">Submit Document</button>
       </form>
     </ul>
 
+      
+        <div>
+            <ul class="flex-grid">
+              <% for (var i=0; i<nonImageDocuments.length; i++){%>
+                <li class ="document-item"> 
+                  <a class ="template-heading" href="<%=nonImageDocuments[i].image%>" download><%=nonImageDocuments[i].fileName%></a>
+                    <form action="/document/deleteDocument/<%=project._id%>/<%=nonImageDocuments[i]._id %>?_method=DELETE" method="POST">
+                    <span>Uploaded By:  <%=  nonImageDocuments[i].uploadedById.firstName%> <%=  nonImageDocuments[i].uploadedById.lastName%></span>
+                    <br>
+                      <button type="submit" class="btn btn-secondary">Delete Document</button>
+                    </form>
+              </li>
+            <% } %>    
+            </ul>
+        </div>
+      
+      <div class="container">
+        <h3 class="project-heading">Create a New Work Location</h3>
+        <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=project._id%>" method="POST">
+          <div class="form-group">
+            <label for="templateSelect">Select Template:</label>
+            <select class="form-control" id="templateSelect" name="selectedTemplate" required>
+              
+                <% templates.forEach(template => { %>
+                  <% if(template.isOriginal===true){ %>
+                  <option value="<%= template._id %>"><%= template.templateName %></option>
+                  <% } %>
+                <% }) %>
+              
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+          </div>
+          <button type="submit" class="btn btn-primary mt-1 mb-3">Create Work Location</button>
+        </form>
+      </div>
 
-    <ul>
-      <% for (var i=0; i<documents.length; i++){%>
-        <li class ="col-6 justify-content-between mt-5"> 
-          <a href="<%=documents[i].image%>" download><%=documents[i].fileName%><a>
-            <form action="/document/deleteDocument/<%=project._id%>/<%=documents[i]._id %>?_method=DELETE" method="POST">
-            <span>Uploaded By:  <%=  documents[i].uploadedBy%></span>
-            <br>
-              <button type="submit" class="btn btn-outline-danger">Delete Document</button>
-            </form>
-      </li>
-    <% } %>    
-    </ul>
+      <div>
+        <h3 class="project-heading"> Current Work Locations </h3>
+        <div class="location-container">
+          
+          <% workLocations.forEach(object => { %>
+            <% if(object.isOriginal===false && object){ %>
 
+            <details class="work-location">
+            <summary>
+              <h4 class="template-heading"><b>Location:</b> <span><%= object.location%></span></h4>
+              <h5 class="template-heading"><b>Work Performed:</b> <span><%= object.templateName %></span> </h5>
+              <h5 class="template-heading"><b>Task completion:</b> <span><%= object.totalSignatures %> / <%= object.tasks.length %></span></h5>
+
+
+            </summary>
+            <ul>
+                <% object.tasks.forEach(task => { %>
+                    <li class="template-task">
+                        <%= task.taskDetail %>
+
+                        
+                    </li>
+                    <li class="signature-box">
+                      <form action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
+                        <button class="btn btn-primary signature-btn" type="submit">Signature Here</button>
+                      </form>
+                      <% task.signature.forEach(signature => { %>
+                        
+                        <div>
+                          <span><b>Signed by</b>: <%= signature.initial %></span> /
+                          <span><b>Date</b>: <%= signature.dateCompleted.toDateString() %></span>
+                          <form action ="/template/deleteSignature/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST"><button><i class="fa-solid fa-trash"></i></button>
+                          </form>
+                        </div>
+
+                      <% }) %>
+                    </li>
+                    <br>
+                    <% }) %>
+                    <form class="delete-signature" action ="/template/deleteWorkLocation/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
+                      <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
+                    </form>
+                  </details>
+                <% }else { %>
+                <%}%>
+            </ul>
+            
+        <% }) %>
+        </div>
+      </div>
+
+      <div class="container">
+        <h3 class="project-heading ">Pictures</h3>
+            <div>
+              <ul class="flex-grid">
+                <% for (var i=0; i<imageDocuments.length; i++){%>
+                  <li class ="image-item "> 
+                    <a class ="template-heading document-heading mt-2 mb-2" href="<%=imageDocuments[i].image%>" download><%=imageDocuments[i].fileName%></a>
+                    <img class="images" src="<%=imageDocuments[i].image%>">
+                      <br>
+                        <span><b>Date Submitted:</b> <%= imageDocuments[i].dateSubmitted.toDateString()%></span>
+                        <span><b>Submitted By:</b> <%= imageDocuments[i].uploadedById.firstName%> <%= imageDocuments[i].uploadedById.lastName%></span>
+                        <p><b>Image Description:</b> <%= imageDocuments[i].description %></p>
+                      <form class="pt-5 pb-2 m-auto" action="/document/deleteDocument/<%=project._id%>/<%=imageDocuments[i]._id %>?_method=DELETE" method="POST">
+                        <button type="submit" class="btn btn-secondary">Delete Document</button>
+                      </form>
+                </li>
+              <% } %>    
+              </ul>
+          </div>
+      </div>
   
     <div class="col-6 mt-5">
         <div>
@@ -71,8 +183,11 @@
           </form>
         </div>
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
+      <a class="btn btn-primary" href="/feed">Return to <%= user.company %> projects.</a>
     </div>
+    
   </div>
 </div>
+
 
 <%- include('partials/footer') -%>
