@@ -6,12 +6,39 @@ const CompanySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique:true,
   },
   companyId: {
     type: String,
     required: true,
     unique: true,
   },
+  password:{
+    type: String,
+    required: true
+  },
+  companyEmail: { 
+    type: String,
+    required: true, 
+    unique: true,
+  },
+  // All of the current users and everything that they can create gets stored here inside of these arrays.
+  users:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  projects: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Project',
+  }],
+  documents:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Documents'
+  }],
+  templates:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Templates'
+  }],
   subscription: {
     stripeCustomerId: {
       type: String,
@@ -31,14 +58,7 @@ const CompanySchema = new mongoose.Schema({
       default: 0,
     },
   },
-  projects: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Project',
-  }],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+
 });
 
 const Company = mongoose.model('Company', CompanySchema);

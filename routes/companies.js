@@ -7,7 +7,6 @@ const homeController = require("../controllers/home");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 
-router.get("/", homeController.getIndex);
 router.get("/companyProfile", ensureAuth, companyController.getCompanyProfile);
 
 //Company log-in
@@ -16,12 +15,15 @@ router.get("/companyLogin", companyAuthController.getCompanyLogin);
 router.post("/companyLogin", companyAuthController.postCompanyLogin);
 
 
+router.get("/generateRandomCompanyId", companyController.generateRandomCompanyId)
+
+
 router.get("/companyLogout", companyAuthController.companyLogout);
 
 
-//Company Sign up
-router.get("/companySignup", companyAuthController.getCompanySignup);
-router.post("/companySignup", companyAuthController.postCompanySignup);
+//Company Register Page
+router.get("/registerCompany", companyAuthController.getCompanyRegister);
+router.post("/registerCompany", companyAuthController.postCompanyRegister);
 
 
 

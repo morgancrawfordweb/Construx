@@ -5,6 +5,8 @@ const homeController = require("../controllers/home");
 const projectsController = require("../controllers/projects");
 const forgotPasswordController = require("../controllers/forgotPassword");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
+const companyController = require("../controllers/company")
+const companyAuthController = require("../controllers/companyAuth");
 
 
 
@@ -23,10 +25,28 @@ router.post("/login", authController.postLogin);
 
 
 router.get("/logout", authController.logout);
+
 router.get("/signup", authController.getSignup);
 router.post("/signup", authController.postSignup);
 
+// Company Routes
+router.get("/companyProfile", ensureAuth, companyController.getCompanyProfile);
 
+//Company log-in
+//This way you can add different bios and update your team etc.
+router.get("/companyLogin", companyAuthController.getCompanyLogin);
+router.post("/companyLogin", companyAuthController.postCompanyLogin);
+
+
+router.get("/generateRandomCompanyId", companyController.generateRandomCompanyId)
+
+
+router.get("/companyLogout", companyAuthController.companyLogout);
+
+
+//Company Register Page
+router.get("/registerCompany", companyAuthController.getCompanyRegister);
+router.post("/registerCompany", companyAuthController.postCompanyRegister);
 
 
 router.get("/about", homeController.getAbout)

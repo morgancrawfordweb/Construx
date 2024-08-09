@@ -1,6 +1,7 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
+const Company = require("../models/Company")
 
 
 
@@ -79,6 +80,10 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({
       msg: "Password must be at least 8 characters long",
     });
+    if (!validator.isLength(req.body.companyId, { min: 12 }))
+    validationErrors.push({
+      msg: "companyId must be at least 12 characters long",
+    });
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
@@ -110,7 +115,6 @@ exports.postSignup = (req, res, next) => {
   User.findOne(
     { $or: [{ email: req.body.email }, 
       // { firstName: req.body.firstName }, { lastName: req.body.lastName }
-    
     ] },
     (err, existingUser) => {
       if (err) {

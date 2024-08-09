@@ -17,7 +17,7 @@ exports.getCompanyLogin = (req, res) => {
   exports.postCompanyLogin = (req, res, next) => {
     const validationErrors = [];
     if (!validator.isEmail(req.body.emailAddress))
-      validationErrors.push({ msg: "Please enter a valid email address." });
+      validationErrors.push({ msg: "Please enter a valid companyEmail address." });
     if (validator.isEmpty(req.body.companyPassword))
       validationErrors.push({ msg: "Password cannot be blank." });
   
@@ -61,34 +61,38 @@ exports.getCompanyLogin = (req, res) => {
 
 //This is to sign the company up to use the service.//
 
-exports.getCompanySignup = (req, res) => {
+exports.getCompanyRegister = (req, res) => {
+
     if (req.company) {
-      return res.redirect("../companyProfile");
+      return res.redirect("../companyProfile.ejs");
     }
-    res.render("companySignup", {
+    res.render("registerCompany", {
       title: "Create Company Account",
     });
   };
+
+  exports.generateRandomCompanyId = ()=>{
+    const generatedCompanyId = uuidv4();
+  }
   
-  exports.postCompanySignup = (req, res, next) => {
+  exports.postCompanyRegister = (req, res, next) => {
 
     const validationErrors = [];
-    if (!validator.isEmail(req.body.emailAddress))
-      validationErrors.push({ msg: "Please enter a valid email address." });
-    if (!validator.isLength(req.body.companyPassword, { min: 8 }))
+    if (!validator.isEmail(req.body.companyEmail))
+      validationErrors.push({ msg: "Please enter a valid email address address." });
+    if (!validator.isLength(req.body.password, { min: 8 }))
       validationErrors.push({
         msg: "Password must be at least 8 characters long",
       });
-      if (!validator.isLength(req.body.companyIdNumber, { min: 8 }))
+      if (!validator.isLength(req.body.companyId, { min: 12 }))
       validationErrors.push({
-        msg: "This is a way for your employees to see your documents. We take ",
+        msg: "Your companyId must be at least 12 characters long",
       });
 
+      //Checks if passwords are matching
     if (req.body.password !== req.body.confirmPassword)
       validationErrors.push({ msg: "Passwords do not match" });
 
-    // if (req.body.companyIdNumber !== req.body.confirmCompanyIdNumber)
-    //   validationErrors.push({ msg: "Passwords do not match" });
   
     if (validationErrors.length) {
       req.flash("errors", validationErrors);
@@ -99,25 +103,23 @@ exports.getCompanySignup = (req, res) => {
     });
 
     const company = new Company({
-      companyName: req.body.companyName,
-      address: req.body.address,
-      emailAddress: req.body.emailAddress,
-      companyPassword: req.body.companyPassword,
-      phoneNumber: req.body.phoneNumber,
-      companyIdNumber: req.body.companyIdNumber,
+      name: req.body.name,
+      companyEmail: req.body.companyEmail,
+      password: req.body.password,
+      companyId: req.body.companyId,
     });
   
     Company.findOne(
-      { $or: [{ emailAddress: req.body.emailAddress }, { companyName: req.body.companyName }] },
+      { $or: [{ name: req.body.name }, { companyId: req.body.companyId }] },
       (err, existingCompany) => {
         if (err) {
           return next(err);
         }
         if (existingCompany) {
           req.flash("errors", {
-            msg: "Account with that address or company ID Number already exists.",
+            msg: "Account with that company name or companyId already exists.",
           });
-          return res.redirect("../companySignup");
+          return res.redirect("../registerCompany");
         }
         company.save((err) => {
           if (err) {

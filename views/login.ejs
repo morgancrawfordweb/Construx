@@ -1,50 +1,5 @@
 <%- include('partials/header') -%>
 
-<!-- <main class="container">
-  <div class="row justify-content-center">
-    <section class="col-6 mt-5">
-      <% if (locals.messages.errors) { %> <% messages.errors.forEach( el => { %>
-      <div class="alert alert-danger"><%= el.msg %></div>
-      <% }) %> <% } %> <% if (locals.messages.info) { %> <%
-      messages.info.forEach( el => { %>
-      <div class="alert alert-info"><%= el.msg %></div>
-      <% }) %> <% } %>
-
-
-
-      <form action="/login" method="POST">
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label"
-            >Email address</label
-          >
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            name="email"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-            name="password"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-
-
-    </section>
-    <div class="row justify-content-around mt-5">
-      <a href="/forgotPassword" class="col-3 btn btn-primary">Forgot your Password?</a>
-    </div>
-  </div>
-</main> -->
-
 <body class="text-gray antialiased">
   <main>
     <section class="absolute w-full h-full">
@@ -98,18 +53,6 @@
                       name="password"
                     />
                   </div>
-                  <!-- <div>
-                    <label class="inline-flex items-center cursor-pointer"
-                      ><input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        class="form-checkbox border-0 rounded text-gray-800 ml-1 w-5 h-5"
-                        style="transition: all 0.15s ease 0s;"
-                      /><span class="ml-2 text-sm font-semibold text-gray-700"
-                        >Remember me</span
-                      ></label
-                    >
-                  </div> -->
                   <div class="text-center mt-6">
                     <button
                       class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
