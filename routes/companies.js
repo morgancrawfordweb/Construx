@@ -22,8 +22,8 @@ router.get("/companyLogout", companyAuthController.companyLogout);
 
 
 //Company Register Page
-router.get("/registerCompany", companyAuthController.getCompanyRegister);
-router.post("/registerCompany", companyAuthController.postCompanyRegister);
+router.get("/companies/registerCompany", companyAuthController.getCompanyRegister);
+router.post("/companies/registerCompany", companyAuthController.postCompanyRegister);
 
 
 

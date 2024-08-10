@@ -294,6 +294,13 @@ body{
 
 
 /* ! */
+/* Styling for forms */
+/* ! */
+.form-label{
+  font-weight: 600;
+}
+
+/* ! */
 /* Styling for project display */
 /* ! */
 .work-location{
@@ -381,7 +388,7 @@ body{
 /* Mobile Hamburger Menu */
 /* ! */
 nav {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   background-color: var(--green);
   padding: 1% 0;
   position: relative;

@@ -16,7 +16,7 @@
             >
               <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
                 <div class="text-gray-500 text-center mb-3 font-bold">
-                  <h1>Sign In</h1>
+                  <h1>Company Sign-In</h1>
                 </div>
                 <div>
                   <% if (locals.messages.errors) { %> <% messages.errors.forEach( el => { %>
@@ -31,13 +31,13 @@
                     <label
                       class="block uppercase text-gray-700 text-xs font-bold mb-2 form-label"
                       for="grid-password"
-                      >Email</label
+                      >Company Email</label
                     ><input
-                      type="email"
+                      type="companyEmail"
                       class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
                       placeholder="Email"
                       style="transition: all 0.15s ease 0s;"
-                      name="email"
+                      name="companyEmail"
                     />
                   </div>
                   <div class="relative w-full mb-3">

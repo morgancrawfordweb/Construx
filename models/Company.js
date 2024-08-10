@@ -39,20 +39,24 @@ const CompanySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Templates'
   }],
+
+  //Give everyone a default free subscription of up to 5 projects. Add a possibility of a subscription.
   subscription: {
     stripeCustomerId: {
       type: String,
-      required: true,
+      unique: true
     },
     stripeSubscriptionId: {
       type: String,
-      required: true,
+      unique: true,
     },
-    tier: {
-      type: String,
-      enum: ['Basic', 'Standard', 'Premium'],
-      required: true,
-    },
+    subscriptionTier:{
+      tier: [{
+          type: String,
+          enum: ['Basic', 'Standard', 'Premium', 'Unlimited'], 
+       }],
+      default:['Free'],
+  },
     projectsCount: {
       type: Number,
       default: 0,

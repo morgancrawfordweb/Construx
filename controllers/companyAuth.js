@@ -7,7 +7,7 @@ const Company = require("../models/Company");
 
 exports.getCompanyLogin = (req, res) => {
     if (req.company) {
-      return res.redirect("/companyProfile");
+      return res.redirect("/companyProfile.ejs");
     }
     res.render("companyLogin", {
       title: "Company Login",
@@ -16,16 +16,16 @@ exports.getCompanyLogin = (req, res) => {
   
   exports.postCompanyLogin = (req, res, next) => {
     const validationErrors = [];
-    if (!validator.isEmail(req.body.emailAddress))
+    if (!validator.isEmail(req.body.companyEmail))
       validationErrors.push({ msg: "Please enter a valid companyEmail address." });
-    if (validator.isEmpty(req.body.companyPassword))
+    if (validator.isEmpty(req.body.password))
       validationErrors.push({ msg: "Password cannot be blank." });
   
     if (validationErrors.length) {
       req.flash("errors", validationErrors);
       return res.redirect("/companyLogin");
     }
-    req.body.emailAddress = validator.normalizeEmail(req.body.emailAddress, {
+    req.body.companyEmail = validator.normalizeEmail(req.body.companyEmail, {
       gmail_remove_dots: false,
     });
   
@@ -37,7 +37,7 @@ exports.getCompanyLogin = (req, res) => {
         req.flash("errors", info);
         return res.redirect("/companyLogin");
       }
-      req.logIn(companyName, (err) => {
+      req.logIn(name, (err) => {
         if (err) {
           return next(err);
         }
@@ -63,17 +63,29 @@ exports.getCompanyLogin = (req, res) => {
 
 exports.getCompanyRegister = (req, res) => {
 
+  function generateCustomId(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+  
+  //
+  const generatedId = generateCustomId(36);
+
     if (req.company) {
       return res.redirect("../companyProfile.ejs");
     }
     res.render("registerCompany", {
       title: "Create Company Account",
+      generatedId: generatedId,
     });
   };
 
-  exports.generateRandomCompanyId = ()=>{
-    const generatedCompanyId = uuidv4();
-  }
+
   
   exports.postCompanyRegister = (req, res, next) => {
 
@@ -93,12 +105,16 @@ exports.getCompanyRegister = (req, res) => {
     if (req.body.password !== req.body.confirmPassword)
       validationErrors.push({ msg: "Passwords do not match" });
 
+    //Checks if companyId's are matching
+    if (req.body.companyId !== req.body.companyId)
+      validationErrors.push({ msg: "Company Id's do not match" });
+
   
     if (validationErrors.length) {
       req.flash("errors", validationErrors);
       return res.redirect("../companySignup");
     }
-    req.body.emailAddress = validator.normalizeEmail(req.body.emailAddress, {
+    req.body.companyEmail = validator.normalizeEmail(req.body.companyEmail, {
       gmail_remove_dots: false,
     });
 
