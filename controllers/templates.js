@@ -123,7 +123,7 @@ signTask: async (req, res) => {
     try {
       
       const user = await User.findOne({_id: req.user._id});
-      const scrollPosition = req.body.scrollPosition || 0;
+      const scrollPosition = req.body.scrollPosition
       const { projectId, templateId, objectId, taskId } = req.params;
       console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
       console.log('Request User:', req.user);
