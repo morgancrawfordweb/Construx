@@ -4,7 +4,7 @@ const authController = require("../controllers/auth");
 const homeController = require("../controllers/home");
 const projectsController = require("../controllers/projects");
 const forgotPasswordController = require("../controllers/forgotPassword");
-const { ensureAuth, ensureGuest } = require("../middleware/auth");
+const { ensureAuth, ensureCompanyAuth, ensureGuest } = require("../middleware/auth");
 const companyController = require("../controllers/company")
 const companyAuthController = require("../controllers/companyAuth");
 
@@ -38,17 +38,20 @@ router.get("/forgotPassword", forgotPasswordController.getForgotPassword);
 router.put("/forgotPassword", forgotPasswordController.updateOldPassword);
 
 
+
+
+
+
+
+
 //*
 // !
 // *
-router.get("/companyProfile", ensureAuth, companyController.getCompanyProfile);
+router.get("/companyProfile", ensureCompanyAuth, companyController.getCompanyProfile);
 //Company log-in
 //This way you can add different bios and update your team etc.
 router.get("/companyLogin", companyAuthController.getCompanyLogin);
 router.post("/companyLogin", companyAuthController.postCompanyLogin);
-
-//Creates a UUID for the client
-router.get("/generateRandomCompanyId", companyController.generateRandomCompanyId)
 
 //Logs you out of your company dashboard
 router.get("/companyLogout", companyAuthController.companyLogout);

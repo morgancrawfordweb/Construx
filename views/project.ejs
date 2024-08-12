@@ -135,7 +135,9 @@
                         <div>
                           <span><b>Signed by</b>: <%= signature.initial %></span> /
                           <span><b>Date</b>: <%= signature.dateCompleted.toDateString() %></span>
-                          <form action ="/template/deleteSignature/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST"><button><i class="fa-solid fa-trash"></i></button>
+                          <form action ="/template/deleteSignature/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST" onsubmit="saveScrollPosition()">
+                            <input type="hidden" id="scrollPosition" name="scrollPosition" value="<%= scrollPosition %>">
+                            <button type="submit"><i class="fa-solid fa-trash"></i></button>
                           </form>
                         </div>
 

@@ -33,7 +33,7 @@ exports.postLogin = (req, res, next) => {
     gmail_remove_dots: false,
   });
 
-  passport.authenticate("local", (err, user, info) => {
+  passport.authenticate("user", (err, user, info) => {
     if (err) {
       return next(err);
     }

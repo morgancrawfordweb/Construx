@@ -1,3 +1,5 @@
+const Company = require("../models/Company");
+
 module.exports = {
   ensureAuth: function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -11,6 +13,13 @@ module.exports = {
       return next();
     } else {
       res.redirect("/dashboard");
+    }
+  },
+  ensureCompanyAuth: function (req, res, next) {
+    if (req.isAuthenticated() && req.user && req.user instanceof Company) {
+      return next();
+    } else {
+      res.redirect("/companyLogin");
     }
   },
 };

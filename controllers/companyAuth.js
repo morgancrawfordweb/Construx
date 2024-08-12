@@ -7,38 +7,46 @@ const Company = require("../models/Company");
 
 exports.getCompanyLogin = (req, res) => {
     if (req.company) {
-      return res.redirect("/companyProfile.ejs");
+      return res.redirect("/companyProfile");
     }
     res.render("companyLogin", {
-      title: "Company Login",
+      title: "CompanyLogin",
     });
   };
   
   exports.postCompanyLogin = (req, res, next) => {
     const validationErrors = [];
+
     if (!validator.isEmail(req.body.companyEmail))
-      validationErrors.push({ msg: "Please enter a valid companyEmail address." });
+      validationErrors.push({ msg: "Please enter a valid email address." });
     if (validator.isEmpty(req.body.password))
       validationErrors.push({ msg: "Password cannot be blank." });
   
     if (validationErrors.length) {
+      console.log(validationErrors)
       req.flash("errors", validationErrors);
       return res.redirect("/companyLogin");
     }
+
     req.body.companyEmail = validator.normalizeEmail(req.body.companyEmail, {
       gmail_remove_dots: false,
     });
   
-    passport.authenticate("local", (err, company, info) => {
+    passport.authenticate("company", (err, company, info) => {
       if (err) {
+        console.log(err, '1')
         return next(err);
       }
       if (!company) {
         req.flash("errors", info);
+        console.log(err)
+        console.log(company)
+        console.log(info, '2')
         return res.redirect("/companyLogin");
       }
-      req.logIn(name, (err) => {
+      req.logIn(company, (err) => {
         if (err) {
+          console.log(err, '3')
           return next(err);
         }
         req.flash("success", { msg: "Success! You are logged in as the company Admin." });
@@ -54,7 +62,7 @@ exports.getCompanyLogin = (req, res) => {
     req.session.destroy((err) => {
       if (err)
         console.log("Error : Failed to destroy the session during logout.", err);
-      req.user = null;
+      req.company = null;
       res.redirect("/");
     });
   };
@@ -62,7 +70,6 @@ exports.getCompanyLogin = (req, res) => {
 //This is to sign the company up to use the service.//
 
 exports.getCompanyRegister = (req, res) => {
-
   function generateCustomId(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
     let result = '';
@@ -76,9 +83,6 @@ exports.getCompanyRegister = (req, res) => {
   //
   const generatedId = generateCustomId(36);
 
-    if (req.company) {
-      return res.redirect("../companyProfile.ejs");
-    }
     res.render("registerCompany", {
       title: "Create Company Account",
       generatedId: generatedId,
@@ -91,7 +95,7 @@ exports.getCompanyRegister = (req, res) => {
 
     const validationErrors = [];
     if (!validator.isEmail(req.body.companyEmail))
-      validationErrors.push({ msg: "Please enter a valid email address address." });
+      validationErrors.push({ msg: "Please enter a valid email address." });
     if (!validator.isLength(req.body.password, { min: 8 }))
       validationErrors.push({
         msg: "Password must be at least 8 characters long",
@@ -106,13 +110,13 @@ exports.getCompanyRegister = (req, res) => {
       validationErrors.push({ msg: "Passwords do not match" });
 
     //Checks if companyId's are matching
-    if (req.body.companyId !== req.body.companyId)
+    if (req.body.companyId !== req.body.confirmCompanyId)
       validationErrors.push({ msg: "Company Id's do not match" });
 
   
     if (validationErrors.length) {
       req.flash("errors", validationErrors);
-      return res.redirect("../companySignup");
+      return res.redirect("../registerCompany");
     }
     req.body.companyEmail = validator.normalizeEmail(req.body.companyEmail, {
       gmail_remove_dots: false,
@@ -145,7 +149,7 @@ exports.getCompanyRegister = (req, res) => {
             if (err) {
               return next(err);
             }
-            res.redirect("../companyProfile");
+            res.redirect("/companyProfile");
           });
         });
       }
