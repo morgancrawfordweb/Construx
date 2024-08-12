@@ -121,15 +121,12 @@
             </summary>
             <ul>
                 <% object.tasks.forEach(task => { %>
-                    <li class="template-task">
-                        <%= task.taskDetail %>
-
-                        
-                    </li>
+ 
                     <li class="signature-box">
-                      <form action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
+                      <h5 class="template-task" id="task-<%= task._id %>"><%= task.taskDetail %></h5>
+                      <form id="signTaskForm-<%= task._id %>" action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
                         <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
-                            <button class="btn btn-primary signature-btn" type="submit" onclick="captureScrollPosition('<%= task._id %>')">Signature Here</button>
+                        <button class="btn btn-primary signature-btn" type="submit" onclick="captureScrollPosition('<%= task._id %>')">Signature Here</button>
                       </form>
                       <% task.signature.forEach(signature => { %>
                         

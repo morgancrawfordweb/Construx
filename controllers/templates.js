@@ -147,7 +147,7 @@ signTask: async (req, res) => {
 
       if (result) {
         console.log('Update successful:', result);
-        res.redirect(`/project/${projectId}?scrollPosition=${scrollPosition}`);
+        res.redirect(`/project/${projectId}?scrollPosition=${scrollPosition}&openTask=${taskId}`);
       } else {
         console.log('Task or Template not found');
         res.status(404).send('Task or Template not found');
