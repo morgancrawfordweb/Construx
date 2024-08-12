@@ -7,10 +7,11 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, unique: true },
   password: String,
-  company: {type: String, require:true },
   phoneNumber:{type:String, required:true },
-  // employeeIdNumber:{type:String,required:true, unique: true},
-  companyId: String,
+  // Check company name and companyId, if they match through validation then they will go through
+  
+  company: {type: String, required:true },
+  companyId: {type: String, required: true},
   roles: {
     type: [{
         type: String,

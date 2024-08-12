@@ -123,7 +123,7 @@ signTask: async (req, res) => {
     try {
       
       const user = await User.findOne({_id: req.user._id});
-
+      const scrollPosition = req.body.scrollPosition
       const { projectId, templateId, objectId, taskId } = req.params;
       console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
       console.log('Request User:', req.user);
@@ -147,7 +147,7 @@ signTask: async (req, res) => {
 
       if (result) {
         console.log('Update successful:', result);
-        res.redirect("/project/" + projectId);
+        res.redirect(`/project/${projectId}?scrollPosition=${scrollPosition}&openTask=${taskId}`);
       } else {
         console.log('Task or Template not found');
         res.status(404).send('Task or Template not found');

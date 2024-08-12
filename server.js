@@ -16,12 +16,20 @@ const cryptoJS = require('crypto-js')
 //node-module of pdf-lib. This will give me the ability to create a new PDF , hopefully be able to create new checklists from an HTML form
 // const pdfDocument= require("pdf-lib")
 
+
+//logging in or creating companies for the application
 const mainRoutes = require("./routes/main");
+
+// supposed to store a calendar among other things
 const eventRoutes = require("./routes/events")
+
+//holding onto all of the meat for the project
 const projectRoutes = require("./routes/projects");
 const documentRoutes = require("./routes/documents");
-const companyRoutes = require("./routes/companies");
 const templateRoutes = require("./routes/templates");
+
+//Supposed to be for companies, Right now Im just going to treat a company as a user
+const companyRoutes = require("./routes/companies");
 
 
 
