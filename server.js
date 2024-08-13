@@ -88,7 +88,7 @@ app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/company", companyRoutes);
 app.use("/template", templateRoutes);
-
+app.use("/subscribe", subscriptionRoutes)
 //Server Running
 app.listen(process.env.PORT, () => {
   console.log("Server is running, you better catch it!");
