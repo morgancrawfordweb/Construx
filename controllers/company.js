@@ -8,13 +8,12 @@ const Company = require("../models/Company");
 module.exports = {
   getCompanyProfile: async (req, res) => {
       try {
-        const projects = await Project.find({ user: req.user.id}); //req ? {do this... check user ? {do this... check .id}}
-        
-        
-        res.render("companyProfile.ejs", { projects:projects, company: req.company });
+          const employees = await User.find({companyId: req.user.companyId})
+        res.render("companyProfile.ejs", { company: req.user, employees:employees });
       } catch (err) {
         console.log(err);
       }
     },
+    
   
   }

@@ -23,25 +23,4 @@ router.delete("/deleteEmployees/:projectId/:employeeId", projectsController.dele
 
 
 
-// router.get("/:id", tasksController.getTask)
-// router.post("/addRow/:id", tasksController.addRow)
-// router.post("/addColumn/:id", tasksController.addColumn)
-//deleting tasks and locations to shrink the spreadsheet
-
-// router.put("/initialTask/:id", taskController.initialTask)
-      /*<form action="project/addRow/<%=project._id%>" method="POST">*/
-    //     <input type="text" name="locationName" placeholder="Location Name" required />
-    //     <input type="submit" value="Add Row" />
-    //   </form>
-  
-    //   <form action="project/addColumn/<%project._id%>" method="POST">
-    //     <input type="text" name="taskName" placeholder="Task Name" required />
-    //     <input type="submit" value="Add Column" />
-    //   </form>
-    //   <br>
-
-
-
-
-
 module.exports = router

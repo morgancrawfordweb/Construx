@@ -7,7 +7,6 @@ const homeController = require("../controllers/home");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 
-// router.get("/:id", ensureAuth, companyController.getCompanyProfile);
 
 //Company log-in
 //This way you can add different bios and update your team etc.

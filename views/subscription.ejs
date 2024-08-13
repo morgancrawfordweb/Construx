@@ -1,0 +1,40 @@
+<%- include('partials/header') -%>
+
+<main class="container">
+    <div>
+        <h1 class="project-heading">Subscriptions</h1>
+        <span>Take your company to a new level of data management</span>
+    </div>
+
+    <section>
+        <h2 class="project-heading">Subscription Options</h2>
+    <section id="features" class="grid-container">
+        <div class="grid-item">
+            <form action="/subscriptions/basicSubscription">
+                <h6>Basic Subscription</h6>
+                <span class="grid-span">Allows you to maintain 5-10 projects</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form action="/subscriptions/standardSubscription">
+                <h6>Standard Subscription</h6>
+                <span class="grid-span">Allows you to maintain 10-20 projects</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form action="/subscriptions/premiumSubscription">
+                <h6>Premium Subscription</h6>
+                <span class="grid-span">Allows you to maintain 20-50 projects</span>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form action="/subscriptions/unlimitedSubscription">
+                <h6>Unlimited Subscription</h6>
+                <span class="grid-span">Allows you to maintain 50+ projects</span>
+            </form>
+        </div>
+    </section>
+</main>
+    
+
+<%- include('partials/footer') -%>

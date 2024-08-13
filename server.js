@@ -12,6 +12,7 @@ const connectDB = require("./config/database");
 // const fs = require('fs')
 const path = require('path')
 const cryptoJS = require('crypto-js')
+// const stripe = require('stripe')
 
 //node-module of pdf-lib. This will give me the ability to create a new PDF , hopefully be able to create new checklists from an HTML form
 // const pdfDocument= require("pdf-lib")
@@ -30,6 +31,9 @@ const templateRoutes = require("./routes/templates");
 
 //Supposed to be for companies, Right now Im just going to treat a company as a user
 const companyRoutes = require("./routes/companies");
+
+//Supposed to be for companies, Right now Im just going to treat a company as a user
+const subscriptionRoutes  = require("./routes/subscriptions");
 
 
 
@@ -88,6 +92,7 @@ app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/company", companyRoutes);
 app.use("/template", templateRoutes);
+app.use("/subscription", subscriptionRoutes)
 
 //Server Running
 app.listen(process.env.PORT, () => {

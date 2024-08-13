@@ -1,5 +1,6 @@
  const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
+const CryptoJS = require('crypto-js')
 
 
 const CompanySchema = new mongoose.Schema({
@@ -82,6 +83,14 @@ CompanySchema.pre("save", function save(next) {
       next();
     });
   });
+});
+
+//properly hashes the companyId to add more security to documents and templates.
+CompanySchema.pre('save', function(next) {
+  if (this.isModified('companyId')) {
+    this.companyId = CryptoJS.SHA256(this.companyId).toString(CryptoJS.enc.Hex);
+  }
+  next();
 });
 
 

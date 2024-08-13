@@ -29,21 +29,10 @@ router.get("/logout", authController.logout);
 router.get("/signup", authController.getSignup);
 router.post("/signup", authController.postSignup);
 
-
 router.get("/about", homeController.getAbout)
-// router.get("/about", homeController.getAbout)
-
 
 router.get("/forgotPassword", forgotPasswordController.getForgotPassword);
 router.put("/forgotPassword", forgotPasswordController.updateOldPassword);
-
-
-
-
-
-
-
-
 //*
 // !
 // *
