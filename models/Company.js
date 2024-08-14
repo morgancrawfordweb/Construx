@@ -42,24 +42,24 @@ const CompanySchema = new mongoose.Schema({
   }],
 
   //Give everyone a default free subscription of up to 5 projects. Add a possibility of a subscription.
-  subscription: {
-    stripeCustomerId: {
-      type: String,
-      unique: true
-    },
-    stripeSubscriptionId: {
-      type: String,
-      unique: true,
-    },
-    subscriptionTier:{
-      tier: [{
-          type: String,
-          enum: ['Basic', 'Standard', 'Premium', 'Unlimited'], 
-       }],
-      //  Basic=10-25, Standard= 25-50, Premium 50-150, Unlimited 150+
-      default:['Free'], //0-10 projects
-  },
-  },
+  // subscription: {
+  //   stripeCustomerId: {
+  //     type: String,
+  //     unique: true
+  //   },
+  //   stripeSubscriptionId: {
+  //     type: String,
+  //     unique: true,
+  //   },
+  //   subscriptionTier:{
+  //     tier: [{
+  //         type: String,
+  //         enum: ['Basic', 'Standard', 'Premium', 'Unlimited'], 
+  //      }],
+  //     //  Basic=10-25, Standard= 25-50, Premium 50-150, Unlimited 150+
+  //     default:['Free'], //0-10 projects
+  // },
+  // },
 
 });
 
