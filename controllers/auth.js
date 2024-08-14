@@ -64,11 +64,24 @@ exports.logout = (req, res) => {
 };
 
 exports.getSignup = (req, res) => {
+//creates a customID for user  
+  function generateCustomId(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  const generatedId = generateCustomId(36);
   if (req.user) {
     return res.redirect("/profile");
   }
   res.render("signup", {
     title: "Create Account",
+    generatedId: generatedId
   });
 };
 

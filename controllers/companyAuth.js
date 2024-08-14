@@ -79,10 +79,11 @@ exports.getCompanyRegister = (req, res) => {
     }
     return result;
   }
-  
-  //
-  const generatedId = generateCustomId(36);
 
+  const generatedId = generateCustomId(36);
+   if(req.user){
+     return res.redirect("/companyProfile")
+   }
     res.render("registerCompany", {
       title: "Create Company Account",
       generatedId: generatedId,

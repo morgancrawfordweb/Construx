@@ -14,6 +14,18 @@ module.exports = {
         console.log(err);
       }
     },
+    getSubscriptionPage: async (req,res) => {
+      try{
+          // const user = await User.findOne({})
+          // const company = await Company.findOne({_id: req.params.id})
+          
+
+          res.render("subscription.ejs", {company: req.user})
+
+      }catch(err){
+          console.log(err)
+      }
+  },
     
   
   }

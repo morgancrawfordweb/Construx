@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
   // Check company name and companyId, if they match through validation then they will go through
   
   company: {type: mongoose.Schema.Types.ObjectId, ref:'Company'},
-  companyId: {type: String, required: true, unique: true},
+  companyId: {type: String, required: false},
   roles: {
     type: [{
         type: String,
