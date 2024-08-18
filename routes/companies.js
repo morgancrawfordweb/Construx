@@ -14,6 +14,9 @@ const subscriptionController = require("../controllers/subscriptions")
 //Getting the subscriptions page.
 router.get("/subscriptionPage", companyController.getSubscriptionPage);
 
+// router.get("/inviteNewUser", companyController.getInviteNewUser)
+// router.post("/inviteNewUser", companyController.postInviteNewUser)
+
 
 
 

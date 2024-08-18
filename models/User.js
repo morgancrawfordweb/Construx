@@ -9,9 +9,13 @@ const UserSchema = new mongoose.Schema({
   password: String,
   phoneNumber:{type:String, required:true },
   // Check company name and companyId, if they match through validation then they will go through
-  
-  company: {type: mongoose.Schema.Types.ObjectId, ref:'Company'},
-  companyId: {type: String, required: false},
+
+  //This is for the individual ID. This is mainly for other users to add each other to each others projects. Much like a discord tag
+  userId: {type: String, required: true},
+
+  //If you are registering for a company, you will be given this number. You will be able to use this number the same way we have been for the companyId
+  companyId: { type: String, required: false, sparse: true },
+
   roles: {
     type: [{
         type: String,
@@ -26,6 +30,8 @@ const UserSchema = new mongoose.Schema({
   //   type:[{
   //     type:String
   //   }]},
+    //This will look at the companyId and extract the reference type through the 36 digit code
+    company: {type: mongoose.Schema.Types.ObjectId, ref:"Company"},
 });
 
 // Password hash middleware.

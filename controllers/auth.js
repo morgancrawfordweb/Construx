@@ -2,6 +2,9 @@ const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
 const Company = require("../models/Company")
+const CryptoJS = require('crypto-js')
+const Invite = require("../models/Invite")
+
 
 
 
@@ -64,7 +67,8 @@ exports.logout = (req, res) => {
 };
 
 exports.getSignup = (req, res) => {
-//creates a customID for user  
+
+
   function generateCustomId(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
     let result = '';
@@ -74,18 +78,20 @@ exports.getSignup = (req, res) => {
     }
     return result;
   }
-
-  const generatedId = generateCustomId(36);
   if (req.user) {
     return res.redirect("/profile");
   }
+  //
+  const generatedId = generateCustomId(30);
+
   res.render("signup", {
     title: "Create Account",
     generatedId: generatedId
   });
 };
 
-exports.postSignup = (req, res, next) => {
+exports.postSignup = async (req, res, next) => {
+  
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -93,14 +99,10 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({
       msg: "Password must be at least 8 characters long",
     });
-    if (!validator.isLength(req.body.companyId, { min: 12 }))
-    validationErrors.push({
-      msg: "companyId must be at least 12 characters long",
-    });
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
-    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.phoneNumber || !req.body.companyId) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.phoneNumber || !req.body.userId) {
       validationErrors.push({ msg: "All fields are required." });
     }
 
@@ -112,44 +114,84 @@ exports.postSignup = (req, res, next) => {
     gmail_remove_dots: false,
   });
 
+
+  try {
+    const existingUser = await User.findOne({
+      $or: [{ email: req.body.email }, { userId: req.body.userId }]
+    });
+    
+    if (existingUser) {
+      req.flash("errors", { msg: "Account with that email address or userId already exists." });
+      return res.redirect("../signup");
+    }
+      // Check for invite token
+      if (req.body.token) {
+        const invite = await Invite.findOne({ token: req.body.token });
+        
+        if (!invite) {
+          req.flash("errors", { msg: "Invalid or expired invite link." });
+          return res.redirect("../signup");
+        }
+        
+        company = await Company.findById(invite.companyId);
+        if (!company) {
+          req.flash("errors", { msg: "Associated company not found." });
+          return res.redirect("../signup");
+        }
+      } else if (req.body.companyId) {
+        const hashedCompanyId = CryptoJS.SHA256(req.body.companyId).toString(CryptoJS.enc.Hex);
+        company = await Company.findOne({ companyId: hashedCompanyId });
+        
+        if (!company) {
+          req.flash("errors", { msg: "Company not found. Please check your company ID." });
+          return res.redirect("../signup");
+        }
+      }
+
+
+      let company = null
   const user = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
+    userId: req.body.userId,
     companyId: req.body.companyId,
+    company: company ? company._id : null,
+    
   });
 
-  
 
-  User.findOne(
-    { $or: [{ email: req.body.email }, 
-      // { firstName: req.body.firstName }, { lastName: req.body.lastName }
-    ] },
-    (err, existingUser) => {
-      if (err) {
-        return next(err);
-      }
-      if (existingUser) {
-        req.flash("errors", {
-          msg: "Account with that email address already exists",
-        });
+    if (req.body.companyId) {
+      const hashedCompanyId = CryptoJS.SHA256(req.body.companyId).toString(CryptoJS.enc.Hex);
+
+      const company = await Company.findOne({ companyId: hashedCompanyId });
+      if (company) {
+        console.log(company)
+        company.users.push(user._id);
+        await company.save();
+
+      } else {
+        req.flash("errors", { msg: "Company not found. Please check your company ID." });
         return res.redirect("../signup");
       }
-      user.save((err) => {
-        if (err) {
-          return next(err);
-        }
-        req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-          res.redirect("/profile");
-        });
-      });
     }
-  )};
+    
+    
+
+    await user.save();
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      res.redirect("/profile");
+    });
+    if (req.body.token) {
+      await Invite.findByIdAndDelete(invite._id);
+    }
+  } catch (err) {
+    return next(err);
+  }
+};
   
 
 

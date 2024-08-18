@@ -70,6 +70,8 @@ exports.getCompanyLogin = (req, res) => {
 //This is to sign the company up to use the service.//
 
 exports.getCompanyRegister = (req, res) => {
+
+  
   function generateCustomId(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
     let result = '';
@@ -79,11 +81,13 @@ exports.getCompanyRegister = (req, res) => {
     }
     return result;
   }
-
+  
+  if (req.user) {
+    return res.redirect("/companyProfile");
+  }
+  //
   const generatedId = generateCustomId(36);
-   if(req.user){
-     return res.redirect("/companyProfile")
-   }
+
     res.render("registerCompany", {
       title: "Create Company Account",
       generatedId: generatedId,
@@ -128,8 +132,16 @@ exports.getCompanyRegister = (req, res) => {
       companyEmail: req.body.companyEmail,
       password: req.body.password,
       companyId: req.body.companyId,
+      subscription: {
+        stripeCustomerId: null,
+        stripeSubscriptionId: null,
+        subscriptionTier: 'Free'
+      }
     });
   
+
+    //Check company and companyName then serve it up
+    //autheticating email that holds companyId inside of the email
     Company.findOne(
       { $or: [{ name: req.body.name }, { companyId: req.body.companyId }] },
       (err, existingCompany) => {

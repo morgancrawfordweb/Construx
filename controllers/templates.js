@@ -9,7 +9,7 @@ module.exports = {
   //*This gets the page to fill out your template to be used at a later time.//
   getCreateTemplatePage: async (req,res)=>{
     try{
-      const templates = await Template.find({companyId: req.user.companyId});
+      const templates = await Template.find({company: req.user.company});
 
       res.render("template.ejs",{templates:templates})
     }catch(err){
@@ -50,7 +50,7 @@ createTemplate: async (req, res) => {
           templateName: req.body.templateName,
           tasks: newTask,
           user: req.user.id,
-          companyId: createdUser.companyId,
+          company: createdUser.company,
           reference: req.body.reference,
           isOriginal: true
         });  
@@ -67,7 +67,7 @@ createTemplate: async (req, res) => {
       //*This uses the templates that you have already created, and adds additional items to your template and creates a New template called a work location. This way the original tempalte doesnt get modified.
   createNewWorkLocation: async (req,res)=>{
     //Choose between templates and then clone that object but add the parameters of Location
-      //use this to find all of the templates that were created with users that share the same companyId
+      //use this to find all of the templates that were created with users that share the same company
       const project = await Project.findById(req.params.id)
       try {
         const { selectedTemplate, location } = req.body;
@@ -84,7 +84,7 @@ createTemplate: async (req, res) => {
           location,
           tasks: template.tasks,
           project: req.params.id,
-          companyId: req.user.companyId,
+          company: req.user.company,
           projectName: project.projectName,
           user: req.user.id,
           isOriginal: false

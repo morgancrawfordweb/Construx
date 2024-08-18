@@ -34,10 +34,20 @@
                       <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber">
                     </div>
                     <div class="mb-3">
-                      <p>Already have a custom Id? If not, use this one : <%= generatedId %>
+                      <p>This number was generated with a 32 digit randomizer. For your convience and security we resceptfully ask you use this number.</p><br>
+
+                      <span>You may use this generated companyId provided:</span>
+                      <br/>
+                      
+                      
+                      <br/>
+                      <label for="userId" class="form-label">Your new User Id</label>
+                      <input type="text" class="form-control" id="userId" name="userId" value="<%= generatedId %>" readonly>
+                    </div>
+                    <div class="mb-3">
                       <label for="companyId" class="form-label">Company ID</label>
                       <input type="text" class="form-control" id="companyId" name="companyId">
-                      <p>Note* This number should be created by your employer and given to you. This will give you access to all of the company documents. We are currently un-able to recover this number if it is forgotten.</p>
+                      <p>If you are registering with a company, please insert the number here</p>
                     </div>
                     <div class="mb-3">
                       <label for="password" class="form-label">Password</label>

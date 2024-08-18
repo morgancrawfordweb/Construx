@@ -13,6 +13,24 @@
         </div>  
   </div> 
 
+  <div class="col-4">
+    <h3 class="project-heading"> Invite New Users</h3>
+      <form action="/company/postInviteNewUser" method="POST">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" class="form-control" id="email" name="email">
+        </div>
+        <button class="btn btn-primary" type="submit">Invite User</button>
+      </form>
+
+
+    <div>
+      <h3 class="project-heading">Employee Directory</h3>
+      <ul class="flex-grid">
+      </ul>
+    </div>
+  </div>  
+
 </div>
     <div>
       <a href="/companyLogout" class="col-3 btn btn-primary mt-10">Logout</a>

@@ -54,9 +54,9 @@ const TemplateSchema = new mongoose.Schema({
         ref: "Project"
     },
     //whoever created the checklist, only other users that share a companyId can see the checklists
-    companyId:{
-        type: String, 
-        ref:"User",
+    company:{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref:"Company",
     },
     //The user who created the checklist
     user:{

@@ -12,7 +12,7 @@ const connectDB = require("./config/database");
 // const fs = require('fs')
 const path = require('path')
 const cryptoJS = require('crypto-js')
-// const stripe = require('stripe')
+const stripe = require('stripe')("pk_test_51NsAmuCMEUlFfvZNq7qL5t1Wcmin4piBRiuQvfuYUFmuXpPK4NWEp9TwFGL5TjTbTbyFL6zVj5Nq1vaRupWACxYr00jkjJFVCu")
 
 //node-module of pdf-lib. This will give me the ability to create a new PDF , hopefully be able to create new checklists from an HTML form
 // const pdfDocument= require("pdf-lib")

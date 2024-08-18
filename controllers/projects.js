@@ -10,9 +10,10 @@ const Template = require("../models/Template")
 module.exports = {
   getProfile: async (req, res) => {
     try {
+
       const projects = await Project.find({ user: req.user.id}); //req ? {do this... check user ? {do this... check .id}}
       const event = await Event.find({user: req.user.id})
-      const coworkers = await User.find({companyId: req.user.companyId});
+      const coworkers = await User.find({company: req.user.company || null});
 
       res.render("profile.ejs", {projects: projects, user: req.user, company: req.company,event: event, coworkers:coworkers});
     } catch (err) {
@@ -24,7 +25,7 @@ module.exports = {
       //?node: UUID -> Creates a unique number for companyID
       //! Need to sort by users companyId to get 
       const user = await User.findOne({_id: req.user._id});
-      const projects = await Project.find({companyId: user?.companyId}).sort({ createdAt: "desc" }).lean();
+      const projects = await Project.find({company: user.company ? user.company : null}).sort({ createdAt: "desc" }).lean();
 
       res.render("feed.ejs", {projects: projects, user: user});
 
@@ -35,7 +36,7 @@ module.exports = {
   },
   getProject: async (req, res) => {
     try {
-      const user = await User.find({companyId: req.params.id});
+      const user = await User.find({company: req.params.id});
     //   const company = await Company.find({companyId: req.params.id});
       const project = await Project.findById(req.params.id);
       const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).populate('uploadedById', 'firstName lastName').lean();
@@ -82,7 +83,7 @@ module.exports = {
         projectNumber: req.body.projectNumber,
         projectDescription: req.body.projectDescription,
         user: req.user.id,
-        companyId: createdUser.companyId,
+        companyId: createdUser.company,
       });
       console.log("Project has been created");
       res.redirect("/profile");

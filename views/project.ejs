@@ -1,5 +1,6 @@
 <%- include('partials/header') -%>
 <div class="container">
+  <div id="pdfContent">
   <div class="row justify-content-center mt-5">
     <div class="col-6">
       <div>
@@ -18,9 +19,10 @@
   
         
       </div>
+      <button id="downloadPdfBtn" class="btn btn-secondary">Download your PDF report</button>
     </div>
   
-    <div class="col-6"> <!-- New column for adding employees -->
+    <div class="col-6 hide-on-download"> <!-- New column for adding employees -->
       <h3 class="project-heading">Assign an Employee</h3>
       <div class="mt-5">
         <form action="/project/addEmployees/<%= project._id %>" method="POST">
@@ -44,7 +46,7 @@
   
     
       
-
+    <div class="hide-on-download">
     <h3 class="project-heading">Document Section</h3>
       <span>Files accepted: .pdf, .png, .img, .jpg, and .jpeg</span>
     <ul>
@@ -64,6 +66,7 @@
           <button type="submit" class ="btn btn-primary">Submit Document</button>
       </form>
     </ul>
+    </div>
 
       
         <div>
@@ -81,7 +84,7 @@
             </ul>
         </div>
       
-      <div class="container">
+      <div class="container hide-on-download">
         <h3 class="project-heading">Create a New Work Location</h3>
         <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=project._id%>" method="POST">
           <div class="form-group">
@@ -174,6 +177,7 @@
               </ul>
           </div>
       </div>
+  </div>
   
     <div class="col-6 mt-5">
         <div>
@@ -181,12 +185,12 @@
             <button  class="btn btn-primary" type="submit">Delete this Project</button>
           </form>
         </div>
+      
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
       <a class="btn btn-primary" href="/feed">Return to <%= user.company %> projects.</a>
     </div>
     
   </div>
 </div>
-
 
 <%- include('partials/footer') -%>
