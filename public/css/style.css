@@ -465,13 +465,13 @@ nav {
 }
 
 .off-screen-menu li {
-  margin: 10px;
+  margin: 10px 10px 10px 2px;
 }
 
 .off-screen-menu a {
   color: var(--green);
   text-decoration: underline;
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   padding-left: 15px;
   
 }
@@ -577,7 +577,7 @@ nav {
   padding: 3% 0;
 }
 .off-screen-menu{
-  width: 40%;
+  width: 50%;
 }
 .disclaimer{
   margin-bottom: 15%;
