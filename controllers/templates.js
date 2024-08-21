@@ -193,12 +193,31 @@ signTask: async (req, res) => {
     },
     editOriginalTemplate: async (req,res)=>{
       try {
-        
-        const updateTemplate = await Template.findByIdAndUpdate({ _id: req.params.templateId })
+        const { templateId, taskId } = req.params
+        const { taskDetail, reference } = req.body
 
+        // Use array filters to target the specific task
+        const result = await Template.findOneAndUpdate(
+          { "_id": templateId, "tasks._id": taskId },
+          {
+            $set: {
+              "tasks.$.taskDetail":  taskDetail ,
+              "tasks.$.reference": reference
+              }
+            },
+          
+          { new: true }
+        );
+        if(result){
+          console.log(`You have successfully updated ${result}!`)
          res.redirect("/template/createTemplatePage");
-       } catch (err) {
-         console.log(`${err}, there was an error in deleting this company template.`);
+       }else{
+        console.log('Task or Template not found');
+        res.status(404).send('Task or Template not found');
+      }
+    } 
+      catch (err) {
+         console.log(`${err}, there was an error in Editing this task or reference`);
        };
     },
 } 

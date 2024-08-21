@@ -19,7 +19,7 @@
   
         
       </div>
-      <button id="downloadPdfBtn" class="btn btn-secondary">Download your PDF report</button>
+      <button id="downloadPdfBtn" class="btn btn-secondary hide-on-download">Download your PDF report</button>
     </div>
   
     <div class="col-6 hide-on-download"> <!-- New column for adding employees -->
@@ -85,7 +85,7 @@
         </div>
       
       <div class="container hide-on-download">
-        <h3 class="project-heading">Create a New Work Location</h3>
+        <h3 class="project-heading hide-on-download">Create a New Work Location</h3>
         <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=project._id%>" method="POST">
           <div class="form-group">
             <label for="templateSelect">Select Template:</label>
@@ -107,14 +107,14 @@
         </form>
       </div>
 
-      <div>
-        <h3 class="project-heading"> Current Work Locations </h3>
+      <div class="avoid-break">
+        <h3 class="project-heading "> Current Work Locations </h3>
         <div class="location-container">
           
           <% workLocations.forEach(object => { %>
             <% if(object.isOriginal===false && object){ %>
 
-            <details class="work-location">
+            <details class="work-location avoid-break page-break-before">
             <summary>
               <h4 class="template-heading"><b>Location:</b> <span><%= object.location%></span></h4>
               <h5 class="template-heading"><b>Work Performed:</b> <span><%= object.templateName %></span> </h5>
@@ -129,7 +129,7 @@
                       <h5 class="template-task" id="task-<%= task._id %>"><%= task.taskDetail %></h5>
                       <form id="signTaskForm-<%= task._id %>" action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
                         <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
-                        <button class="btn btn-primary signature-btn" type="submit" onclick="captureScrollPosition('<%= task._id %>')">Signature Here</button>
+                        <button class="btn btn-primary signature-btn hide-on-download" type="submit" onclick="captureScrollPosition('<%= task._id %>')">Signature Here</button>
                       </form>
                       <% task.signature.forEach(signature => { %>
                         
@@ -137,7 +137,7 @@
                           <span><b>Signed by</b>: <%= signature.initial %></span> /
                           <span><b>Date</b>: <%= signature.dateCompleted.toDateString() %></span>
                           <form action ="/template/deleteSignature/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST">
-                            <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                            <button type="submit"><i class="fa-solid fa-trash hide-on-download"></i></button>
                           </form>
                         </div>
 
@@ -146,7 +146,7 @@
                     <br>
                     <% }) %>
                     <form class="delete-signature" action ="/template/deleteWorkLocation/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
-                      <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
+                      <button  class="btn btn-secondary hide-on-download" type="submit">Delete this Work Location</button>
                     </form>
                   </details>
                 <% }else { %>
@@ -157,12 +157,12 @@
         </div>
       </div>
 
-      <div class="container">
+      <div class="container avoid-break page-break-before">
         <h3 class="project-heading ">Pictures</h3>
             <div>
               <ul class="flex-grid">
                 <% for (var i=0; i<imageDocuments.length; i++){%>
-                  <li class ="image-item "> 
+                  <li class ="image-item avoid-break"> 
                     <a class ="template-heading document-heading mt-2 mb-2" href="<%=imageDocuments[i].image%>" download><%=imageDocuments[i].fileName%></a>
                     <img class="images" src="<%=imageDocuments[i].image%>">
                       <br>
@@ -170,7 +170,7 @@
                         <span><b>Submitted By:</b> <%= imageDocuments[i].uploadedById.firstName%> <%= imageDocuments[i].uploadedById.lastName%></span>
                         <p><b>Image Description:</b> <%= imageDocuments[i].description %></p>
                       <form class="pt-5 pb-2 m-auto" action="/document/deleteDocument/<%=project._id%>/<%=imageDocuments[i]._id %>?_method=DELETE" method="POST">
-                        <button type="submit" class="btn btn-secondary">Delete Document</button>
+                        <button type="submit" class="btn btn-secondary hide-on-download">Delete Document</button>
                       </form>
                 </li>
               <% } %>    

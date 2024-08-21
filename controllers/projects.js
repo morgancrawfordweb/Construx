@@ -41,7 +41,7 @@ module.exports = {
       const project = await Project.findById(req.params.id);
       const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).populate('uploadedById', 'firstName lastName').lean();
       const employees = await Project.find({assignedEmployee: req.params.id}).sort({createdAt: "desc"}).lean();
-      const templates = await Template.find({companyId: req.user.companyId});
+      const templates = await Template.find({company: req.user.company});
       const workLocations = await Template.find({project: req.params.id}).lean();
 
       //*Checks how many signatures were signed and renders them on the EJS

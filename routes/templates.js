@@ -38,7 +38,7 @@ router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesContro
 router.delete("/deleteTemplate/:templateId", ensureAuth, templatesController.deleteTemplate);
 
 //*Edit original company templates.
-router.put("/editOriginalTemplate/:templateId", ensureAuth, templatesController.editOriginalTemplate);
+router.put("/editTaskInTemplate/:templateId/:taskId", ensureAuth, templatesController.editOriginalTemplate);
 
 
 

@@ -59,6 +59,10 @@
                             <ul>
                              <% template.tasks.forEach(task =>{ %>
                                 <li class=template-task><b>Task Detail: </b><%= task.taskDetail %></li>
+                                <form action="/template/editTaskInTemplate/<%=template._id%>/<%=task._id%>?_method=PUT" method="POST">
+                                    <input type="text" name="taskDetail" value="<%= task.taskDetail %>" required>
+                                    <button type="submit"><i class="fa-solid fa-pencil hide-on-download"></i></button>
+                                </form>
                              <% }) %>
                             </ul>
 
