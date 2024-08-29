@@ -30,7 +30,7 @@ router.get("/signup", authController.getSignup);
 router.post("/signup", authController.postSignup);
 
 
-router.get("/about", homeController.getAbout)
+router.get("/how-to-instructional", homeController.getHowToInstructional)
 // router.get("/about", homeController.getAbout)
 
 

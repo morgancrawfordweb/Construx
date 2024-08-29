@@ -13,6 +13,9 @@ const connectDB = require("./config/database");
 const path = require('path')
 const cryptoJS = require('crypto-js')
 
+//!STRIPE!//
+const { STRIPE_ENV_KEY, STRIPE_BASIC_PRICE} = process.env
+
 //node-module of pdf-lib. This will give me the ability to create a new PDF , hopefully be able to create new checklists from an HTML form
 // const pdfDocument= require("pdf-lib")
 
@@ -31,11 +34,12 @@ const templateRoutes = require("./routes/templates");
 //Supposed to be for companies, Right now Im just going to treat a company as a user
 const companyRoutes = require("./routes/companies");
 
-
-
-
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
+
+// Stripe Payment keys
+const stripe = require("stripe")(STRIPE_ENV_KEY)
+
 
 // Passport config
 require("./config/passport")(passport);
@@ -88,7 +92,6 @@ app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/company", companyRoutes);
 app.use("/template", templateRoutes);
-app.use("/subscribe", subscriptionRoutes)
 //Server Running
 app.listen(process.env.PORT, () => {
   console.log("Server is running, you better catch it!");

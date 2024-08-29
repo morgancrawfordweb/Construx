@@ -1,0 +1,67 @@
+<%- include('partials/header') -%>
+
+
+<nav>
+    <div class="ham-menu" id="ham-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul class="menu">
+        <li class="menu-item"><a href="#about-us">About Us</a></li>
+        <li class="menu-item"><a href="#features">Features</a></li>
+        <li class="menu-item"><a href="#our-audience">Who we serve</a></li>
+        <li class="menu-item"><a href="/signup">Get Started</a></li>
+        <li class="menu-item"><a href="/login">Already signed up?</a></li>
+        <li class="menu-item"><a href="/companyLogin">Company Login</a></li>
+        <li class="menu-item"><a href="/registerCompany">Register Your Company</a></li>
+    </ul>
+    <div class="off-screen-menu" id="off-screen-menu">
+        <button class="close-menu" id="close-menu">X</button>
+        <ul>
+            <li class="menu-item"><a href="#about-us">About Us</a></li>
+            <li class="menu-item"><a href="#features">Features</a></li>
+            <li class="menu-item"><a href="#our-audience">Who we serve</a></li>
+            <li class="menu-item"><a href="/login">Already signed up?</a></li>
+            <li class="menu-item"><a href="/signup">Get Started</a></li>
+            <li class="menu-item"><a href="/companyLogin">Company Login</a></li>
+            <li class="menu-item"><a href="/registerCompany">Register Your Company</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<main class="container">
+    <div id="bio">
+        <p>
+            This section of the application will help guide you and help with navigating the application. A full demo-walkthrough can be found <a href="#">Here</a>.
+        </p>
+    </div>
+
+    <ul id="get-started">
+        <li><a href='#template-help'>Templates</a></li>
+        <li><a href='#project-help'>Projects</a></li>
+        <li><a href='#document-help'>Documents</a></li>
+    </ul>
+    
+    <div id="template-help">
+        <h2>Here is how you make a template</h2>
+        <p>
+            Once you go to your "Template Creation Page", you can create an original template of any kind of checklist you need. You enter your task and any kind of references for that task. Below there is an "Add Field" button, so you may add as many fields as you need for your template.
+
+            Once you create your new template, it will appear underneath the "Company Template" heading. This way you can see all of the templates that is associated with your company ID number you used to sign up with.
+
+            Inside of each template you can click on the heading to expand to see all of the tasks that are inside. You can edit the task in-case the pages change by adding the content to the html form and then clicking "submit" below that.
+        </p>
+    </div>
+    <div id="projectId">
+        <h2>Here is how you make a Project</h2>
+    </div>
+
+    <div>
+        <a class="btn btn-primary" href=" <%= previousPage %> ">Go Back</a>
+    </div>
+</main>
+    
+
+<%- include('partials/footer') -%>

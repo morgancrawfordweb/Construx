@@ -55,8 +55,8 @@ const CompanySchema = new mongoose.Schema({
           type: String,
           enum: ['Basic', 'Standard', 'Premium', 'Unlimited'], 
        }],
-      //  Basic=5-10 100$, Standard= 10-25 200$, Premium 25-50 750$, Unlimited 50+ 1500$
-      default:['Free'], //0-5 projects
+      //  Basic=3-5 100$, Standard=5-10 200$, Premium 10-25 750$, Unlimited 25+ 1500$
+      default:['Free'], //0-3 projects
   },
   },
 

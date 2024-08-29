@@ -24,4 +24,10 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 
 
+
+//!All subscription and payment things go here.
+
+// app.post("/create-checkout-session", ensureCompanyAuth, subscriptionController.createSubscription)
+// app.get("/subscription-page"), ensureCompanyAuth, subscriptionController.getSubscriptionPage
+
 module.exports = router
