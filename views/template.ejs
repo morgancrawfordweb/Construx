@@ -17,6 +17,7 @@
                     <div class="mb-5">
                         <h1 class="page-title">Template Creation</h1>
                         <p>Use this to create templates for your company to use.</p>
+                        <a href="/how-to-instructional" class="col-3 btn btn-primary mt-10">Need Help?</a>
                     </div>
                 <form action="/template/createTemplate" method="POST">
                     <div class="mb-3">
@@ -31,7 +32,7 @@
                         <div class="mb-3 task-detail">
                             <input type="text" class="form-control" placeholder="Enter your task here"  id="taskDetail" name="taskDetail[]">
                             <input type="text" class="form-control" placeholder="Reference"  id="reference" name="reference[]">              
-                                <button class="btn btn-secondary" type="button" onclick="removeField(this)">Remove</button>
+                                <button class="btn btn-secondary mt-3" type="button" onclick="removeField(this)">Remove</button>
                         </div>
                     </div>
                     <button class="btn btn-primary" type="button" onclick="addField()">Add Field</button>

@@ -2,94 +2,72 @@
 
 
 <nav>
-    <div class="ham-menu" id="ham-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-    <ul class="menu">
-        <li class="menu-item"><a href="#about-us">About Us</a></li>
-        <li class="menu-item"><a href="#features">Features</a></li>
-        <li class="menu-item"><a href="#our-audience">Who we serve</a></li>
-        <li class="menu-item"><a href="/signup">Get Started</a></li>
-        <li class="menu-item"><a href="/login">Already signed up?</a></li>
-        <li class="menu-item"><a href="/companyLogin">Company Login</a></li>
-        <li class="menu-item"><a href="/registerCompany">Register Your Company</a></li>
+    <ul id="get-started" class="menu">
+        <li class="menu-item"><a href=" <%= previousPage %> ">Go Back</a></li>
+        <li class="menu-item"><a href='#template-help'>Templates</a></li>
+        <li class="menu-item"><a href='#project-help'>Projects</a></li>
+        <li class="menu-item"><a href='#document-help'>Documents</a></li>
+        <li class="menu-item"><a href='#checklist-help'>Checklists</a></li>
     </ul>
-    <div class="off-screen-menu" id="off-screen-menu">
-        <button class="close-menu" id="close-menu">X</button>
-        <ul>
-            <li class="menu-item"><a href="#about-us">About Us</a></li>
-            <li class="menu-item"><a href="#features">Features</a></li>
-            <li class="menu-item"><a href="#our-audience">Who we serve</a></li>
-            <li class="menu-item"><a href="/login">Already signed up?</a></li>
-            <li class="menu-item"><a href="/signup">Get Started</a></li>
-            <li class="menu-item"><a href="/companyLogin">Company Login</a></li>
-            <li class="menu-item"><a href="/registerCompany">Register Your Company</a></li>
-        </ul>
-    </div>
 </nav>
 
 
-<main class="container">
+<main class="container documentation mt-5">
     <div id="bio">
         <p>
             This section of the application will help guide you and help with navigating the application. A full demo-walkthrough can be found <a href="#">Here</a>.
         </p>
     </div>
 
-    <ul id="get-started">
-        <li><a href='#template-help'>Templates</a></li>
-        <li><a href='#project-help'>Projects</a></li>
-        <li><a href='#document-help'>Documents</a></li>
-        <li><a href='#checklist-help'>Checklists</a></li>
-    </ul>
+ 
     
     <div id="template-help">
-        <h2>Here is how you make a template</h2>
+        <h2 class="sub-titles">Templates</h2>
         <p>
             Once you go to your "Template Creation Page", you can create an original template of any kind of checklist you need. You enter your task and any kind of references for that task. Below there is an "Add Field" button, so you may add as many fields as you need for your template.
         </p>
+            <br>
         <p>
             Once you create your new template, it will appear underneath the "Company Template" heading. This way you can see all of the templates that is associated with your company ID number you used to sign up with.
         </p>
+            <br>
         <p>
             Inside of each template you can click on the heading to expand to see all of the tasks that are inside. You can edit the task in-case the pages change by adding the content to the html form and then clicking "submit" below that.
         </p>
     </div>
     <div id="project-help">
-        <h2>Here is how you make a Project</h2>
+        <h2 class="sub-titles">Projects</h2>
         <p>
             On your profile screen, there is a section on the left hand side where you can create your projects. Projects that you create will show up on the right hand side. Any project that was created by anybody else that shares the same company code as you, will show up on a seperate page when you click "view all projects".
         </p>
-
+            <br>
         <p>
-            When you click on the project name on the right hand side of your profile, it will take you to that project. Once you are inside of the project you will find several options to add data to your project. You are able to download all of this information as a PDF but will look like a picture. I will get into more detail about the functionality.
+            When you click on the project name on the right hand side of your profile, it will take you to that project. Once you are inside of the project you will find several options to add data. Underneath of the project details at the top you will see "Total locations created", this is keeping track of how many work locations you have created for this project. You are able to download all of this information as a PDF but will look like a picture.  All of the collapsible portions of the page will expand so that no data is lost. I will get into more detail about the functionality.
         </p>
     </div>
     <div id="document-help">
-        <h2>Here is how you make a Project</h2>
+        <h2 class="sub-titles">Documents</h2>
         <p>
-            The document section takes in several different file types. The files types accepted are below the heading of "Document Section"
+            The document section takes in several different file types. The files types accepted are below the heading of "Document Section". The documents are only related to the project that you upload them to, so Project 1 and Project 2 wont have the same documents.
         </p>
-
+            <br>
         <p>
-            PDF's are seperated from photos taken. Photos are placed at the bottom of the web page. To download either the photos or the documents you can click on the name of whatever you want to download.
+            PDF's are seperated from any image file. Images are placed at the bottom of the web page with the description and name of the image. To download either the photos or the documents you can click on the name of whatever you want to download.
         </p>
     </div>
     <div id="checklist-help">
-        <h2>Here is how you make a Project</h2>
+        <h2 class="sub-titles">Checklists</h2>
         <p>
-            The document section takes in several different file types. The files types accepted are below the heading of "Document Section"
+            This portion of the Project page is used to track all of your tasks. You use a previously created <a href="#template-help">Template</a> and select it through the provided drop-down menu. After that you input a work location. For example: if you have a home inspection testing the electrical work, you can use a "Electrical Work" template and use the location as the home address. Each location will be seperated. You may click on the work location to reveal a bigger menu that holds all of your tasks.
         </p>
-
+            <br>
         <p>
-            PDF's are seperated from photos taken. Photos are placed at the bottom of the web page. To download either the photos or the documents you can click on the name of whatever you want to download.
+            Inside of the new "Work Location" you will see the task that needs to be done and a "Signature Here" button. Once you click on this button, the program will show this as you signing off on it with your account's name and the time it was signed. The trash can that comes with it, is if you want to remove the signature.
         </p>
     </div>
 
     <div>
-        <a class="btn btn-primary" href=" <%= previousPage %> ">Go Back</a>
+        <a class="btn btn-primary mt-3" href=" <%= previousPage %> ">Go Back</a>
     </div>
 </main>
     
