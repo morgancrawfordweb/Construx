@@ -155,3 +155,70 @@ exports.getCompanyRegister = (req, res) => {
         });
       }
     )};
+
+    // exports.postRegisterNewUser = (req, res, next) => {
+    //   const validationErrors = [];
+    //   if (!validator.isLength(req.body.password, { min: 8 }))
+    //     validationErrors.push({
+    //       msg: "Password must be at least 8 characters long",
+    //     });
+
+    //   if (req.body.password !== req.body.confirmPassword)
+    //     validationErrors.push({ msg: "Passwords do not match" });
+    
+    //     if (!req.body.firstName || !req.body.lastName || !req.body.password || !req.body.phoneNumber) {
+    //       validationErrors.push({ msg: "All fields are required." });
+    //     }
+    
+    //   if (validationErrors.length) {
+    //     req.flash("errors", validationErrors);
+    //     return res.redirect("../signup");
+    //   }
+    //   req.body.email = validator.normalizeEmail(req.body.email, {
+    //     gmail_remove_dots: false,
+    //   });
+    
+    //   const user = new User({
+    //     firstName: req.body.firstName,
+    //     lastName: req.body.lastName,
+    //     phoneNumber: req.body.phoneNumber,
+    //     password: req.body.password,
+
+    //     //need this to grab the users information based on the email clicked for the link and then the 
+    //     email: req.params.email,
+    //     companyId: req.params.companyId,
+    //   });
+    
+      
+    
+    //   User.findOne(
+    //     { $or: [{ email: req.body.email }, 
+    //       // { firstName: req.body.firstName }, { lastName: req.body.lastName }
+    //     ] },
+    //     (err, existingUser) => {
+    //       if (err) {
+    //         return next(err);
+    //       }
+    //       if (existingUser) {
+    //         req.flash("errors", {
+    //           msg: "Account with that email address already exists",
+    //         });
+    //         return res.redirect("../signup");
+    //       }
+    //       user.save((err) => {
+    //         if (err) {
+    //           return next(err);
+    //         }
+    //         req.logIn(user, (err) => {
+    //           if (err) {
+    //             return next(err);
+    //           }
+    //           res.redirect("/profile");
+    //         });
+    //       });
+    //     },
+    
+        
+    //   )};
+
+    // &Nj1eC7xC@_3alu8F(93jOY)V+@K1)GATUSA

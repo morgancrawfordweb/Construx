@@ -14,7 +14,11 @@ const subscriptionController = require("../controllers/subscriptions")
 //Getting the subscriptions page.
 router.get("/subscriptionPage", companyController.getSubscriptionPage);
 
+//Will send invite link 
+router.post("/inviteNewUser", ensureCompanyAuth, companyController.postInviteNewUser)
 
+//Actual route to register the new user to a company via invite link
+router.post("/registerNewUser", ensureCompanyAuth, companyController.postRegisterNewUser)
 
 
 module.exports = router

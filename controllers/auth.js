@@ -148,8 +148,11 @@ exports.postSignup = (req, res, next) => {
           res.redirect("/profile");
         });
       });
-    }
+    },
+
+    
   )};
+  
   
 
 
