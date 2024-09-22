@@ -44,9 +44,7 @@
     "uuid": "^9.0.0",
     "validator": "^13.6.0"
   },
-  "engines": {
-    "node": "v20.13.1"
-  },
+  
   "devDependencies": {
     "tailwindcss": "^3.2.4"
   },
