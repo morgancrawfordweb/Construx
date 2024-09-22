@@ -41,16 +41,24 @@ module.exports = {
       // let mailertogo_domain = process.env.MAILERTOGO_DOMAIN || "construx.herokuapp.com";
   
       // Set up the transporter using your custom SMTP service
-      let transporter = nodemailer.createTransport({
-        host: 'localhost',
-        port: 1025,
-        secure: false,
-        tls: {
-          rejectUnauthorized: false // Skip certificate verification for local testing
-        },
-        logger: true, // Enable logger for debugging
-        debug: true,  // Show debug output
-      });
+      const formData = require('form-data');
+      const Mailgun = require('mailgun.js');
+      const mailgun = new Mailgun(formData);
+      const mg = mailgun.client({username: 'api', key: process.env.MAILGUN_API_KEY || 'pubkey-b2e3f6f29ea771b6e6c2651fb7801fc9'});
+      
+      mg.messages.create('sandbox-123.mailgun.org', {
+        from: `${company.companyEmail}`, // Must match your domain
+        to: newUser,
+        subject: "Invitation to Join Construx",
+        text: `You're invited to join Construx! Click the link to sign up: ${signupUrl}`,
+        html: `
+          <h3>You're Invited to Join Construx</h3>
+          <p>Click the link below to complete your signup process:</p>
+          <a href="${signupUrl}">Sign Up</a>
+        `,
+      })
+      .then(msg => console.log(msg)) // logs response data
+      .catch(err => console.log(err)); // logs any error
   
       const company = req.user;
       const newUser = req.body.newUserEmail;
@@ -78,8 +86,8 @@ module.exports = {
       };
   
       // Send the email
-      let info = await transporter.sendMail(mailOptions);
-      console.log('Email sent: ' + info.response);
+      // let info = await transporter.sendMail(mailOptions);
+      // console.log('Email sent: ' + info.response);
   
       res.render("companyProfile.ejs", { company: req.user });
     } catch (err) {
