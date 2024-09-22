@@ -95,7 +95,7 @@ app.use("/subscription", subscriptionRoutes);
 app.use("/template", templateRoutes);
 
 //Server Running
-app.listen(process.env.PORT || PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server is running, you better catch it!");
 });
 
