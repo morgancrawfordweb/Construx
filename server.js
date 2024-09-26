@@ -81,6 +81,23 @@ app.use(passport.session());
 //Use flash messages for errors, info, ect...
 app.use(flash());
 
+// Your existing middleware, routes, etc.
+// Example: app.use('/someRoute', someRouteController);
+
+// --- 404 Catch-All Middleware ---
+// app.use((req, res, next) => {
+//   res.status(404).render('404', { title: 'Page Not Found' });
+// });
+
+// --- Universal Error Handler Middleware ---
+app.use((err, req, res, next) => {
+  const statusCode = err.status || 500;  // Default to 500 if no status code
+  res.status(statusCode).render('error', {
+      title: `Error ${statusCode}`,
+      message: err.message || 'An unexpected error occurred'
+  });
+});
+
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/event", eventRoutes);

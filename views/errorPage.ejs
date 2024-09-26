@@ -1,0 +1,49 @@
+<%- include('partials/header') -%>
+
+
+<nav>
+    <div class="ham-menu" id="ham-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <ul class="menu">
+        <li class="menu-item"><a href="#about-us">About Us</a></li>
+        <li class="menu-item"><a href="#features">Features</a></li>
+        <li class="menu-item"><a href="#our-audience">Who we serve</a></li>
+        <li class="menu-item"><a href="/signup">Get Started</a></li>
+        <li class="menu-item"><a href="/login">Already signed up?</a></li>
+        <li class="menu-item"><a href="#">Company Login</a></li>
+        <li class="menu-item"><a href="#">Register Your Company</a></li>
+    </ul>
+    <div class="off-screen-menu" id="off-screen-menu">
+        <button class="close-menu" id="close-menu">X</button>
+        <ul>
+            <li class="menu-item"><a href="#about-us">About Us</a></li>
+            <li class="menu-item"><a href="#features">Features</a></li>
+            <li class="menu-item"><a href="#our-audience">Who we serve</a></li>
+            <li class="menu-item"><a href="/login">Already signed up?</a></li>
+            <li class="menu-item"><a href="/signup">Get Started</a></li>
+            <li class="menu-item"><a href="#">Company Login</a></li>
+            <li class="menu-item"><a href="#">Register Your Company</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <section class="parallax-main-image">
+        <section class="landing-page-content">
+            <h1 class="title-heading">Oops!</h1>
+            <span class="tagline">An Error Occured</span>
+        </section>
+    </section>
+
+        <section class="mission-statement">
+            <span><%=err%> Your project, up to date, when you want it to be.</span>
+        </section>
+</main>
+      
+      
+
+
+<%- include('partials/footer') -%>
