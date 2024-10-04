@@ -7,6 +7,9 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const passport = require("passport-local")
 
+//Use .env file in config folder
+require("dotenv").config({ path: "./config/.env" });
+
 
 module.exports = {
   getCompanyProfile: async (req, res) => {
@@ -61,7 +64,7 @@ module.exports = {
   
       // Generate the JWT token
       const token = jwt.sign(
-        { email: newUser, companyId: req.user.companyId },
+        { email: newUser, companyId: company.companyId },
         process.env.JWT_SECRET, // Store your secret in an environment variable
         { expiresIn: '6h' }
       );
