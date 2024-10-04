@@ -95,7 +95,7 @@ module.exports = {
         to: [newUser],
         subject: "Come Join Me!",
         text: "Testing some Mailgun awesomeness!",
-        html: `<h1>Come join me at ${signupUrl}!</h1>`
+        html: `<h1>Come join me at </h1>`
       })
   
   
