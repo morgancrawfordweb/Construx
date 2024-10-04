@@ -90,7 +90,7 @@ module.exports = {
       const mailgun = new Mailgun(formData);
       const mg = mailgun.client({username: 'api', key: process.env.MAILGUN_API_KEY});
       
-      mg.messages.create('sandbox288a9b2cf2004aafacc08d3590a97d40.mailgun.org', {
+      mg.messages.create(MAILGUN_API_DOMAIN, {
         from: "Excited User <sandbox288a9b2cf2004aafacc08d3590a97d40.mailgun.org>",
         to: [newUser],
         subject: "Come Join Me!",
