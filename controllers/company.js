@@ -69,7 +69,7 @@ module.exports = {
       //   { expiresIn: '6h' }
       // );
   
-      const signupUrl = `https://construx.herokuapp.com/signup?token=${token}`;
+      // const signupUrl = `https://construx.herokuapp.com/signup?token=${token}`;
   
       // Mail content
       // let mailOptions = {
