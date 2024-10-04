@@ -91,7 +91,7 @@ module.exports = {
       const mg = mailgun.client({username: 'api', key: process.env.MAILGUN_API_KEY});
       
       mg.messages.create("sandbox288a9b2cf2004aafacc08d3590a97d40.mailgun.org", {
-        from: "Excited User <sandbox288a9b2cf2004aafacc08d3590a97d40.mailgun.org>",
+        from: "Excited User <mailgun@sandbox288a9b2cf2004aafacc08d3590a97d40.mailgun.org>",
         to: [newUser],
         subject: "Come Join Me!",
         text: "Testing some Mailgun awesomeness!",
