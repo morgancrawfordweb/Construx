@@ -97,6 +97,7 @@ module.exports = {
         text: "Testing some Mailgun awesomeness!",
         html: `<h1>Come join me at </h1>`
       })
+      //Changed api key
   
   
       res.render("companyProfile.ejs", { company: req.user });
