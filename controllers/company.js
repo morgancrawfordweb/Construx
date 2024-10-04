@@ -62,12 +62,12 @@ module.exports = {
       const company = req.user;
       const newUser = req.body.newUserEmail;
   
-      // Generate the JWT token
-      const token = jwt.sign(
-        { email: newUser, companyId: company.companyId },
-        process.env.JWT_SECRET, // Store your secret in an environment variable
-        { expiresIn: '6h' }
-      );
+      // // Generate the JWT token
+      // const token = jwt.sign(
+      //   { email: newUser, companyId: company.companyId },
+      //   process.env.JWT_SECRET, // Store your secret in an environment variable
+      //   { expiresIn: '6h' }
+      // );
   
       const signupUrl = `https://construx.herokuapp.com/signup?token=${token}`;
   
