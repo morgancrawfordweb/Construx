@@ -48,8 +48,8 @@ module.exports = {
         { expiresIn: '6h' }
       );
   
-      const signupUrl = `https://construx.herokuapp.com/invitedUserSignupPage?token=${token}`;
-  
+      const signupUrl = `https://construx.herokuapp.com/invitedUserSignupPage`;
+      // token=${token}
   
       //MAILGUN
       const formData = require('form-data');
