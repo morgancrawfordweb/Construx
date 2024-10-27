@@ -32,58 +32,25 @@ module.exports = {
           console.log(err)
       }
   },
+
+  //Creates the invitation for the user to join
   postInviteNewUser: async (req, res) => {
     try {
 
-      
-      // // Use MailerToGo SMTP or your chosen SMTP provider details
-      // let mailertogo_host = process.env.MAILERTOGO_SMTP_HOST;
-      // let mailertogo_port = process.env.MAILERTOGO_SMTP_PORT || 2120; // Default mail port
-      // let mailertogo_user = process.env.MAILERTOGO_SMTP_USER;
-      // let mailertogo_password = process.env.MAILERTOGO_SMTP_PASSWORD;
-      // let mailertogo_domain = process.env.MAILERTOGO_DOMAIN || "construx.herokuapp.com";
-  
-      // Set up the transporter using your custom SMTP service
-      // let transporter = nodemailer.createTransport({
-      //   host: 'localhost',
-      //   port: 1025,
-      //   secure: false,
-      //   tls: {
-      //     rejectUnauthorized: false // Skip certificate verification for local testing
-      //   },
-      //   logger: true, // Enable logger for debugging
-      //   debug: true,  // Show debug output
-      // });
-
-
-
-
-  
+ 
       const company = req.user;
       const newUser = req.body.newUserEmail;
   
-      // // Generate the JWT token
-      // const token = jwt.sign(
-      //   { email: newUser, companyId: company.companyId },
-      //   process.env.JWT_SECRET, // Store your secret in an environment variable
-      //   { expiresIn: '6h' }
-      // );
+      // Generate the JWT token
+      const token = jwt.sign(
+        { email: newUser, companyId: company.companyId },
+        process.env.JWT_SECRET, // Store your secret in an environment variable
+        { expiresIn: '6h' }
+      );
   
-      // const signupUrl = `https://construx.herokuapp.com/signup?token=${token}`;
+      const signupUrl = `https://construx.herokuapp.com/invitedUserSignupPage?token=${token}`;
   
-      // Mail content
-      // let mailOptions = {
-      //   from: `${company.companyEmail}`, // Must match your domain
-      //   to: newUser,
-      //   subject: "Invitation to Join Construx",
-      //   text: `You're invited to join Construx! Click the link to sign up: ${signupUrl}`,
-      //   html: `
-      //     <h3>You're Invited to Join Construx</h3>
-      //     <p>Click the link below to complete your signup process:</p>
-      //     <a href="${signupUrl}">Sign Up</a>
-      //   `,
-      // };
-
+  
       //MAILGUN
       const formData = require('form-data');
       const Mailgun = require('mailgun.js');
@@ -95,9 +62,8 @@ module.exports = {
         to: [newUser],
         subject: "Come Join Me!",
         text: "Testing some Mailgun awesomeness!",
-        html: `<h1>Come join me at </h1>`
+        html: `<h1>Come join me at ${signupUrl}</h1>`
       })
-      //Changed api key
   
   
       res.render("companyProfile.ejs", { company: req.user });
@@ -106,19 +72,21 @@ module.exports = {
       res.render("companyProfile.ejs", { company: req.user });
     }
   },
+
     
 
-    postRegisterNewUser: async (req,res)=>{
+  postSignupInvitedUser: async (req,res)=>{
       try{
 
         const { firstName, lastName, password, phoneNumber } = req.body;
         const companyId = req.params.companyId;
         const email = req.params.email;
-
+        res.render
       }catch(err){
         console.log(err)
       }
     },
+  
 
     //End of Module
   }

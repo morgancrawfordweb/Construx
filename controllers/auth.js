@@ -153,7 +153,16 @@ exports.postSignup = (req, res, next) => {
     
   )};
   
-  
+  exports.getInvitedUserSignupPage = async (req,res,next)=>{
+
+
+    res.render("invitedUserSignup", {
+      title: "Create Account",
+      
+    });
+  };
+
+
 
 
 

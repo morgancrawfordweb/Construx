@@ -54,7 +54,7 @@ createTemplate: async (req, res) => {
           reference: req.body.reference,
           isOriginal: true
         });  
-          
+
 
           console.log("Task sheet has been created");
           res.redirect("/template/createTemplatePage");
