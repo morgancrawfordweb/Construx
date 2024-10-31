@@ -1,7 +1,7 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
-const Company = require("../models/Company")
+const Organization = require("../models/Organization")
 
 
 
@@ -65,27 +65,35 @@ exports.logout = (req, res) => {
 
 exports.getSignup = (req, res) => {
 //creates a customID for user  
-  function generateCustomId(length) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
-
-  const generatedId = generateCustomId(36);
-  if (req.user) {
-    return res.redirect("/profile");
-  }
+  
   res.render("signup", {
     title: "Create Account",
-    generatedId: generatedId
   });
 };
 
+
+
 exports.postSignup = (req, res, next) => {
+
+  //generate a randomID for your 
+function generateCustomId(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
+  let result = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+// const generatedId = generateCustomId(36);
+// if (req.user) {
+//   return res.redirect("/profile");
+// }
+
+const generatedOrganizationId = generateCustomId(36)
+const generatedCollaboratorId = generateCustomId(34)
+
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -93,14 +101,11 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({
       msg: "Password must be at least 8 characters long",
     });
-    if (!validator.isLength(req.body.companyId, { min: 12 }))
-    validationErrors.push({
-      msg: "companyId must be at least 12 characters long",
-    });
+
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
-    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.phoneNumber || !req.body.companyId) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.phoneNumber) {
       validationErrors.push({ msg: "All fields are required." });
     }
 
@@ -118,7 +123,8 @@ exports.postSignup = (req, res, next) => {
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
-    companyId: req.body.companyId,
+    organizationId: generatedOrganizationId,
+    collaboratorInviteId : generatedCollaboratorId
   });
 
   

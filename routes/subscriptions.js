@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const companyAuthController = require("../controllers/companyAuth");
-const companyController = require("../controllers/company");
+const organizationAuthController = require("../controllers/organizationAuth");
+const organizationController = require("../controllers/organization");
 const homeController = require("../controllers/home");
 // const calendarController = require("../controllers/calendars");
-const { ensureAuth, ensureCompanyAuth, ensureGuest } = require("../middleware/auth");
+const { ensureAuth, ensureOrganizationAuth, ensureGuest } = require("../middleware/auth");
 const subscriptionController = require("../controllers/subscriptions")
 
 

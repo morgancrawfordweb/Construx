@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const Project = require("../models/Project");
 const Document = require("../models/Document");
-const Company = require("../models/Company");
+const Organization = require("../models/Organization");
 const nodemailer = require("nodemailer")
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
@@ -12,10 +12,10 @@ require("dotenv").config({ path: "./config/.env" });
 
 
 module.exports = {
-  getCompanyProfile: async (req, res) => {
+  getOrganizationProfile: async (req, res) => {
       try {
-          const employees = await User.find({companyId: req.user.companyId})
-        res.render("companyProfile.ejs", { company: req.user, employees:employees });
+          const employees = await User.find({organizationId: req.user.organizationId})
+        res.render("organizationProfile.ejs", { organization: req.user, employees:employees });
       } catch (err) {
         console.log(err);
       }
@@ -23,10 +23,10 @@ module.exports = {
     getSubscriptionPage: async (req,res) => {
       try{
           // const user = await User.findOne({})
-          // const company = await Company.findOne({_id: req.params.id})
+          // const organization = await Organization.findOne({_id: req.params.id})
           
 
-          res.render("subscription.ejs", {company: req.user})
+          res.render("subscription.ejs", {organization: req.user})
 
       }catch(err){
           console.log(err)
@@ -38,17 +38,17 @@ module.exports = {
     try {
 
  
-      const company = req.user;
+      const organization = req.user;
       const newUser = req.body.newUserEmail;
   
       // Generate the JWT token
       const token = jwt.sign(
-        { email: newUser, companyId: company.companyId },
+        { email: newUser, organizationId: organization.organizationId },
         process.env.JWT_SECRET, // Store your secret in an environment variable
         { expiresIn: '6h' }
       );
   
-      const signupUrl = `https://construx.herokuapp.com/company/invitedUserSignupPage`;
+      const signupUrl = `https://construx.herokuapp.com/organization/invitedUserSignupPage`;
       // token=${token}
   
       //MAILGUN
@@ -66,10 +66,10 @@ module.exports = {
       })
   
   
-      res.render("companyProfile.ejs", { company: req.user });
+      res.render("organizationProfile.ejs", { organization: req.user });
     } catch (err) {
       console.log(err);
-      res.render("companyProfile.ejs", { company: req.user });
+      res.render("organizationProfile.ejs", { organization: req.user });
     }
   },
 
@@ -79,7 +79,7 @@ module.exports = {
       try{
 
         const { firstName, lastName, password, phoneNumber } = req.body;
-        const companyId = req.params.companyId;
+        const organizationId = req.params.organizationId;
         const email = req.params.email;
         res.render
       }catch(err){

@@ -1,5 +1,5 @@
 const User = require("../models/User")
-const Company = require("../models/Company");
+const Organization = require("../models/Organization");
 const Project = require("../models/Project");
 // const stripe = require("stripe")
 

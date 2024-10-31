@@ -8,17 +8,28 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   phoneNumber:{type:String, required:true },
-  // Check company name and companyId, if they match through validation then they will go through
+  // Check organization name and organizationId, if they match through validation then they will go through
   
-  company: {type: mongoose.Schema.Types.ObjectId, ref:'Company'},
-  companyId: {type: String, required: false},
-  roles: {
-    type: [{
-        type: String,
-        enum: ['user', 'employer']
+  organization: {type: mongoose.Schema.Types.ObjectId, ref:'Organization'},
+
+  organizationId: {type: String, required: true, unique: true},
+  //Code given to people to allow access to other projects.
+  collaboratorInviteId: {type: String, required: true},
+  //Holds onto all the collaboratorId
+  network:[{
+    group:[{
+        organization:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
+        roles: [{
+          type: {
+              type: String,
+              enum: ['user', 'admin','owner'],
+              default: 'user',
+          },
+          collaboratorId: {type:String, ref:"User"}
+        }],
     }],
-    default: ['user']
-  },
+  }],
+  
   // securityQuestion: {type: String, unique: true},
   // securityAnswer: {type: String, unique: true},
   profilePicture:{type: String},
@@ -48,10 +59,10 @@ UserSchema.pre("save", function save(next) {
   });
 });
 
-//properly hashes the companyId to add more security to documents and templates.
+//properly hashes the organizationId to add more security to documents and templates.
 UserSchema.pre('save', function(next) {
-  if (this.isModified('companyId')) {
-    this.companyId = CryptoJS.SHA256(this.companyId).toString(CryptoJS.enc.Hex);
+  if (this.isModified('organizationId')) {
+    this.organizationId = CryptoJS.SHA256(this.organizationId).toString(CryptoJS.enc.Hex);
   }
   next();
 });

@@ -29,10 +29,10 @@ const projectRoutes = require("./routes/projects");
 const documentRoutes = require("./routes/documents");
 const templateRoutes = require("./routes/templates");
 
-//Supposed to be for companies, Right now Im just going to treat a company as a user
-const companyRoutes = require("./routes/companies");
+//Supposed to be for companies, Right now Im just going to treat a organization as a user
+const organizationRoutes = require("./routes/organizations");
 
-//Supposed to be for companies, Right now Im just going to treat a company as a user
+//Supposed to be for companies, Right now Im just going to treat a organization as a user
 const subscriptionRoutes  = require("./routes/subscriptions");
 
 
@@ -90,7 +90,7 @@ app.use("/", mainRoutes);
 app.use("/event", eventRoutes);
 app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
-app.use("/company", companyRoutes);
+app.use("/organization", organizationRoutes);
 app.use("/subscription", subscriptionRoutes);
 app.use("/template", templateRoutes);
 

@@ -1,7 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const User = require("../models/User");
-const Company = require("../models/Company");
 
 
 module.exports = function (passport) {
@@ -34,43 +33,43 @@ module.exports = function (passport) {
       });
     })
   );
+  }
+  // Organization Strategy
+//   passport.use(
+//     "organization",
+//     new LocalStrategy({ usernameField: "organizationEmail" }, (organizationEmail, password, done) => {
+//       Organization.findOne({ organizationEmail: organizationEmail.toLowerCase() }, (err, organization) => {
+//         if (err) {
+//           return done(err);
+//         }
+//         if (!organization) {
+//           return done(null, false, { msg: `Email ${organizationEmail} not found.` });
+//         }
+//         if (!organization.password) {
+//           return done(null, false, {
+//             msg: "Your organization account was registered using a sign-in provider. To enable password login, sign in using a provider, and then set a password under your organization profile.",
+//           });
+//         }
+//         organization.compareOrganizationPassword(password, (err, isMatch) => {
+//           if (err) {
+//             return done(err);
+//           }
+//           if (isMatch) {
+//             return done(null, organization);
+//           }
+//           return done(null, false, { msg: "Invalid email or password." });
+//         });
+//       });
+//     })
+//   );
 
-  // Company Strategy
-  passport.use(
-    "company",
-    new LocalStrategy({ usernameField: "companyEmail" }, (companyEmail, password, done) => {
-      Company.findOne({ companyEmail: companyEmail.toLowerCase() }, (err, company) => {
-        if (err) {
-          return done(err);
-        }
-        if (!company) {
-          return done(null, false, { msg: `Email ${companyEmail} not found.` });
-        }
-        if (!company.password) {
-          return done(null, false, {
-            msg: "Your company account was registered using a sign-in provider. To enable password login, sign in using a provider, and then set a password under your company profile.",
-          });
-        }
-        company.compareCompanyPassword(password, (err, isMatch) => {
-          if (err) {
-            return done(err);
-          }
-          if (isMatch) {
-            return done(null, company);
-          }
-          return done(null, false, { msg: "Invalid email or password." });
-        });
-      });
-    })
-  );
+//   // Serialize and Deserialize User
+//   passport.serializeUser((entity, done) => {
+//     done(null, { id: entity.id, type: entity instanceof User ? 'User' : 'Organization' });
+//   });
 
-  // Serialize and Deserialize User
-  passport.serializeUser((entity, done) => {
-    done(null, { id: entity.id, type: entity instanceof User ? 'User' : 'Company' });
-  });
-
-  passport.deserializeUser((obj, done) => {
-    const Model = obj.type === 'User' ? User : Company;
-    Model.findById(obj.id, (err, entity) => done(err, entity));
-  });
-};
+//   passport.deserializeUser((obj, done) => {
+//     const Model = obj.type === 'User' ? User : Organization;
+//     Model.findById(obj.id, (err, entity) => done(err, entity));
+//   });
+// };

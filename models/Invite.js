@@ -5,9 +5,9 @@ const InviteSchema = new mongoose.Schema({
     type: String,
     ref: "User", 
   },  
-  company: {
+  organization: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+    ref: "Organization",
     required: true
   },
   token: {

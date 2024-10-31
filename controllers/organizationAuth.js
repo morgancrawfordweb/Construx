@@ -1,23 +1,23 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
-const Company = require("../models/Company");
+const Organization = require("../models/Organization");
 
-//Company login page//
+//Organization login page//
 
-exports.getCompanyLogin = (req, res) => {
-    if (req.company) {
-      return res.redirect("/companyProfile");
+exports.getOrganizationLogin = (req, res) => {
+    if (req.organization) {
+      return res.redirect("/organizationProfile");
     }
-    res.render("companyLogin", {
-      title: "CompanyLogin",
+    res.render("organizationLogin", {
+      title: "OrganizationLogin",
     });
   };
   
-  exports.postCompanyLogin = (req, res, next) => {
+  exports.postOrganizationLogin = (req, res, next) => {
     const validationErrors = [];
 
-    if (!validator.isEmail(req.body.companyEmail))
+    if (!validator.isEmail(req.body.organizationEmail))
       validationErrors.push({ msg: "Please enter a valid email address." });
     if (validator.isEmpty(req.body.password))
       validationErrors.push({ msg: "Password cannot be blank." });
@@ -25,51 +25,51 @@ exports.getCompanyLogin = (req, res) => {
     if (validationErrors.length) {
       console.log(validationErrors)
       req.flash("errors", validationErrors);
-      return res.redirect("/companyLogin");
+      return res.redirect("/organizationLogin");
     }
 
-    req.body.companyEmail = validator.normalizeEmail(req.body.companyEmail, {
+    req.body.organizationEmail = validator.normalizeEmail(req.body.organizationEmail, {
       gmail_remove_dots: false,
     });
   
-    passport.authenticate("company", (err, company, info) => {
+    passport.authenticate("organization", (err, organization, info) => {
       if (err) {
         console.log(err, '1')
         return next(err);
       }
-      if (!company) {
+      if (!organization) {
         req.flash("errors", info);
         console.log(err)
-        console.log(company)
+        console.log(organization)
         console.log(info, '2')
-        return res.redirect("/companyLogin");
+        return res.redirect("/organizationLogin");
       }
-      req.logIn(company, (err) => {
+      req.logIn(organization, (err) => {
         if (err) {
           console.log(err, '3')
           return next(err);
         }
-        req.flash("success", { msg: "Success! You are logged in as the company Admin." });
-        res.redirect(req.session.returnTo || "/companyProfile");
+        req.flash("success", { msg: "Success! You are logged in as the organization Admin." });
+        res.redirect(req.session.returnTo || "/organizationProfile");
       });
     })(req, res, next);
   };
   
-  exports.companyLogout = (req, res) => {
+  exports.organizationLogout = (req, res) => {
     req.logout(() => {
-      console.log('Company Administrator has logged out.')
+      console.log('Organization Administrator has logged out.')
     })
     req.session.destroy((err) => {
       if (err)
         console.log("Error : Failed to destroy the session during logout.", err);
-      req.company = null;
+      req.organization = null;
       res.redirect("/");
     });
   };
 
-//This is to sign the company up to use the service.//
+//This is to sign the organization up to use the service.//
 
-exports.getCompanyRegister = (req, res) => {
+exports.getOrganizationRegister = (req, res) => {
   function generateCustomId(length) {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
     let result = '';
@@ -82,75 +82,75 @@ exports.getCompanyRegister = (req, res) => {
 
   const generatedId = generateCustomId(36);
    if(req.user){
-     return res.redirect("/companyProfile")
+     return res.redirect("/organizationProfile")
    }
-    res.render("registerCompany", {
-      title: "Create Company Account",
+    res.render("registerOrganization", {
+      title: "Create Organization Account",
       generatedId: generatedId,
     });
   };
 
 
   
-  exports.postCompanyRegister = (req, res, next) => {
+  exports.postOrganizationRegister = (req, res, next) => {
 
     const validationErrors = [];
-    if (!validator.isEmail(req.body.companyEmail))
+    if (!validator.isEmail(req.body.organizationEmail))
       validationErrors.push({ msg: "Please enter a valid email address." });
     if (!validator.isLength(req.body.password, { min: 8 }))
       validationErrors.push({
         msg: "Password must be at least 8 characters long",
       });
-      if (!validator.isLength(req.body.companyId, { min: 12 }))
+      if (!validator.isLength(req.body.organizationId, { min: 12 }))
       validationErrors.push({
-        msg: "Your companyId must be at least 12 characters long",
+        msg: "Your organizationId must be at least 12 characters long",
       });
 
       //Checks if passwords are matching
     if (req.body.password !== req.body.confirmPassword)
       validationErrors.push({ msg: "Passwords do not match" });
 
-    //Checks if companyId's are matching
-    if (req.body.companyId !== req.body.confirmCompanyId)
-      validationErrors.push({ msg: "Company Id's do not match" });
+    //Checks if organizationId's are matching
+    if (req.body.organizationId !== req.body.confirmOrganizationId)
+      validationErrors.push({ msg: "Organization Id's do not match" });
 
   
     if (validationErrors.length) {
       req.flash("errors", validationErrors);
-      return res.redirect("../registerCompany");
+      return res.redirect("../registerOrganization");
     }
-    req.body.companyEmail = validator.normalizeEmail(req.body.companyEmail, {
+    req.body.organizationEmail = validator.normalizeEmail(req.body.organizationEmail, {
       gmail_remove_dots: false,
     });
 
-    const company = new Company({
+    const organization = new Organization({
       name: req.body.name,
-      companyEmail: req.body.companyEmail,
+      organizationEmail: req.body.organizationEmail,
       password: req.body.password,
-      companyId: req.body.companyId,
+      organizationId: req.body.organizationId,
     });
   
-    Company.findOne(
-      { $or: [{ name: req.body.name }, { companyId: req.body.companyId }] },
+    Organization.findOne(
+      { $or: [{ name: req.body.name }, { organizationId: req.body.organizationId }] },
       (err, existingCompany) => {
         if (err) {
           return next(err);
         }
         if (existingCompany) {
           req.flash("errors", {
-            msg: "Account with that company name or companyId already exists.",
+            msg: "Account with that organization name or organizationId already exists.",
           });
-          return res.redirect("../registerCompany");
+          return res.redirect("../registerOrganization");
         }
-        company.save((err) => {
+        organization.save((err) => {
           if (err) {
             return next(err);
           }
-          req.logIn(company, (err) => {
+          req.logIn(organization, (err) => {
             if (err) {
               return next(err);
             }
-            res.redirect("/companyProfile");
+            res.redirect("/organizationProfile");
           });
         });
       }
@@ -186,7 +186,7 @@ exports.getCompanyRegister = (req, res) => {
 
     //     //need this to grab the users information based on the email clicked for the link and then the 
     //     email: req.params.email,
-    //     companyId: req.params.companyId,
+    //     organizationId: req.params.organizationId,
     //   });
     
       
