@@ -33,6 +33,15 @@ module.exports = function (passport) {
       });
     })
   );
+    // Serialize and Deserialize User
+    passport.serializeUser((entity, done) => {
+      done(null, { id: entity.id, type: entity instanceof User ? 'User' : 'Organization' });
+    });
+  
+    passport.deserializeUser((obj, done) => {
+      const Model = obj.type === 'User' ? User : Organization;
+      Model.findById(obj.id, (err, entity) => done(err, entity));
+    });
   }
   // Organization Strategy
 //   passport.use(
@@ -63,13 +72,4 @@ module.exports = function (passport) {
 //     })
 //   );
 
-//   // Serialize and Deserialize User
-//   passport.serializeUser((entity, done) => {
-//     done(null, { id: entity.id, type: entity instanceof User ? 'User' : 'Organization' });
-//   });
 
-//   passport.deserializeUser((obj, done) => {
-//     const Model = obj.type === 'User' ? User : Organization;
-//     Model.findById(obj.id, (err, entity) => done(err, entity));
-//   });
-// };

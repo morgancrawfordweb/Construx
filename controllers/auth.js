@@ -71,28 +71,29 @@ exports.getSignup = (req, res) => {
   });
 };
 
+  //generate a randomID for your 
+  function generateCustomId(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+  const generatedOrganizationId = generateCustomId(36)
+const generatedCollaboratorId = generateCustomId(34)
 
 
 exports.postSignup = (req, res, next) => {
 
-  //generate a randomID for your 
-function generateCustomId(length) {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
-  let result = '';
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+
 
 // const generatedId = generateCustomId(36);
 // if (req.user) {
 //   return res.redirect("/profile");
 // }
 
-const generatedOrganizationId = generateCustomId(36)
-const generatedCollaboratorId = generateCustomId(34)
 
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))

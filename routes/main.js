@@ -6,7 +6,7 @@ const projectsController = require("../controllers/projects");
 const forgotPasswordController = require("../controllers/forgotPassword");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 const organizationController = require("../controllers/organization")
-const organizationAuthController = require("../controllers/organizationAuth");
+// const organizationAuthController = require("../controllers/organizationAuth");
 
 
 
@@ -37,18 +37,18 @@ router.put("/forgotPassword", forgotPasswordController.updateOldPassword);
 //*
 // !
 // *
-router.get("/organizationProfile", organizationController.getOrganizationProfile);
+// router.get("/organizationProfile", organizationController.getOrganizationProfile);
 //Company log-in
 //This way you can add different bios and update your team etc.
-router.get("/organizationLogin", organizationAuthController.getOrganizationLogin);
-router.post("/organizationLogin", organizationAuthController.postOrganizationLogin);
+// router.get("/organizationLogin", organizationAuthController.getOrganizationLogin);
+// router.post("/organizationLogin", organizationAuthController.postOrganizationLogin);
 
 //Logs you out of your organization dashboard
-router.get("/organizationLogout", organizationAuthController.organizationLogout);
+// router.get("/organizationLogout", organizationAuthController.organizationLogout);
 
 //Company Register Page
-router.get("/registerOrganization", organizationAuthController.getOrganizationRegister);
-router.post("/registerOrganization", organizationAuthController.postOrganizationRegister);
+// router.get("/registerOrganization", organizationAuthController.getOrganizationRegister);
+// router.post("/registerOrganization", organizationAuthController.postOrganizationRegister);
 
 
 
