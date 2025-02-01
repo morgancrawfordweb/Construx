@@ -34,42 +34,14 @@ module.exports = function (passport) {
     })
   );
     // Serialize and Deserialize User
-    passport.serializeUser((entity, done) => {
-      done(null, { id: entity.id, type: entity instanceof User ? 'User' : 'Organization' });
+    passport.serializeUser((user, done) => {
+      done(null, user.id);
     });
   
-    passport.deserializeUser((obj, done) => {
-      const Model = obj.type === 'User' ? User : Organization;
-      Model.findById(obj.id, (err, entity) => done(err, entity));
+    passport.deserializeUser((id, done) => {
+      User.findById(id, (err, user) => done(err, user));
     });
   }
-  // Organization Strategy
-//   passport.use(
-//     "organization",
-//     new LocalStrategy({ usernameField: "organizationEmail" }, (organizationEmail, password, done) => {
-//       Organization.findOne({ organizationEmail: organizationEmail.toLowerCase() }, (err, organization) => {
-//         if (err) {
-//           return done(err);
-//         }
-//         if (!organization) {
-//           return done(null, false, { msg: `Email ${organizationEmail} not found.` });
-//         }
-//         if (!organization.password) {
-//           return done(null, false, {
-//             msg: "Your organization account was registered using a sign-in provider. To enable password login, sign in using a provider, and then set a password under your organization profile.",
-//           });
-//         }
-//         organization.compareOrganizationPassword(password, (err, isMatch) => {
-//           if (err) {
-//             return done(err);
-//           }
-//           if (isMatch) {
-//             return done(null, organization);
-//           }
-//           return done(null, false, { msg: "Invalid email or password." });
-//         });
-//       });
-//     })
-//   );
+
 
 

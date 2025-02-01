@@ -16,8 +16,6 @@ const ProjectSchema = new mongoose.Schema({
   // organizationId:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
   // companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
 
-
-  organizationId:{type: mongoose.Schema.Types.ObjectId, ref:"User"},
   organization:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
   user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   template:{

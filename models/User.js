@@ -7,27 +7,18 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, unique: true },
   password: String,
-  phoneNumber:{type:String, required:true },
-  // Check organization name and organizationId, if they match through validation then they will go through
-  
-  organization: {type: mongoose.Schema.Types.ObjectId, ref:'Organization'},
+  phoneNumber:{type:String, required: true },
 
-  organizationId: {type: String, required: true, unique: true},
-  //Code given to people to allow access to other projects.
-  collaboratorInviteId: {type: String, required: true},
-  //Holds onto all the collaboratorId
+  //Holds onto the organizations that you are apart of. This will not include your own organization, just the ones you are apart of.
   network:[{
-    group:[{
-        organization:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
-        roles: [{
-          type: {
+        organizationId:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
+        organizationName: {type: String, ref: "Organization"},
+        role: { 
               type: String,
-              enum: ['user', 'admin','owner'],
+              enum: ['user', 'admin', 'owner'],
               default: 'user',
-          },
-          collaboratorId: {type:String, ref:"User"}
-        }],
-    }],
+              required: true,
+        },
   }],
   
   // securityQuestion: {type: String, unique: true},
@@ -60,12 +51,12 @@ UserSchema.pre("save", function save(next) {
 });
 
 //properly hashes the organizationId to add more security to documents and templates.
-UserSchema.pre('save', function(next) {
-  if (this.isModified('organizationId')) {
-    this.organizationId = CryptoJS.SHA256(this.organizationId).toString(CryptoJS.enc.Hex);
-  }
-  next();
-});
+// UserSchema.pre('save', function(next) {
+//   if (this.isModified('organizationId')) {
+//     this.organizationId = CryptoJS.SHA256(this.organizationId).toString(CryptoJS.enc.Hex);
+//   }
+//   next();
+// });
 
 
 // Helper method for validating user's password.

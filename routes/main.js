@@ -5,7 +5,7 @@ const homeController = require("../controllers/home");
 const projectsController = require("../controllers/projects");
 const forgotPasswordController = require("../controllers/forgotPassword");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
-const organizationController = require("../controllers/organization")
+const organizationsController = require("../controllers/organizations")
 // const organizationAuthController = require("../controllers/organizationAuth");
 
 
@@ -13,16 +13,16 @@ const organizationController = require("../controllers/organization")
 //Main Routes - simplified for now
 router.get("/", homeController.getIndex);
 
-router.get("/profile", ensureAuth, projectsController.getProfile);
+//this gets the organization profile
+// router.get("/organizationProfile", ensureAuth, organizationsController.getOrganizationProfile);
 // router.put("/profile/addProfilePicture", ensureAuth, projectsController.addProfilePicture)
 
 
-router.get("/feed", ensureAuth, projectsController.getFeed);
+router.get("/feed/:organizationId", ensureAuth, projectsController.getFeed);
 
 
 router.get("/login", authController.getLogin);
 router.post("/login", authController.postLogin);
-
 
 router.get("/logout", authController.logout);
 
@@ -34,6 +34,12 @@ router.get("/about", homeController.getAbout)
 
 router.get("/forgotPassword", forgotPasswordController.getForgotPassword);
 router.put("/forgotPassword", forgotPasswordController.updateOldPassword);
+
+
+//this is your "feed" for you other organizations that you are apart of that you arent the owner of. Your 'network'. This will be seperated based on if you are the "owner" or a "user/admin"
+router.get("/networkProfile", ensureAuth, organizationsController.getNetworkProfile);
+
+
 //*
 // !
 // *

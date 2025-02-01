@@ -91,7 +91,7 @@ app.use("/event", eventRoutes);
 app.use("/project", projectRoutes);
 app.use("/document", documentRoutes);
 app.use("/organization", organizationRoutes);
-app.use("/subscription", subscriptionRoutes);
+// app.use("/subscription", subscriptionRoutes);
 app.use("/template", templateRoutes);
 
 //Server Running

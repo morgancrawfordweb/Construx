@@ -176,7 +176,6 @@ body{
   display: grid;
   grid-template-columns: auto auto;
   /* background-color: var(--sage); */
-  padding: 3%;
 }
 .grid-item{
   background-color: var(--green);
@@ -185,6 +184,18 @@ body{
   font-size: 40px;
   color: var(--cream);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin: 2%;
+  border-radius: 20px;
+}
+.list-item{
+  background-color: var(--green);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  font-size: 16px;
+  color: var(--cream);
+  text-align: left;
   display: flex;
   flex-direction: column;
   margin: 2%;
