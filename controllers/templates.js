@@ -9,7 +9,7 @@ module.exports = {
   //*This gets the page to fill out your template to be used at a later time.//
   getCreateTemplatePage: async (req,res)=>{
     try{
-      const templates = await Template.find({companyId: req.user.companyId});
+      const templates = await Template.find({organizationId: req.user.organizationId});
 
       res.render("template.ejs",{templates:templates})
     }catch(err){
@@ -50,11 +50,11 @@ createTemplate: async (req, res) => {
           templateName: req.body.templateName,
           tasks: newTask,
           user: req.user.id,
-          companyId: createdUser.companyId,
+          organizationId: createdUser.organizationId,
           reference: req.body.reference,
           isOriginal: true
         });  
-          
+
 
           console.log("Task sheet has been created");
           res.redirect("/template/createTemplatePage");
@@ -67,7 +67,7 @@ createTemplate: async (req, res) => {
       //*This uses the templates that you have already created, and adds additional items to your template and creates a New template called a work location. This way the original tempalte doesnt get modified.
   createNewWorkLocation: async (req,res)=>{
     //Choose between templates and then clone that object but add the parameters of Location
-      //use this to find all of the templates that were created with users that share the same companyId
+      //use this to find all of the templates that were created with users that share the same organizationId
       const project = await Project.findById(req.params.id)
       try {
         const { selectedTemplate, location } = req.body;
@@ -84,7 +84,7 @@ createTemplate: async (req, res) => {
           location,
           tasks: template.tasks,
           project: req.params.id,
-          companyId: req.user.companyId,
+          organizationId: req.user.organizationId,
           projectName: project.projectName,
           user: req.user.id,
           isOriginal: false
@@ -114,7 +114,7 @@ deleteTemplate: async (req, res) => {
     console.log(`Company template has been removed`)
     res.redirect("/template/createTemplatePage");
   } catch (err) {
-    console.log(`${err}, there was an error in deleting this company template.`);
+    console.log(`${err}, there was an error in deleting this organization template.`);
   }
 },
 
@@ -198,7 +198,7 @@ signTask: async (req, res) => {
 
          res.redirect("/template/createTemplatePage");
        } catch (err) {
-         console.log(`${err}, there was an error in deleting this company template.`);
+         console.log(`${err}, there was an error in deleting this organization template.`);
        };
     },
 } 
