@@ -1,5 +1,6 @@
 <%- include('partials/header') -%>
 <div class="container">
+  
   <div class="row justify-content-center mt-5">
     <div class="col-6">
       <div>
@@ -16,7 +17,9 @@
         <h3>Total locations created: <b><%= workLocations.length %></b></h3>
         <br>
   
-        
+        <div>
+          <h2 class="project-heading"> <%= organization.organizationName %></h2>
+        </div>
       </div>
     </div>
   
@@ -48,7 +51,7 @@
     <h3 class="project-heading">Document Section</h3>
       <span>Files accepted: .pdf, .png, .img, .jpg, and .jpeg</span>
     <ul>
-      <form action="/document/createDocument/<%=project._id%>" enctype="multipart/form-data" method="POST">
+      <form action="/document/createDocument/<%=organizationId%>/<%=project._id%>" enctype="multipart/form-data" method="POST">
         <div class ="mb-3">
           <label for="fileName" class = "form-label">Document Name</label>
           <input type = "text" class="form-control" id="fileName" name="fileName">
@@ -71,7 +74,7 @@
               <% for (var i=0; i<nonImageDocuments.length; i++){%>
                 <li class ="document-item"> 
                   <a class ="template-heading" href="<%=nonImageDocuments[i].image%>" download><%=nonImageDocuments[i].fileName%></a>
-                    <form action="/document/deleteDocument/<%=project._id%>/<%=nonImageDocuments[i]._id %>?_method=DELETE" method="POST">
+                    <form action="/document/deleteDocument/<%=organizationId%>/<%=project._id%>/<%=nonImageDocuments[i]._id %>?_method=DELETE" method="POST">
                     <span>Uploaded By:  <%=  nonImageDocuments[i].uploadedById.firstName%> <%=  nonImageDocuments[i].uploadedById.lastName%></span>
                     <br>
                       <button type="submit" class="btn btn-secondary">Delete Document</button>
@@ -83,7 +86,7 @@
       
       <div class="container">
         <h3 class="project-heading">Create a New Work Location</h3>
-        <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=project._id%>" method="POST">
+        <form id="newWorkLocationForm" action="/template/createNewWorkLocation/<%=organizationId%>/<%=projectId%>" method="POST">
           <div class="form-group">
             <label for="templateSelect">Select Template:</label>
             <select class="form-control" id="templateSelect" name="selectedTemplate" required>
@@ -124,7 +127,7 @@
  
                     <li class="signature-box">
                       <h5 class="template-task" id="task-<%= task._id %>"><%= task.taskDetail %></h5>
-                      <form id="signTaskForm-<%= task._id %>" action="/template/signTask/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
+                      <form id="signTaskForm-<%= task._id %>" action="/template/signTask/<%=organizationId%>/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
                         <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
                         <button class="btn btn-primary signature-btn" type="submit" onclick="captureScrollPosition('<%= task._id %>')">Signature Here</button>
                       </form>
@@ -133,8 +136,8 @@
                         <div>
                           <span><b>Signed by</b>: <%= signature.initial %></span> /
                           <span><b>Date</b>: <%= signature.dateCompleted.toDateString() %></span>
-                          <form action ="/template/deleteSignature/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST">
-                            <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                          <form action ="/template/deleteSignature/<%=organizationId%>/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST">
+                            <button type="submit" type="submit" onclick="captureScrollPosition('<%= task._id %>')"><i class="fa-solid fa-trash"></i></button>
                           </form>
                         </div>
 
@@ -142,7 +145,7 @@
                     </li>
                     <br>
                     <% }) %>
-                    <form class="delete-signature" action ="/template/deleteWorkLocation/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
+                    <form class="delete-signature" action ="/template/deleteWorkLocation/<%=organizationId%>/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
                       <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
                     </form>
                   </details>
@@ -166,7 +169,7 @@
                         <span><b>Date Submitted:</b> <%= imageDocuments[i].dateSubmitted.toDateString()%></span>
                         <span><b>Submitted By:</b> <%= imageDocuments[i].uploadedById.firstName%> <%= imageDocuments[i].uploadedById.lastName%></span>
                         <p><b>Image Description:</b> <%= imageDocuments[i].description %></p>
-                      <form class="pt-5 pb-2 m-auto" action="/document/deleteDocument/<%=project._id%>/<%=imageDocuments[i]._id %>?_method=DELETE" method="POST">
+                      <form class="pt-5 pb-2 m-auto" action="/document/deleteDocument/<%=organizationId%>/<%=project._id%>/<%=imageDocuments[i]._id %>?_method=DELETE" method="POST">
                         <button type="submit" class="btn btn-secondary">Delete Document</button>
                       </form>
                 </li>
@@ -177,12 +180,12 @@
   
     <div class="col-6 mt-5">
         <div>
-          <form action ="/project/deleteProject/<%=project._id%>?_method=DELETE" method = "POST">
+          <form action ="/project/<%= organization._id%>/deleteProject/<%=project._id%>?_method=DELETE" method = "POST">
             <button  class="btn btn-primary" type="submit">Delete this Project</button>
           </form>
         </div>
-      <a class="btn btn-primary" href="/profile">Return to Profile</a>
-      <a class="btn btn-primary" href="/feed">Return to <%= user.company %> projects.</a>
+      <a class="btn btn-primary" href="/organization/<%= organizationId %>">Organization Profile</a>
+      <a class="btn btn-primary" href="/feed/<%= organizationId %>">Return to <%= user.company %> projects.</a>
     </div>
     
   </div>

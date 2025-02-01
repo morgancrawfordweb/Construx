@@ -16,9 +16,9 @@
                 <% } %>
                     <div class="mb-5">
                         <h1 class="page-title">Template Creation</h1>
-                        <p>Use this to create templates for your company to use.</p>
+                        <p>Use this to create templates for organization.organizationName .</p>
                     </div>
-                <form action="/template/createTemplate" method="POST">
+                <form action="/template/<%=organizationId%>/createTemplate" method="POST">
                     <div class="mb-3">
                         <label for="templateName" class="form-label">Task Template</label>
                         <h5>*For Example: Grading Inspection Duties</h5>
@@ -38,7 +38,9 @@
                     <button class="btn btn-primary" type="submit" >Submit</button>
                   </form>
 
-                  <a class="mt-6 btn btn-primary" href="/profile">Return to Profile</a>
+                  <div>
+                    <a class="btn btn-primary" href="/organization/<%= organizationId %>">Organization Profile</a>
+                </div>
 
             </section> 
 
@@ -63,7 +65,7 @@
                             </ul>
 
                             
-                            <form action ="/template/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
+                            <form action ="/template/<%= organizationId %>/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
                               <button type="submit" class="btn btn-secondary">Delete Template</button>
                             </form>
                         </details>

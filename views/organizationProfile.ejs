@@ -1,0 +1,106 @@
+<%- include('partials/header') -%>
+<div class="container">
+  
+  <div class="col-12">
+    <h2 class="project-heading"><b><%= organization.organizationName %></b></h2>
+    <span class="userName">Logged in as: <b><%= user.firstName %> <%= user.lastName %></b></span>
+  </div>
+
+  <div class="row"> <!-- Add this row wrapper -->
+
+
+    <div class="col-6">
+      <div class="mt-5"><p>Organization ID: <%= organization._id %></p>
+        <h3 class="project-heading">Add a project</h2>
+        <form action="/project/createProject/<%= organization._id %>" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="projectName" class="form-label">Project Name</label>
+            <input type="text" class="form-control" id="projectName" name="projectName">
+          </div>
+          <div class="mb-3">
+            <label for="projectNumber" class="form-label">Project Number</label>
+            <input type="text" class="form-control" id="projectNumber" name="projectNumber">
+          </div>
+          <div class="mb-3">
+            <label for="projectDescription" class="form-label">Project Description</label>
+            <textarea class="form-control" id="projectDescription" name="projectDescription"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+      
+      <div class="row justify-content-center mt-5">
+        <a href="/template/<%=organization._id%>/createTemplatePage" class="m-3 btn btn-primary">Create a template for <%= organization.organizationName %></a>
+      </div>  
+    </div>  
+
+    <div class="col-6">
+      <h3 class="project-heading">Projects</h2>
+        <a class="btn btn-primary" href="/feed/<%= organization._id %>">See all of <%= organization.organizationName %> projects.</a>
+        <% if (projects.length === 0) { %>
+          <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
+        <% }  %>
+        <ul class="grid-container">
+        <% for(var i=0; i<projects.length; i++) {%>
+          <li class="grid-item">
+            <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
+              <h4><%= projects[i].projectName%></h4>
+            </a>
+          </li>
+        <% } %>
+        </ul>
+      <div>
+        <div class="row mt-5">
+          <div class="col-6">
+              <div class="mt-5">
+                <h2>Invite New Employee's here</h2>
+                <form action="/organization/<%= organization._id %>/inviteNewUser" method="POST">
+                  <label
+                  class="block uppercase text-gray-700 text-xs font-bold mb-2 form-label"
+                  for="grid-password"
+                  >Email</label>
+                  <input
+                            type="email"
+                            class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
+                            placeholder="Email"
+                            style="transition: all 0.15s ease 0s;"
+                            name="newUserEmail"
+                          />
+                        <button type="submit">Submit</button>
+                </form>
+              </div>
+            </div>  
+      </div> 
+        <h3 class="project-heading">Employee Directory</h3>
+        <span><b>*Note* User must have an account before adding them to registry</b></span>
+        <ul class="grid-container">
+          <% for(var i = 0; i < users.length; i++) { %>
+            <li class="list-item">
+              <h4><%= users[i].firstName %> <%= users[i].lastName %></h4>
+              <h6><%= users[i].email %></h6>
+              <br>
+
+              <form action="/organization/deleteEmployee/<%=organization._id%>/<%= users[i]._id %>?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-secondary"><span>Delete</span></button>
+              </form>
+            </li>
+          <% } %>
+        </ul>
+
+      </div>
+    </div>  
+
+  </div> 
+  <!-- Close the row here -->
+  <div>
+      <a class="btn btn-primary" href="/networkProfile">View your network</a>
+      <form action ="/organization/deleteOrganization/<%=organization._id%>?_method=DELETE" method ="POST">
+        <button class="btn btn-primary" type="submit">Delete <%= organization.organizationName%></button>
+      </form>
+  </div>
+</div>
+
+<div>
+</div>
+
+<%- include('partials/footer') -%>

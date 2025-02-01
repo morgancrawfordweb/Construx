@@ -9,7 +9,7 @@ const Organization = require("../models/Organization")
 
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect("/profile");
+    return res.redirect("/networkProfile");
   }
   res.render("login", {
     title: "Login",
@@ -46,7 +46,7 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(req.session.returnTo || "/profile");
+      res.redirect(req.session.returnTo || "/networkProfile");
     });
   })(req, res, next);
 };
@@ -65,6 +65,7 @@ exports.logout = (req, res) => {
 
 exports.getSignup = (req, res) => {
 //creates a customID for user  
+
   
   res.render("signup", {
     title: "Create Account",
@@ -81,19 +82,14 @@ exports.getSignup = (req, res) => {
     }
     return result;
   }
-  const generatedOrganizationId = generateCustomId(36)
+
 const generatedCollaboratorId = generateCustomId(34)
 
 
-exports.postSignup = (req, res, next) => {
+exports.postSignup = async (req, res, next) => {
+try{
 
-
-
-// const generatedId = generateCustomId(36);
-// if (req.user) {
-//   return res.redirect("/profile");
-// }
-
+  
 
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
@@ -118,17 +114,20 @@ exports.postSignup = (req, res, next) => {
     gmail_remove_dots: false,
   });
 
+  const organization = await Organization.findOne({"users.email":req.body.email})
+
+
   const user = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
-    organizationId: generatedOrganizationId,
-    collaboratorInviteId : generatedCollaboratorId
+    collaboratorInviteId : generatedCollaboratorId,
+    network: organization
+        ? [{ organizationName: organization.organizationName, organization: organization._id, roles: 'user' }]
+        : [],
   });
-
-  
 
   User.findOne(
     { $or: [{ email: req.body.email }, 
@@ -152,13 +151,19 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.redirect("/profile");
+          res.redirect("/networkProfile");
         });
       });
-    },
-
     
-  )};
+  });
+
+}catch(err){
+    console.log(err)
+
+  
+    
+};
+}
   
   exports.getInvitedUserSignupPage = async (req,res,next)=>{
 

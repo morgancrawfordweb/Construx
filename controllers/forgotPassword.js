@@ -32,7 +32,7 @@ exports.updateOldPassword = (req, res, next) => {
           return next(err);
         }
         req.flash("success", { msg: "Success! You are logged in." });
-        res.redirect(req.session.returnTo || "/profile");
+        res.redirect(req.session.returnTo || "/organizationProfile");
       });
     })(req, res, next);
   };

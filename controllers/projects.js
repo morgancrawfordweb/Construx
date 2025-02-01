@@ -8,25 +8,22 @@ const Template = require("../models/Template")
 // var popup = require("popups");
 
 module.exports = {
-  getProfile: async (req, res) => {
-    try {
-      const projects = await Project.find({ user: req.user.id}); //req ? {do this... check user ? {do this... check .id}}
-      const event = await Event.find({user: req.user.id})
-      const coworkers = await User.find({organizationId: req.user.organizationId});
-
-      res.render("profile.ejs", {projects: projects, user: req.user, organization: req.organization,event: event, coworkers:coworkers});
-    } catch (err) {
-      console.log(err);
-    }
-  },
   getFeed: async (req, res) => {
     try {
       //?node: UUID -> Creates a unique number for organizationID
       //! Need to sort by users organizationId to get 
+      const organizationId = req.params.organizationId
       const user = await User.findOne({_id: req.user._id});
-      const projects = await Project.find({organizationId: user?.organizationId}).sort({ createdAt: "desc" }).lean();
+      const organization = await Organization.findById(organizationId).lean()
 
-      res.render("feed.ejs", {projects: projects, user: user});
+      //need to check out if organization.users[i].user or something to find out if my user exists then i can see this project for these organizations.
+      const projects = await Project.find({organization: organizationId}).sort({ createdAt: "desc" }).lean();
+
+      console.log('organization', organization)
+      console.log('projects', projects)
+      console.log('organizationId', organizationId)
+
+      res.render("feed.ejs", {projects: projects, user: user, organization: organization, organizationId: organizationId});
 
     } catch (err) {
       console.log(err)
@@ -35,20 +32,27 @@ module.exports = {
   },
   getProject: async (req, res) => {
     try {
+      const organizationId = req.params.organizationId;
+      const projectId = req.params.projectId
+      const templateId = req.params.templateId
       const user = await User.find({organizationId: req.params.id});
     //   const organization = await Organization.find({organizationId: req.params.id});
-      const project = await Project.findById(req.params.id);
-      const documents = await Document.find({project: req.params.id}).sort({createdAt: "asc"}).populate('uploadedById', 'firstName lastName').lean();
-      const employees = await Project.find({assignedEmployee: req.params.id}).sort({createdAt: "desc"}).lean();
-      const templates = await Template.find({organizationId: req.user.organizationId});
-      const workLocations = await Template.find({project: req.params.id}).lean();
+      const project = await Project.findById(req.params.projectId);
+      const documents = await Document.find({project: req.params.projectId}).sort({createdAt: "asc"}).populate('uploadedById', 'firstName lastName').lean();
+      const employees = await Project.find({assignedEmployee: req.params.projectId}).sort({createdAt: "desc"}).lean();
+      const templates = await Template.find({organization: organizationId});
+      const workLocations = await Template.find({project: req.params.projectId}).lean();
+      const organization = await Project.findById(req.params.projectId).populate("organization").lean()
 
+
+      
       //*Checks how many signatures were signed and renders them on the EJS
       workLocations.forEach(location => {
         location.totalSignatures = location.tasks.filter(task => 
           task.signature.length >= 1).length;
       });
 
+      console.log(workLocations)
     // Helper function to check if a file is an image
     const isImageFile = (image) => {
       if (!image) return false; // Check if filename is undefined or null
@@ -63,10 +67,11 @@ module.exports = {
     const imageDocuments = documents.filter(doc => isImageFile(doc.image));
     const nonImageDocuments = documents.filter(doc => !isImageFile(doc.image));
 
-    console.log("Image Documents:", imageDocuments);
-    console.log("Non-Image Documents:", nonImageDocuments);
+    // console.log("Image Documents:", imageDocuments);
+    // console.log("Non-Image Documents:", nonImageDocuments);
+    // console.log("Organization", organizationId)
       
-      res.render("project.ejs", { project: project, user: req.user, imageDocuments: imageDocuments, nonImageDocuments:nonImageDocuments, employees: employees, templates: templates, workLocations: workLocations});
+      res.render("project.ejs", { project: project, user: req.user, imageDocuments: imageDocuments, nonImageDocuments:nonImageDocuments, employees: employees, templates: templates, workLocations: workLocations, organization: organization, organizationId: organizationId, projectId: projectId});
 
     } catch (err) {
       console.log(err);
@@ -76,16 +81,32 @@ module.exports = {
   createProject: async (req, res) => {
     try {
       const createdUser = await User.findById(req.user.id)
+      const organizationId = req.params.organizationId
 
-      await Project.create({
+      const organization = await Organization.findById(organizationId);
+
+      console.log("req.params", req.params)
+      console.log("organization",organization)
+      console.log("organizationId",organizationId)
+
+      const newProject = await Project.create({
         projectName: req.body.projectName,
         projectNumber: req.body.projectNumber,
         projectDescription: req.body.projectDescription,
         user: req.user.id,
-        organizationId: createdUser.organizationId,
+        organization: organizationId,
       });
+      console.log('newProject const', newProject)
+      console.log('organizationId const', organization)
+
       console.log("Project has been created");
-      res.redirect("/profile");
+
+      await Organization.updateOne(
+        { _id: organizationId},
+        { $addToSet: { projects: newProject._id } },
+      );
+
+      res.redirect(`/organization/${organizationId}`);
     } catch (err) {
       console.log(err);
       // alert('Their is already a project with those parameters in the database.')
@@ -93,16 +114,17 @@ module.exports = {
   },
   deleteProject: async (req, res) => {
     try {
-      // Find post by id
-      // let project = await Project.findById({ _id: req.params.id });
-      // Delete image from cloudinary
-      // await cloudinary.uploader.destroy(project.cloudinaryId);
-      // Delete post from db
-      await Project.deleteOne({ _id: req.params.id });
+
+      let project = await Project.findById({_id: req.params.projectId})
+      let organizationId = project.organization
+
+      await Project.deleteOne({ _id: req.params.projectId });
       console.log("This project has been deleted");
-      res.redirect("/profile");
+
+      res.redirect(`/organization/${organizationId}`);
     } catch (err) {
-      res.redirect("/profile");
+      console.log(err)
+      res.redirect("/organization");
     }
   },
   // addProfilePicture: async(req,res)=>{
@@ -115,7 +137,7 @@ module.exports = {
   //*But right now if I want to do something easier, it would be just to remove the item in the array with a button
   addEmployee: async(req,res)=>{
     try{
-      const projectId= req.params.id
+      const projectId= req.params.projectId
       const assignedEmployee = req.body.assignedEmployee
       //I think later on I want to be able to reference the users, but for now, lets just do string names.
     await Project.updateOne(
@@ -124,15 +146,32 @@ module.exports = {
       );
       
       console.log('Employee added')
-      res.redirect('/project/'+req.params.id);
+      res.redirect('/project/'+req.params.projectId);
     }catch(err){
       console.log(err)
     }
   },
+      //*Adding in the employee directory in the organization profile use inviteNewUser
+    // addEmployee: async(req,res)=>{
+    //   try{
+    //     const organizationId= req.params.id
+    //     const assignedEmployee = req.body.assignedEmployee
+    //     //I think later on I want to be able to reference the users, but for now, lets just do string names.
+    //   await Organization.updateOne(
+    //       { _id: organizationId},
+    //       { $addToSet: { assignedEmployee: assignedEmployee } },
+    //     );
+        
+    //     console.log('Employee added')
+    //     res.redirect('/organization/'+req.params.id);
+    //   }catch(err){
+    //     console.log(err)
+    //   }
+    // },
   deleteEmployee: async(req,res)=>{
     try{
-      const projectId= req.params.id
-      const employees = await Projects.employees.updateOne({_id: req.params.id})
+      const projectId= req.params.projectId
+      const employees = await Projects.employees.updateOne({_id: req.params.projectId})
       await Project.deleteOne(
         {_id: projectId},
         {$pull: {employees: employees}},
