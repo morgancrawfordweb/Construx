@@ -366,9 +366,10 @@ body{
 
 .flex-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  /* background-color: var(--sage); */
-  padding: 3%;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  max-width: calc(4 * 200px + 3 * 16px + 6%); /* Adjust for the gap and padding */
+  margin: 0 auto; /* Center the grid */
+  /* padding: 3%; */
   gap: 16px;
 }
 
@@ -385,7 +386,7 @@ body{
 
 .images{
   margin: auto auto;
-  max-width: 40%;
+  max-width: 90%;
 }
 
 .document-heading{
@@ -531,6 +532,21 @@ nav {
   background-size: 100%;
   background-repeat: no-repeat;
   
+}
+/* ! */
+/* PDF download styling*/
+/* ! */
+
+.hide-on-download{
+  visibility: visible;
+}
+.avoid-break *{
+  page-break-inside: avoid; /* Prevents breaking inside the element */
+  break-inside: avoid; /* Support for modern browsers */
+}
+
+.page-break-before{
+  page-break-before: always;
 }
 
 /* ! */
