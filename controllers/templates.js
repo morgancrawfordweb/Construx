@@ -261,7 +261,7 @@ signTask: async (req, res) => {
         );
         if(result){
           console.log(`You have successfully updated ${result}!`)
-         res.redirect("/template/createTemplatePage");
+         res.redirect(`/template/${organizationId}/createTemplatePage`);
        }else{
         console.log('Task or Template not found');
         res.status(404).send('Task or Template not found');
