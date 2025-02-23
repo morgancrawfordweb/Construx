@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const upload = require("../middleware/multer");
+const upload = require("../middleware/multer");
 const templatesController = require("../controllers/templates");
 
 const {ensureAuth, ensureGuest} = require('../middleware/auth');
@@ -39,7 +39,6 @@ router.delete("/:organizationId/deleteTemplate/:templateId", ensureAuth, templat
 
 //*Edit original company templates.
 router.put("/:organizationId/editOriginalTemplate/:templateId/:taskId", ensureAuth, templatesController.editOriginalTemplate);
-
 
 
 

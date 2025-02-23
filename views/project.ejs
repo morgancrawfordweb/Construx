@@ -131,6 +131,7 @@
                         <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
                         <button class="btn btn-primary signature-btn hide-on-download" type="submit" onclick="captureScrollPosition('<%= task._id %>')">Signature Here</button>
                       </form>
+                      
                       <% task.signature.forEach(signature => { %>
                         
                         <div>
