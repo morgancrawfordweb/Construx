@@ -35,7 +35,7 @@ const TemplateSchema = new mongoose.Schema({
             dateCompleted: {
                 type: Date,
                 default: Date.now(),
-            },
+            }
         }],
         
         //The template that the task is related to.

@@ -23,33 +23,34 @@
   </div>
 </div>
 
-<div class="col-4">
-  <h3 class="project-heading">organizations you have created</h3>
-  <ul class="flex-grid">
-    <% for(var i=0; i<ownedOrganizations.length; i++) {%>
-      <li class="p-2 document-item">
-        <a class="template-heading" href="/organization/<%= ownedOrganizations[i]._id%>">
-          <h4><%= ownedOrganizations[i].organizationName%></h4>
-        </a>
-      </li>
-    <% } %>
-    
-  </ul>
+<div class="container">
+  <div class="col-4">
+    <h3 class="project-heading">Organizations you have created</h3>
+    <ul class="flex-grid">
+      <% for(var i=0; i<ownedOrganizations.length; i++) {%>
+        <li class="p-2 document-item">
+          <a class="template-heading" href="/organization/<%= ownedOrganizations[i]._id%>">
+            <h4><%= ownedOrganizations[i].organizationName%></h4>
+          </a>
+        </li>
+      <% } %>
+      
+    </ul>
+  </div>
+  <div class="">
+    <h3 class="project-heading">Organizations you have been invited to work in.</h3>
+    <ul class="flex-grid">
+      <% for(var i=0; i<memberOrganizations.length; i++) {%>
+        <li class="p-2 document-item">
+          <a class="template-heading" href="/organization/<%= memberOrganizations[i]._id%>">
+            <h4><%=memberOrganizations[i].organizationName%></h4>
+          </a>
+        </li>
+      <% } %>
+      
+    </ul>
+  </div>
 </div>
-<div class="col-4">
-  <h3 class="project-heading">organizations you are dipping your toes into</h3>
-  <ul class="flex-grid">
-    <% for(var i=0; i<memberOrganizations.length; i++) {%>
-      <li class="p-2 document-item">
-        <a class="template-heading" href="/organization/<%= memberOrganizations[i]._id%>">
-          <h4><%=memberOrganizations[i].organizationName%></h4>
-        </a>
-      </li>
-    <% } %>
-    
-  </ul>
-</div>
-
 
 
 <%- include('partials/footer') -%>
