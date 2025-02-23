@@ -14,17 +14,15 @@
         <div>
           <label for="organizationName" class="form-label">New Organization</label><input type="text" class="form-control" id="organizationName" name="organizationName">
         </div>
-        <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+        <button type="submit" class="mt-2 btn btn-primary" value="Upload">Submit</button>
       </form>
     </div>
   </div>
-  <div>
-    <a href="/logout" class="col-3 btn btn-primary mt-10">Logout</a>
-  </div>
+  
 </div>
 
 <div class="container">
-  <div class="col-4">
+  <div class="col-12">
     <h3 class="project-heading">Organizations you have created</h3>
     <ul class="flex-grid">
       <% for(var i=0; i<ownedOrganizations.length; i++) {%>
@@ -37,7 +35,7 @@
       
     </ul>
   </div>
-  <div class="">
+  <div class="col-12">
     <h3 class="project-heading">Organizations you have been invited to work in.</h3>
     <ul class="flex-grid">
       <% for(var i=0; i<memberOrganizations.length; i++) {%>
@@ -49,6 +47,9 @@
       <% } %>
       
     </ul>
+  </div>
+  <div>
+    <a href="/logout" class="col-3 btn btn-primary mt-5">Logout</a>
   </div>
 </div>
 
