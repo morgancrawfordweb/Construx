@@ -1,7 +1,7 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
-const Company = require("../models/Company")
+const Organization = require("../models/Organization")
 
 
 
@@ -9,7 +9,7 @@ const Company = require("../models/Company")
 
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect("/profile");
+    return res.redirect("/networkProfile");
   }
   res.render("login", {
     title: "Login",
@@ -46,7 +46,7 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(req.session.returnTo || "/profile");
+      res.redirect(req.session.returnTo || "/networkProfile");
     });
   })(req, res, next);
 };
@@ -64,15 +64,33 @@ exports.logout = (req, res) => {
 };
 
 exports.getSignup = (req, res) => {
-  if (req.user) {
-    return res.redirect("/profile");
-  }
+//creates a customID for user  
+
+  
   res.render("signup", {
     title: "Create Account",
   });
 };
 
-exports.postSignup = (req, res, next) => {
+  //generate a randomID for your 
+  function generateCustomId(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+const generatedCollaboratorId = generateCustomId(34)
+
+
+exports.postSignup = async (req, res, next) => {
+try{
+
+  
+
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -80,14 +98,11 @@ exports.postSignup = (req, res, next) => {
     validationErrors.push({
       msg: "Password must be at least 8 characters long",
     });
-    if (!validator.isLength(req.body.companyId, { min: 12 }))
-    validationErrors.push({
-      msg: "companyId must be at least 12 characters long",
-    });
+
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
-    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.company || !req.body.phoneNumber || !req.body.companyId) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password || !req.body.phoneNumber) {
       validationErrors.push({ msg: "All fields are required." });
     }
 
@@ -99,18 +114,20 @@ exports.postSignup = (req, res, next) => {
     gmail_remove_dots: false,
   });
 
+  const organization = await Organization.findOne({"users.email":req.body.email})
+
+
   const user = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
     password: req.body.password,
-    company: req.body.company,
-    companyId: req.body.companyId,
-
+    collaboratorInviteId : generatedCollaboratorId,
+    network: organization
+        ? [{ organizationName: organization.organizationName, organization: organization._id, roles: 'user' }]
+        : [],
   });
-
-  
 
   User.findOne(
     { $or: [{ email: req.body.email }, 
@@ -134,12 +151,30 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.redirect("/profile");
+          res.redirect("/networkProfile");
         });
       });
-    }
-  )};
+    
+  });
+
+}catch(err){
+    console.log(err)
+
   
+    
+};
+}
+  
+  exports.getInvitedUserSignupPage = async (req,res,next)=>{
+
+
+    res.render("invitedUserSignup", {
+      title: "Create Account",
+      
+    });
+  };
+
+
 
 
 

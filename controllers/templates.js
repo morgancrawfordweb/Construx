@@ -1,6 +1,7 @@
 const Template = require("../models/Template.js");
 const User = require("../models/User.js");
 const Project = require("../models/Project");
+const Organization = require("../models/Organization")
 const toastify = require("../")
 
 module.exports = {
@@ -8,10 +9,33 @@ module.exports = {
 
   //*This gets the page to fill out your template to be used at a later time.//
   getCreateTemplatePage: async (req,res)=>{
-    try{
-      const templates = await Template.find({companyId: req.user.companyId});
 
-      res.render("template.ejs",{templates:templates})
+    
+    try{
+      const user = await User.find({organizationId: req.params.id});
+      const organizationId = req.params.organizationId
+      
+
+      // const template = await Template.find({organization: organizationId})
+      const organizationName = await Template.findById(req.params.id).populate("organization").lean()
+      // const organizationId = template.organization.id;
+
+      const previousPage = req.get('referer') || '/';
+
+      const templates = await Template.find({organization: organizationId});
+      const organization = await Organization.findById(req.params.organizationId).lean()
+
+      // console.log('organization', organization)
+      // console.log("organizationId", organizationId)
+      console.log("organization", organization)
+      // console.log("organizationName", organizationName)
+
+
+      res.render("template.ejs", {templates:templates, 
+        organizationId:organizationId,
+        organization: organization,
+        
+        previousPage})
     }catch(err){
       console.log(err)
     }
@@ -21,12 +45,16 @@ module.exports = {
 //*This will render your selected task sheet for your project.
 getTemplateFeed: async (req,res)=>{
   try{
-    console.log('getTemplateFeed')
-    const template = await Template.findById(req.params.id)
+    
+    // const projectId = req.params.projectId
+    // const organizationId = req.params.organizationId
+    // const template = await Template.findById({organization: organizationId})
+    // console.log('getTemplateFeed',projectId)
 
     
-
-    res.render('project.ejs', {template: template});
+    // console.log('template',template)
+    // res.render('project.ejs', {template: template});
+console.log('hello')    
   }catch(err){
 
     console.log(`${err}, there was an error in the getting your template`)
@@ -35,6 +63,8 @@ getTemplateFeed: async (req,res)=>{
 //*This is to be used to actually create your new template on the template.ejs page. You can use this for any list of duties you need your employee's to check.
 createTemplate: async (req, res) => {
         try {
+
+          const organizationId = req.params.organizationId
           const createdUser = await User.findById(req.user.id)
           const newTaskDetail = req.body.taskDetail
           const newReference = req.body.reference
@@ -46,18 +76,25 @@ createTemplate: async (req, res) => {
           }))
 
 
-          await Template.create({
+          const newTemplate = await Template.create({
           templateName: req.body.templateName,
           tasks: newTask,
           user: req.user.id,
-          companyId: createdUser.companyId,
+          organization: organizationId,
           reference: req.body.reference,
           isOriginal: true
         });  
-          
+
+        console.log("newTemplate", newTemplate)
+        console.log('organizationId', organizationId)
+        await Organization.updateOne(
+          { _id: organizationId},
+          { $addToSet: { templates: newTemplate._id } },
+        );
+
 
           console.log("Task sheet has been created");
-          res.redirect("/template/createTemplatePage");
+          res.redirect(`/template/${organizationId}/createTemplatePage`);
         } catch (err) {
           console.log(err);
           // alert('Their is already a project with those parameters in the database.')
@@ -67,31 +104,36 @@ createTemplate: async (req, res) => {
       //*This uses the templates that you have already created, and adds additional items to your template and creates a New template called a work location. This way the original tempalte doesnt get modified.
   createNewWorkLocation: async (req,res)=>{
     //Choose between templates and then clone that object but add the parameters of Location
-      //use this to find all of the templates that were created with users that share the same companyId
-      const project = await Project.findById(req.params.id)
+      //use this to find all of the templates that were created with users that share the same organizationId
+
+      
       try {
+        const projectId = req.params.projectId
+        const project = await Project.findById(projectId)
+        const organizationId = req.params.organizationId
         const { selectedTemplate, location } = req.body;
         const template = await Template.findById(selectedTemplate);
-        // const
   
         if (!template) {
           return res.status(404).send('Template not found');
         }
   
+        console.log('This is my project',project)
+        console.log('This is my org',organizationId)
         // Clone the template and add additional parameters
-        const newTemplate = new Template({
+        const newWorkLocation = new Template({
           templateName: template.templateName,
           location,
           tasks: template.tasks,
-          project: req.params.id,
-          companyId: req.user.companyId,
+          project: projectId,
+          organizationId: organizationId,
           projectName: project.projectName,
           user: req.user.id,
           isOriginal: false
         });
   
-        await newTemplate.save();
-        res.redirect("/project/"+req.params.id)
+        await newWorkLocation.save();
+        res.redirect(`/project/${organizationId}/${projectId}`)
 
     }catch(err){
       console.log(err)
@@ -101,20 +143,32 @@ createTemplate: async (req, res) => {
   //*Deletes a work location. Most likely not going to be used but it is able to delete specific work locations.
   deleteWorkLocation: async (req, res) => {
     try {
+      //Find the user and check to see what permissions you have
+      const user = await User.find({organizationId: req.params.id});
+      const organizationId = req.params.organizationId
+      const projectId = req.params.projectId
+
       await Template.deleteOne({ _id: req.params.id })
       console.log("document has been removed")
-      res.redirect("/project/"+req.params.projectId);
+      res.redirect(`/project/${organizationId}/${projectId}`)
     } catch (err) {
       console.log(`${err}, there was an error in deleting this working location.`);
     }
 },
 deleteTemplate: async (req, res) => {
+  const organizationId = req.params.organizationId
+  console.log(organizationId)
   try {
+    const template = await Template.findById({_id: req.params.templateId})
    await Template.deleteOne({ _id: req.params.templateId })
     console.log(`Company template has been removed`)
-    res.redirect("/template/createTemplatePage");
+  await Organization.findByIdAndUpdate(
+    organizationId,
+    {$pull:{templates: template._id}}
+  )
+    res.redirect(`/template/${organizationId}/createTemplatePage`);
   } catch (err) {
-    console.log(`${err}, there was an error in deleting this company template.`);
+    console.log(`${err}, there was an error in deleting this organization template.`);
   }
 },
 
@@ -124,7 +178,7 @@ signTask: async (req, res) => {
       
       const user = await User.findOne({_id: req.user._id});
       const scrollPosition = req.body.scrollPosition
-      const { projectId, templateId, objectId, taskId } = req.params;
+      const { organizationId, projectId, templateId, objectId, taskId } = req.params;
       console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
       console.log('Request User:', req.user);
 
@@ -147,7 +201,7 @@ signTask: async (req, res) => {
 
       if (result) {
         console.log('Update successful:', result);
-        res.redirect(`/project/${projectId}?scrollPosition=${scrollPosition}&openTask=${taskId}`);
+        res.redirect(`/project/${organizationId}/${projectId}?scrollPosition=${scrollPosition}&openTask=${taskId}`);
       } else {
         console.log('Task or Template not found');
         res.status(404).send('Task or Template not found');
@@ -162,8 +216,8 @@ signTask: async (req, res) => {
       try {
       
         const user = await User.findOne({_id: req.user._id});
-  
-        const { projectId, templateId, objectId, taskId, signatureId } = req.params;
+        const scrollPosition = req.body.scrollPosition
+        const { organizationId, projectId, templateId, objectId, taskId, signatureId } = req.params;
         console.log('Received Parameters:', { projectId, templateId, objectId, taskId });
         console.log('Request User:', req.user);
   
@@ -181,7 +235,7 @@ signTask: async (req, res) => {
   
         if (result) {
           console.log('Update successful:', result);
-          res.redirect("/project/" + projectId);
+          res.redirect(`/project/${organizationId}/${projectId}?scrollPosition=${scrollPosition}&openTask=${taskId}`);
         } else {
           console.log('Task or Template not found');
           res.status(404).send('Task or Template not found');
@@ -193,12 +247,33 @@ signTask: async (req, res) => {
     },
     editOriginalTemplate: async (req,res)=>{
       try {
-        
-        const updateTemplate = await Template.findByIdAndUpdate({ _id: req.params.templateId })
 
-         res.redirect("/template/createTemplatePage");
-       } catch (err) {
-         console.log(`${err}, there was an error in deleting this company template.`);
+        const updateTemplate = await Template.findByIdAndUpdate({ _id: req.params.templateId })
+        const { templateId, taskId, organizationId } = req.params
+        const { taskDetail, reference } = req.body
+
+        // Use array filters to target the specific task
+        const result = await Template.findOneAndUpdate(
+          { "_id": templateId, "tasks._id": taskId },
+          {
+            $set: {
+              "tasks.$.taskDetail":  taskDetail ,
+              "tasks.$.reference": reference
+              }
+            },
+
+          { new: true }
+        );
+        if(result){
+          console.log(`You have successfully updated ${result}!`)
+         res.redirect(`/template/${organizationId}/createTemplatePage`);
+       }else{
+        console.log('Task or Template not found');
+        res.status(404).send('Task or Template not found');
+      }
+    } 
+      catch (err) {
+         console.log(`${err}, there was an error in Editing this task or reference`);
        };
     },
 } 

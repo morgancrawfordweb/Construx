@@ -13,9 +13,9 @@ router.get("/:id", ensureAuth, documentsController.getDocument);
 //Download the document that you choose.
 router.get("/dowloadDocument/:projectId/:documentId", ensureAuth, documentsController.downloadDocument);
 
-router.post("/createDocument/:id?", ensureAuth, upload.single('file'), documentsController.createDocument);
+router.post("/createDocument/:organizationId/:projectId?", ensureAuth, upload.single('file'), documentsController.createDocument);
 
-router.delete("/deleteDocument/:projectId/:documentId", ensureAuth, documentsController.deleteDocument);
+router.delete("/deleteDocument/:organizationId/:projectId/:documentId", ensureAuth, documentsController.deleteDocument);
 
 
 

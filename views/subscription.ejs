@@ -1,0 +1,44 @@
+<%- include('partials/companyHeader') -%>
+
+<main class="container">
+    <div>
+        <h1 class="project-heading">Subscriptions</h1>
+        <span>Take your company to a new level of data management</span>
+    </div>
+
+    <section>
+        <h2 class="project-heading">Subscription Options</h2>
+    <section id="features" class="grid-container">
+        <div class="grid-item">
+            <form action="/subscription/basicSubscription" method="POST">
+                <h6>Basic Subscription</h6>
+                <span class="grid-span">Allows 5-10 projects</span>
+                <button type="submit" class="btn btn-primary">Purchase Here</button>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form action="/subscription/standardSubscription" method="POST">
+                <h6>Standard Subscription</h6>
+                <span class="grid-span">Allows 10-20 projects</span>
+                <button type="submit" class="btn btn-primary">Purchase Here</button>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form action="/subscription/premiumSubscription" method="POST">
+                <h6>Premium Subscription</h6>
+                <span class="grid-span">Allows 20-50 projects</span>
+                <button type="submit" class="btn btn-primary">Purchase Here</button>
+            </form>
+        </div>
+        <div class="grid-item">
+            <form action="/subscription/unlimitedSubscription" method="POST">
+                <h6>Unlimited Subscription</h6>
+                <span class="grid-span">Allows 50+ projects</span>
+                <button type="submit" class="btn btn-primary">Purchase Here</button>
+            </form>
+        </div>
+    </section>
+</main>
+    
+
+<%- include('partials/footer') -%>

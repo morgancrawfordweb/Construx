@@ -13,12 +13,10 @@ const ProjectSchema = new mongoose.Schema({
     }],
     
 
-  // companyId:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
-  // companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
+  // organizationId:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
+  // companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
 
-
-  companyId:{type: String, ref:"User"},
-  company:{type: mongoose.Schema.Types.ObjectId, ref:"Company"},
+  organization:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
   user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   template:{
     type: mongoose.Schema.Types.ObjectId, 

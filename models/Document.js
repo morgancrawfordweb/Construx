@@ -32,6 +32,10 @@ uploadedById:{
 dateSubmitted:{
   type: Date,
   default: Date.now(),
+},
+organization:{
+  type: mongoose.Schema.Types.ObjectId,
+  ref:"Organization"
 }
 });
 

@@ -16,9 +16,9 @@
                 <% } %>
                     <div class="mb-5">
                         <h1 class="page-title">Template Creation</h1>
-                        <p>Use this to create templates for your company to use.</p>
+                        <p>Use this to create templates for organization.organizationName .</p>
                     </div>
-                <form action="/template/createTemplate" method="POST">
+                <form action="/template/<%=organizationId%>/createTemplate" method="POST">
                     <div class="mb-3">
                         <label for="templateName" class="form-label">Task Template</label>
                         <h5>*For Example: Grading Inspection Duties</h5>
@@ -38,7 +38,9 @@
                     <button class="btn btn-primary" type="submit" >Submit</button>
                   </form>
 
-                  <a class="mt-6 btn btn-primary" href="/profile">Return to Profile</a>
+                  <div>
+                    <a class="btn btn-primary" href="/organization/<%= organizationId %>">Organization Profile</a>
+                </div>
 
             </section> 
 
@@ -46,7 +48,7 @@
 
 
         <div class="container">
-            <h3 class="project-heading">Company Templates</h3>
+            <h3 class="project-heading"><%= organization.organizationName %> Templates</h3>
               <div class="location-container ">
                                 
                     <% templates.forEach(template => { %>
@@ -59,12 +61,18 @@
                             <ul>
                              <% template.tasks.forEach(task =>{ %>
                                 <li class=template-task><b>Task Detail: </b><%= task.taskDetail %></li>
+                                <li class=template-task><b>Task Reference: </b><%= task.reference %></li>
+                                <form action="/template/<%=organizationId%>/editOriginalTemplate/<%=template._id%>/<%=task._id%>?_method=PUT" method="POST">
+                                    <input type="text" name="taskDetail" value="<%= task.taskDetail %>" required>
+                                    <input type="text" name="reference" value="<%= task.reference %>" required>
+                                    <button type="submit"><i class="fa-solid fa-pencil hide-on-download"></i></button>
+                                </form>
                              <% }) %>
                             </ul>
 
                             
-                            <form action ="/template/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
-                              <button type="submit" class="btn btn-secondary">Delete Template</button>
+                            <form action ="/template/<%= organizationId %>/deleteTemplate/<%=template._id%>?_method=DELETE" method="POST">
+                              <button type="submit" class="btn btn-secondary mt-3">Delete Template</button>
                             </form>
                         </details>
                         <% } %>

@@ -1,0 +1,55 @@
+<%- include('partials/header') -%>
+<div class="container">
+  
+  <div class="col-12">
+    <span class="userName">Logged in as: <b><%=user.firstName%> <%=user.lastName%></b></span>
+  </div>
+
+  
+
+  <div>
+    <h2>Create your own organization</h2>
+    <div>
+      <form action="/organization/createOrganization" enctype="multipart/form-data" method="POST">
+        <div>
+          <label for="organizationName" class="form-label">New Organization</label><input type="text" class="form-control" id="organizationName" name="organizationName">
+        </div>
+        <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+      </form>
+    </div>
+  </div>
+  <div>
+    <a href="/logout" class="col-3 btn btn-primary mt-10">Logout</a>
+  </div>
+</div>
+
+<div class="col-4">
+  <h3 class="project-heading">organizations you have created</h3>
+  <ul class="flex-grid">
+    <% for(var i=0; i<ownedOrganizations.length; i++) {%>
+      <li class="p-2 document-item">
+        <a class="template-heading" href="/organization/<%= ownedOrganizations[i]._id%>">
+          <h4><%= ownedOrganizations[i].organizationName%></h4>
+        </a>
+      </li>
+    <% } %>
+    
+  </ul>
+</div>
+<div class="col-4">
+  <h3 class="project-heading">organizations you are dipping your toes into</h3>
+  <ul class="flex-grid">
+    <% for(var i=0; i<memberOrganizations.length; i++) {%>
+      <li class="p-2 document-item">
+        <a class="template-heading" href="/organization/<%= memberOrganizations[i]._id%>">
+          <h4><%=memberOrganizations[i].organizationName%></h4>
+        </a>
+      </li>
+    <% } %>
+    
+  </ul>
+</div>
+
+
+
+<%- include('partials/footer') -%>

@@ -14,31 +14,31 @@ const {ensureAuth, ensureGuest} = require('../middleware/auth');
 router.get("/createTemplatePage/:id", ensureAuth, templatesController.getTemplateFeed);
 
 //*This gets the EJS page to create the template.
-router.get("/createTemplatePage",ensureAuth, templatesController.getCreateTemplatePage);
+router.get("/:organizationId/createTemplatePage",ensureAuth, templatesController.getCreateTemplatePage);
 
 //*This is supposed to get all of your company templates. This way you can what you have created or not.
 // router.get("/getCompanyTemplates/:id?",ensureAuth, templatesController.getCompanyTemplates)
 
-//*This creates the ORIGINAL template for the NewWorkLocation to work
-router.post("/createTemplate/:id?",ensureAuth, templatesController.createTemplate);
+//*This creates the ORIGINAL template for the NewWorkLocation to work. needs organization params.
+router.post("/:organizationId/createTemplate/:id?",ensureAuth, templatesController.createTemplate);
 
 //*Route for creating a new work location from the project working
-router.post("/createNewWorkLocation/:id?", ensureAuth, templatesController.createNewWorkLocation)
+router.post("/createNewWorkLocation/:organizationId/:projectId?", ensureAuth, templatesController.createNewWorkLocation)
 
 //*This route is for putting your signature on a task
-router.put("/signTask/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.signTask);
+router.put("/signTask/:organizationId/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.signTask);
 
 //*Deletes a signature.
-router.delete("/deleteSignature/:projectId/:objectId/:templateId/:taskId/:signatureId?", ensureAuth, templatesController.deleteSignature);
+router.delete("/deleteSignature/:organizationId/:projectId/:templateId/:objectId/:taskId/:signatureId?", ensureAuth, templatesController.deleteSignature);
 
 //*Deletes task successfully in the project.
-router.delete("/deleteWorkLocation/:projectId/:id?", ensureAuth, templatesController.deleteWorkLocation);
+router.delete("/deleteWorkLocation/:organizationId/:projectId/:id?", ensureAuth, templatesController.deleteWorkLocation);
 
-//*Deletes original company templates.
-router.delete("/deleteTemplate/:templateId", ensureAuth, templatesController.deleteTemplate);
+//*Deletes original company templates in company template page. needs organization params.
+router.delete("/:organizationId/deleteTemplate/:templateId", ensureAuth, templatesController.deleteTemplate);
 
 //*Edit original company templates.
-router.put("/editOriginalTemplate/:templateId", ensureAuth, templatesController.editOriginalTemplate);
+router.put("/:organizationId/editOriginalTemplate/:templateId/:taskId", ensureAuth, templatesController.editOriginalTemplate);
 
 
 
