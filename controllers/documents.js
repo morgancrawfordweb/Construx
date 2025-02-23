@@ -57,6 +57,10 @@ module.exports = {
         console.log('projectId', projectId)
 
         await Document.deleteOne({ _id: req.params.documentId })
+        await Organization.findByIdAndUpdate(
+          organizationId,
+          {$pull:{documents:document._id}}
+        )
         console.log("document has been removed")
         res.redirect(`/project/${organizationId}/${projectId}`);
       } catch (err) {

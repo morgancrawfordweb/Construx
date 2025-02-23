@@ -8,8 +8,7 @@ const authController = require("../controllers/auth");
 // const calendarController = require("../controllers/calendars");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 const subscriptionController = require("../controllers/subscriptions")
-
-
+const validateUser = require("../middleware/validateUserInOrganization");
 
 //!Organization Routes
 
@@ -29,7 +28,7 @@ router.post("/:organizationId/inviteNewUser", ensureAuth, organizationsControlle
 
 
 //this route gets the organization
-router.get("/:organizationId", ensureAuth, organizationsController.getOrganizationProfile);
+router.get("/:organizationId", validateUser, ensureAuth,  organizationsController.getOrganizationProfile);
 
 //This route is used to create organizations. . . you will be the owner
 router.post("/createOrganization", upload.single("file"),organizationsController.createOrganization);

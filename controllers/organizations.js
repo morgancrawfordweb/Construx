@@ -23,18 +23,21 @@ module.exports = {
       const userEmails = organization.users.map(users => users.email)
       const templates = await Template.find({organization: organizationId}).sort({ createdAt: "desc" }).lean();
       const projects = await Project.find({organization: organizationId}).sort({ createdAt: "desc" }).lean();
-      const users = await User.find({ email: { $in: userEmails } }).select('firstName lastName email role').lean();
+      // const users = await User.find({ email: { $in: userEmails } }).select('firstName lastName email role').lean();
+      const userInOrg = organization.users.find(orgUser =>
+        orgUser.userId.toString() === req.user._id.toString()
+    )?.role;
 
 
       //TODO Need to create a "Check the user if they are in the organization, if they aren't dont render and give a 404 where the org cant be found or 500 error where it cant be rendered."
       //TODO I'm able to use the URL to go to organizations that i may not be involved in.
 
       //?if users.contains(user)
-      console.log(users.includes(user._id))
-      console.log('users',users)
-      console.log('user',user)
+      // console.log(users.includes(user._id))
+      // console.log('users role',userRole)
+      console.log('organization',userInOrg)
 
-      res.render("organizationProfile.ejs", {  organizationId: organizationId, organization: organization, user: req.user, userEmails: userEmails, projects: projects, templates: templates, users: users });
+      res.render("organizationProfile.ejs", {  organizationId: organizationId, organization: organization, user: req.user, userEmails: userEmails, projects: projects, templates: templates, users: organization.users });
 
     } catch (err) {
       console.log(err);
@@ -98,7 +101,9 @@ module.exports = {
     organization.users.push({ 
       userId: existingUser._id,
       email: newUserEmail, 
-      role: 'user' 
+      role: 'user',
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
     });
 
     existingUser.network.push({
@@ -149,12 +154,32 @@ module.exports = {
         const user = await User.findById(req.user.id).lean()
         const organizations = await Organization.find({ createdBy: req.user._id});
 
-        const organizationId = user.network.map((organization) => organization.organizationId);
+
+        const ownedOrganizations = [];
+        const memberOrganizations = [];
+
+        //gets all of the organizationId's
+        const organizationId = user.network.map((organization) => organization.organizationId);                                                 
 
         // const network = user.network
         const myNetwork = await Organization.find({
           _id: { $in: organizationId },
         }).lean();
+
+    myNetwork.forEach((organization) => {
+      const userInOrg = organization.users.find((u) => u.userId.equals(req.user._id));
+      if (userInOrg) {
+        if (userInOrg.role === "owner") {
+          ownedOrganizations.push(organization);
+        } else {
+          memberOrganizations.push(organization);
+        }
+      }
+    });
+
+        // console.log('mynetwork', myNetwork)
+        // console.log('ownedOrganizations', ownedOrganizations)
+        // console.log('memberOrganizations', memberOrganizations)
         // const test = user.myNetwork.forEach(network=>{
         //   console.log(network.organizationName)
         // })
@@ -169,7 +194,7 @@ module.exports = {
         // const coworkers = await User.find({organizationId: req.user.organizationId});
         // console.log("inNetwork", test)
         // console.log("myNetwork", myNetwork)
-        res.render("network.ejs", {myNetwork: myNetwork, organizations: organizations, user: req.user});
+        res.render("network.ejs", {memberOrganizations: memberOrganizations,ownedOrganizations: ownedOrganizations, organizations: organizations, user: req.user});
       } catch (err) {
         console.log(err);
       }
@@ -185,18 +210,40 @@ module.exports = {
       try {
   
         const createdUser = await User.findById(req.user.id)
+        const user = req.user
+        // const organization = await Organization.findById(organizationId)
+
+
 
         console.log("createdUser",createdUser)
-        await Organization.create({
+        const organization = await Organization.create({
           organizationName: req.body.organizationName,
           createdBy: createdUser,
           users: [{
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
             email: req.user.email,
             userId: createdUser,
             role: 'owner',
           }],
 
         });
+
+        await User.updateOne(
+          {_id: createdUser._id},
+          {$addToSet:{
+            network:{
+              role:'owner',
+              organizationId: organization._id,
+              organizationName: organization.organizationName
+            }
+          }
+        }
+        );
+
+
+        await createdUser.save()
+        
 
 
         console.log("Organization has been created");
@@ -213,9 +260,31 @@ module.exports = {
         // Delete image from cloudinary
         // await cloudinary.uploader.destroy(organization.cloudinaryId);
         // Delete post from db
-        await Organization.deleteOne({ _id: req.params.organizationId });
+        const user = req.user
+        let organizationId = req.params.organizationId
+        const userOrg = user.network.find(organization => organization.organizationId.toString() === organizationId)
+
+        if(userOrg.role=='owner'){
+        await Organization.deleteOne({ _id: organizationId });
+
+        await User.findByIdAndUpdate(
+          user._id,
+        {$pull: {
+          network:{
+          organizationId: organizationId
+        }}},
+        {new: true}
+        )
+        
+        user
         console.log("This organization has been deleted");
         res.redirect("/networkProfile");
+        
+      }else if(userOrg.role=='user'){
+        console.log("You are not an owner, you cannot delete this project.");
+        return res.redirect(`/organization/${organizationId}`);
+      }
+
       } catch (err) {
         res.redirect("/networkProfile");
       }
@@ -226,11 +295,56 @@ module.exports = {
     //   }
     // }
     //TODO Since the array is a string, we need it to change. My bigger task is to reference these employees, to each person who shares a character code. Then grab from their names. That way it is always updated with the usernames or users.
-  
+    deleteEmployee: async (req, res) => {
+      try {
+        const { organizationId, userId } = req.params;
+    
+        // Ensure both organizationId and userId exist in the request
+        if (!organizationId || !userId) {
+          return res.status(400).send("Missing organizationId or userId.");
+        }
+    
+        // Fetch organization and user from database
+        const organization = await Organization.findById(organizationId);
+        const user = await User.findById(userId);
+    
+        // Check if they exist
+        if (!organization) {
+          return res.status(404).send("Organization not found.");
+        }
+        if (!user) {
+          return res.status(404).send("User not found.");
+        }
+    
+        // Ensure the user is not the owner of the organization
+        if (user._id.toString() === organization.createdBy?.toString()) {
+          return res.status(400).send("User is the owner and cannot be removed.");
+        }
+    
+        // Remove user from organization
+        await Organization.findByIdAndUpdate(
+          organizationId,
+          { $pull: { users: { userId: user._id } } }, // Use `userId` field to match
+          { new: true }
+        );
+    
+        // Remove organization from user's network
+        await User.findByIdAndUpdate(user._id, { $pull: { network: organizationId } });
+    
+        console.log(`${user.firstName} was removed from ${organization.organizationName}`);
+        res.redirect(`/organization/${organizationId}`);
+    
+      } catch (err) {
+        console.error("Error in deleteEmployee:", err);
+        res.status(500).send("Internal Server Error");
+      }
+    },
 
     deleteEmployee: async(req,res)=>{
       try{
-        const {organizationId, userId} = req.params
+        const organizationId = req.params.organizationId
+        const userId = req.params.userId
+        const employee = await Organization.findById({_id: req.params.userId})
         // const organization = await Organization.findById(organizationId)
 
         // organization.users.pull({ email: newUserEmail, role: 'user' });
@@ -241,15 +355,17 @@ module.exports = {
         if (!userId && !organizationId) {
             return res.status(400).send("Organization or User does not exist");
         }
+        const userMap = organization.users.map(users=> users)
+        console.log('userId',userId)
+        console.log('userMap',userMap)
+        console.log('organization', organization)
+        console.log('employee',employee)
 
         // const creator = await Organization.findOneAndUpdate({organization: organization.createdBy == user ? console.log('true',user):console.log('false')})
         //!If my role="owner" then dont render or dont delete, otherwise you can delete
         //TODO I'm getting a some weird values when i delete. Im getting null for my organizations "createdBy", making I'm looking for the wrong type?
         //TODO I can't delete other user gives status of User cant remove themself when i try to remove the owner of the organization.
         if(user._id.toString() == organization.createdBy.toString()){
-          console.log('userId and organizationCreatedBy are the same')
-          console.log('organization',organization.createdBy)
-          console.log('user', user._id)
           // console.log('Creator', creator)
           return res.status(400).send("User can't remove themself from the organization. Try deleting the organization.");
          
@@ -265,14 +381,14 @@ module.exports = {
           await Organization.findByIdAndUpdate(
         
           organizationId,
-          { $pull: { users: { email: user.email } } }, // Remove the user from the `users` array
+          { $pull: { users: { userId: user._id } } }, // Remove the user from the `users` array
           { new: true }, // Return the updated document      
           )
 
           await User.findByIdAndUpdate(
 
-            user,{
-              $pull: {network:{ }}
+            user._id,{
+              $pull: {network:{ organizationId }}
             }
           )
         // await Organization.deleteOne(
@@ -283,33 +399,10 @@ module.exports = {
         res.redirect(`/organization/${organizationId}`);
       }} catch(err) {
         console.log(err)
-      }}
+      }
+    }
   };
   
   
 
     //End of Module
-
-          // Generate the JWT token
-      // const token = jwt.sign(
-      //   { email: newUser, organizationId: organization.organizationId },
-      //   process.env.JWT_SECRET, // Store your secret in an environment variable
-      //   { expiresIn: '6h' }
-      // );
-  
-      // const signupUrl = `https://construx.herokuapp.com/organization/invitedUserSignupPage`;
-      // // token=${token}
-  
-      // //MAILGUN
-      // const formData = require('form-data');
-      // const Mailgun = require('mailgun.js');
-      // const mailgun = new Mailgun(formData);
-      // const mg = mailgun.client({username: 'api', key: process.env.MAILGUN_API_KEY});
-      
-      // mg.messages.create("sandbox288a9b2cf2004aafacc08d3590a97d40.mailgun.org", {
-      //   from: "Excited User <mailgun@sandbox288a9b2cf2004aafacc08d3590a97d40.mailgun.org>",
-      //   to: [newUser],
-      //   subject: "Come Join Me!",
-      //   text: "Testing some Mailgun awesomeness!",
-      //   html: `<h1>Come join me at ${signupUrl}</h1>`
-      // })

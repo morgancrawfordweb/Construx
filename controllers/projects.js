@@ -19,9 +19,9 @@ module.exports = {
       //need to check out if organization.users[i].user or something to find out if my user exists then i can see this project for these organizations.
       const projects = await Project.find({organization: organizationId}).sort({ createdAt: "desc" }).lean();
 
-      console.log('organization', organization)
-      console.log('projects', projects)
-      console.log('organizationId', organizationId)
+      // console.log('organization', organization)
+      // console.log('projects', projects)
+      // console.log('organizationId', organizationId)
 
       res.render("feed.ejs", {projects: projects, user: user, organization: organization, organizationId: organizationId});
 
@@ -52,13 +52,13 @@ module.exports = {
           task.signature.length >= 1).length;
       });
 
-      console.log(workLocations)
+      // console.log(workLocations)
     // Helper function to check if a file is an image
     const isImageFile = (image) => {
       if (!image) return false; // Check if filename is undefined or null
       const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
       const fileExtension = image.split('.').pop().toLowerCase();
-      console.log(image)
+      // console.log(image)
       return imageExtensions.includes(fileExtension);
     };
 
@@ -116,12 +116,43 @@ module.exports = {
     try {
 
       let project = await Project.findById({_id: req.params.projectId})
-      let organizationId = project.organization
+      if(!project){
+        console.log("This project couldn't be found")
+        return res.redirect(`/organization`)
+      }
+      let organizationId = project.organization.toString()
+      let projectId = req.params.id
+      const user = req.user
 
-      await Project.deleteOne({ _id: req.params.projectId });
-      console.log("This project has been deleted");
+      //finds the organization in my users network
+      const userOrg = user.network.find(organization => organization.organizationId.toString() === organizationId)
+      // const inNetwork = user.network.map(user => user.role)
+      console.log("userORg",userOrg)
+      // console.log("user.network",user.network)
 
-      res.redirect(`/organization/${organizationId}`);
+      //! Right now i Need a way to compare the organization. If user.organization == req.params && if the user.role inside of that organization is user then to do this, then if it isnt do that.
+
+    //   if (!userOrg) {
+    //     console.log("User is not part of this organization");
+    //     return res.redirect(`/organization/${organizationId}`);
+    // }
+
+    if (userOrg.role === "user") {
+        console.log("You are not an owner, you cannot delete this project.");
+        return res.redirect(`/organization/${organizationId}`);
+    } 
+    
+    if (userOrg.role === "owner") {
+        console.log("You are an owner project will be deleted.");
+        await Project.deleteOne({ _id: req.params.projectId });
+        await Organization.findByIdAndUpdate(
+          organizationId,
+          {$pull: {projects: project._id}}
+        )
+        console.log("Project deleted successfully");
+        return res.redirect(`/organization/${organizationId}`);
+    }
+
     } catch (err) {
       console.log(err)
       res.redirect("/organization");

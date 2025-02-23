@@ -23,11 +23,11 @@ module.exports = {
       const previousPage = req.get('referer') || '/';
 
       const templates = await Template.find({organization: organizationId});
-      const organization = await Organization.findById(req.params.id).populate("organization").lean()
+      const organization = await Organization.findById(req.params.organizationId).lean()
 
       // console.log('organization', organization)
       // console.log("organizationId", organizationId)
-      console.log("template", templates)
+      console.log("organization", organization)
       // console.log("organizationName", organizationName)
 
 
@@ -159,8 +159,13 @@ deleteTemplate: async (req, res) => {
   const organizationId = req.params.organizationId
   console.log(organizationId)
   try {
+    const template = await Template.findById({_id: req.params.templateId})
    await Template.deleteOne({ _id: req.params.templateId })
     console.log(`Company template has been removed`)
+  await Organization.findByIdAndUpdate(
+    organizationId,
+    {$pull:{templates: template._id}}
+  )
     res.redirect(`/template/${organizationId}/createTemplatePage`);
   } catch (err) {
     console.log(`${err}, there was an error in deleting this organization template.`);

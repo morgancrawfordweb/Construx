@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/multer");
+const validateUser = require("../middleware/validateUserInOrganization");
 const projectsController = require("../controllers/projects");
 // const tasksController = require("../controllers/tasks");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 
 //this route gets the project
-router.get("/:organizationId/:projectId", ensureAuth, projectsController.getProject);
+router.get("/:organizationId/:projectId", ensureAuth, validateUser, projectsController.getProject);
 
 //This route is used for uploading PDFS
 router.post("/createProject/:organizationId", upload.single("file"), projectsController.createProject);

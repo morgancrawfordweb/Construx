@@ -10,7 +10,7 @@
 
 
     <div class="col-6">
-      <div class="mt-5"><p>Organization ID: <%= organization._id %></p>
+      <div class="mt-5">
         <h3 class="project-heading">Add a project</h2>
         <form action="/project/createProject/<%= organization._id %>" enctype="multipart/form-data" method="POST">
           <div class="mb-3">
@@ -71,16 +71,18 @@
               </div>
             </div>  
       </div> 
+      <div>
         <h3 class="project-heading">Employee Directory</h3>
         <span><b>*Note* User must have an account before adding them to registry</b></span>
         <ul class="grid-container">
           <% for(var i = 0; i < users.length; i++) { %>
             <li class="list-item">
               <h4><%= users[i].firstName %> <%= users[i].lastName %></h4>
-              <h6><%= users[i].email %></h6>
+              <h6>Email: <b><%= users[i].email %></b></h6>
+              <h6>Role: <b><%= users[i].role %></b></h6>
               <br>
 
-              <form action="/organization/deleteEmployee/<%=organization._id%>/<%= users[i]._id %>?_method=DELETE" method="POST">
+              <form action="/organization/deleteEmployee/<%=organization._id%>/<%= users[i].userId %>?_method=DELETE" method="POST">
                   <button type="submit" class="btn btn-secondary"><span>Delete</span></button>
               </form>
             </li>

@@ -26,10 +26,10 @@
 <div class="col-4">
   <h3 class="project-heading">organizations you have created</h3>
   <ul class="flex-grid">
-    <% for(var i=0; i<organizations.length; i++) {%>
+    <% for(var i=0; i<ownedOrganizations.length; i++) {%>
       <li class="p-2 document-item">
-        <a class="template-heading" href="/organization/<%= organizations[i]._id%>">
-          <h4><%= organizations[i].organizationName%></h4>
+        <a class="template-heading" href="/organization/<%= ownedOrganizations[i]._id%>">
+          <h4><%= ownedOrganizations[i].organizationName%></h4>
         </a>
       </li>
     <% } %>
@@ -39,10 +39,10 @@
 <div class="col-4">
   <h3 class="project-heading">organizations you are dipping your toes into</h3>
   <ul class="flex-grid">
-    <% for(var i=0; i<myNetwork.length; i++) {%>
+    <% for(var i=0; i<memberOrganizations.length; i++) {%>
       <li class="p-2 document-item">
-        <a class="template-heading" href="/organization/<%= myNetwork[i]._id%>">
-          <h4><%=myNetwork[i].organizationName%></h4>
+        <a class="template-heading" href="/organization/<%= memberOrganizations[i]._id%>">
+          <h4><%=memberOrganizations[i].organizationName%></h4>
         </a>
       </li>
     <% } %>

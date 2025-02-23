@@ -15,6 +15,8 @@ const Organization = new mongoose.Schema({
   // All of the current users and everything that they can create gets stored here inside of these arrays.
   users: [{
     userId:{type:mongoose.Schema.Types.ObjectId, ref:'User'},
+    firstName:{type:String, ref:"User"},
+    lastName:{type:String, ref:"User"},
     email: { type: String, required: true },
     role: {
       type: String,
@@ -35,6 +37,10 @@ const Organization = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Templates'
   }],
+});
+
+
+module.exports = mongoose.model('Organization', Organization);
 
   //Give everyone a default free subscription of up to 5 projects. Add a possibility of a subscription.
   // subscription: {
@@ -56,7 +62,3 @@ const Organization = new mongoose.Schema({
   // },
   // },
 
-});
-
-
-module.exports = mongoose.model('Organization', Organization);

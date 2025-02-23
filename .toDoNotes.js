@@ -49,6 +49,7 @@
 
 //TODO When i sign a task, my open task just goes to the first task and opens it instead of the one i actually signed. Scroll position = undefined whenever i sign or delete a signature. Need to make sure the scroll position is good. 
 
+//TODO When i delete an organization I need to update it in the user network array. Same thing for documents, and templates.
 
 //TODO Create a way to let you know what percentage of projects are completed maybe per location.
 
