@@ -37,6 +37,21 @@ const TemplateSchema = new mongoose.Schema({
                 default: Date.now(),
             }
         }],
+        taskImage: [{
+            image: {
+                type: String,
+                ref: true,
+            },
+            cloudinaryId:{
+                type: String,
+                require: true,
+            },
+            //The day that the person completed it. 
+            dateSubmitted: {
+                type: Date,
+                default: Date.now(),
+            }
+        }],
         
         //The template that the task is related to.
         template: {

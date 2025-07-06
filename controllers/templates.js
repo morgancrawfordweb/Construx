@@ -3,6 +3,8 @@ const User = require("../models/User.js");
 const Project = require("../models/Project");
 const Organization = require("../models/Organization")
 const toastify = require("../")
+const cloudinary = require("../middleware/cloudinary");
+
 
 module.exports = {
 
@@ -72,7 +74,8 @@ createTemplate: async (req, res) => {
           const newTask = newTaskDetail.map((taskDetail, index)=>({
             taskDetail: taskDetail,
             reference: newReference[index] || null,
-            signature: []
+            signature: [],
+            taskImage: taskImage
           }))
 
 
@@ -198,10 +201,48 @@ signTask: async (req, res) => {
           arrayFilters: [{ "task._id": taskId }]
         }
       );
-
+      console.log("Received Scroll Position:", scrollPosition);
       if (result) {
         console.log('Update successful:', result);
-        res.redirect(`/project/${organizationId}/${projectId}?scrollPosition=${scrollPosition}&openTask=${taskId}`);
+        res.redirect(`/project/${organizationId}/${projectId}?taskId=${taskId}`);
+      } else {
+        console.log('Task or Template not found');
+        res.status(404).send('Task or Template not found');
+      }
+    } catch (err) {
+      console.error('Server Error:', err);
+      res.status(500).send('Server Error');
+    }
+  },
+  uploadTaskImage: async (req, res) => {
+    try {
+      
+      const image = await cloudinary.uploader.upload(req.file.path,{pages: true, flag:"attachment"})
+      const user = await User.findOne({_id: req.user._id});
+      const scrollPosition = req.body.scrollPosition
+      const { organizationId, projectId, templateId, objectId, taskId } = req.params;
+     
+
+      // Use array filters to target the specific task
+      const result = await Template.findOneAndUpdate(
+        { "_id": templateId, "tasks._id": taskId },
+        {
+          $push: {
+            "tasks.$[task].signature": {
+              initial: `${req.user.firstName} ${req.user.lastName}`, // Updated here
+              dateCompleted: new Date()
+            }
+          }
+        },
+        {
+          new: true,
+          arrayFilters: [{ "task._id": taskId }]
+        }
+      );
+      console.log("Received Scroll Position:", scrollPosition);
+      if (result) {
+        console.log('Update successful:', result);
+        res.redirect(`/project/${organizationId}/${projectId}?taskId=${taskId}`);
       } else {
         console.log('Task or Template not found');
         res.status(404).send('Task or Template not found');
@@ -235,7 +276,7 @@ signTask: async (req, res) => {
   
         if (result) {
           console.log('Update successful:', result);
-          res.redirect(`/project/${organizationId}/${projectId}?scrollPosition=${scrollPosition}&openTask=${taskId}`);
+          res.redirect(`/project/${organizationId}/${projectId}`);
         } else {
           console.log('Task or Template not found');
           res.status(404).send('Task or Template not found');

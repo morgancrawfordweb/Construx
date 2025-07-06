@@ -11,10 +11,6 @@ const ProjectSchema = new mongoose.Schema({
   assignedEmployee: [{
      type: String,
     }],
-    
-
-  // organizationId:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
-  // companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
 
   organization:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
   user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
@@ -26,6 +22,10 @@ const ProjectSchema = new mongoose.Schema({
     type: Number,
     ref:'Template'
   },
+  documents:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Documents'
+  }],
   // currentWeather:{
 
   // }

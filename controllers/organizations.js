@@ -3,10 +3,9 @@ const Organization = require("../models/Organization");
 const Template = require("../models/Template");
 const Project = require("../models/Project")
 const Document = require("../models/Document");
-const nodemailer = require("nodemailer")
-const jwt = require("jsonwebtoken")
-const bcrypt = require("bcrypt")
 const passport = require("passport-local")
+const flas = require("express-flash")
+
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -37,7 +36,7 @@ module.exports = {
       // console.log('users role',userRole)
       console.log('organization',userInOrg)
 
-      res.render("organizationProfile.ejs", {  organizationId: organizationId, organization: organization, user: req.user, userEmails: userEmails, projects: projects, templates: templates, users: organization.users });
+      res.render("organizationProfile.ejs", {  organizationId: organizationId, organization: organization, user: req.user, userEmails: userEmails, projects: projects, templates: templates, users: organization.users, success: req.flash("success"), error: req.flash("error"), });
 
     } catch (err) {
       console.log(err);
@@ -75,8 +74,8 @@ module.exports = {
 
     if (!organizationId) {
       console.log(organizationId)
-      console.log(`/organization/"${organizationId}`)
-      return res.status(404).send("No organization found");
+      req.flash("error","No organization found")
+      return res.redirect(`/organization/${organizationId}`);
     }
 
         // Ensure the organization.users array exists
@@ -90,11 +89,14 @@ module.exports = {
         //!Prevents you from adding a user that has not been created yet.
         if (existingUserInOrg) {
           console.log("existingUserInOrg", existingUser)
-          return res.status(400).send(`User with ${newUserEmail} is already part of the organization.`);
+          req.flash("error", `User with ${newUserEmail} is already part of the organization.`);
+          return res.redirect(`/organization/${organizationId}`);
+
 
         }else if(!existingUser){
           console.log("Checking for existing user", "organizationUserId", newUserId)
-          return res.status(404).send(`User with ${newUserEmail} does not exist yet`)
+          req.flash("error", `User with ${newUserEmail} does not exist yet`)
+          return res.redirect(`/organization/${organizationId}`);
         }
         console.log("existingUser",existingUser)
     // Add the new user email to the organization

@@ -1,7 +1,7 @@
 <%- include('partials/header') -%>
 <div class="container">
   <div id="pdfContent">
-  <div class="row justify-content-center mt-5">
+  <div class="row justify-content-left mt-5">
     <div class="col-6">
       <div>
 
@@ -22,27 +22,6 @@
         </div>
         <button id="downloadPdfBtn" class="btn btn-secondary hide-on-download">Download your PDF report</button>
 
-      </div>
-    </div>
-  
-    <div class="col-6 hide-on-download"> <!-- New column for adding employees -->
-      <h3 class="project-heading">Assign an Employee</h3>
-      <div class="mt-5">
-        <form action="/project/addEmployees/<%= project._id %>" method="POST">
-          <div class="mb-3">
-            <label for="assignedEmployee" class="form-label">Assign An Employee</label>
-            <input type="text" class="form-control" id="assignedEmployee" name="assignedEmployee">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <ul>
-          <% project.assignedEmployee.forEach(employee=> { %>
-            <li class=""> 
-              <span>-<%= employee %></span>
-              <br>
-            </li>
-          <% }) %>    
-        </ul>
       </div>
     </div>
   </div>
@@ -114,42 +93,38 @@
           <% workLocations.forEach(object => { %>
             <% if(object.isOriginal===false && object){ %>
 
-              <details class="work-location avoid-break page-break-before">
+              <details class="work-location avoid-break page-break-before" id="work-location-<%= object._id %>">
                 <summary>
-              <h4 class="template-heading"><b>Location:</b> <span><%= object.location%></span></h4>
-              <h5 class="template-heading"><b>Work Performed:</b> <span><%= object.templateName %></span> </h5>
-              <h5 class="template-heading"><b>Task completion:</b> <span><%= object.totalSignatures %> / <%= object.tasks.length %></span></h5>
-
-
-            </summary>
-            <ul>
-                <% object.tasks.forEach(task => { %>
- 
-                    <li class="signature-box">
-                      <h5 class="template-task" id="task-<%= task._id %>"><%= task.taskDetail %></h5>
-                      <form id="signTaskForm-<%= task._id %>" action="/template/signTask/<%=organizationId%>/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
-                        <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
-                        <button class="btn btn-primary signature-btn hide-on-download" type="submit" onclick="captureScrollPosition('<%= task._id %>')">Signature Here</button>
-                      </form>
-                      
-                      <% task.signature.forEach(signature => { %>
-                        
-                        <div>
-                          <span><b>Signed by</b>: <%= signature.initial %></span> /
-                          <span><b>Date</b>: <%= signature.dateCompleted.toDateString() %></span>
-                          <form action ="/template/deleteSignature/<%=organizationId%>/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST">
-                            <button type="submit" type="submit" onclick="captureScrollPosition('<%= task._id %>')"><i class="fa-solid fa-trash hide-on-download"></i></button>
-                          </form>
-                        </div>
-
-                      <% }) %>
-                    </li>
-                    <br>
+                    <h4 class="template-heading"><b>Location:</b> <span><%= object.location%></span></h4>
+                    <h5 class="template-heading"><b>Work Performed:</b> <span><%= object.templateName %></span> </h5>
+                    <h5 class="template-heading"><b>Task completion:</b> <span><%= object.totalSignatures %> / <%= object.tasks.length %></span></h5>
+                </summary>
+                <ul>
+                    <% object.tasks.forEach(task => { %>
+                        <li class="signature-box">
+                            <h5 class="template-task" id="task-<%= task._id %>"><%= task.taskDetail %></h5>
+                            <form id="signTaskForm-<%= task._id %>" action="/template/signTask/<%=organizationId%>/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>/?_method=PUT" method="POST">
+                                <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
+                                <button class="btn btn-primary signature-btn hide-on-download" type="submit" onclick="saveScrollPosition('<%= task._id %>')">Signature Here</button>
+                            </form>
+                            <% task.signature.forEach(signature => { %>
+                                <div>
+                                    <span><b>Signed by</b>: <%= signature.initial %></span> /
+                                    <span><b>Date</b>: <%= signature.dateCompleted.toDateString() %></span>
+                                    <form action ="/template/deleteSignature/<%=organizationId%>/<%= project._id%>/<%= object._id %>/<%= object._id%>/<%= task._id %>/<%= signature._id %>/?_method=DELETE" method = "POST">
+                                        <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
+                                        <button type="submit" type="submit" onclick="saveScrollPosition('<%= task._id %>')"><i class="fa-solid fa-trash hide-on-download"></i></button>
+                                    </form>
+                                </div>
+                            <% }) %>
+                        </li>
+                        <br>
                     <% }) %>
                     <form class="delete-signature" action ="/template/deleteWorkLocation/<%=organizationId%>/<%=project._id%>/<%=object._id %>?_method=DELETE" method = "POST">
-                      <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
+                        <button  class="btn btn-secondary" type="submit">Delete this Work Location</button>
                     </form>
-                  </details>
+                </ul>
+            </details>
                 <% }else { %>
                 <%}%>
             </ul>

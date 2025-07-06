@@ -5,6 +5,7 @@ const Event = require("../models/Event")
 const Organization = require("../models/Organization");
 const Employee = require("../models/Employee");
 const Template = require("../models/Template")
+const cloudinary = require("../middleware/cloudinary");
 // var popup = require("popups");
 
 module.exports = {
@@ -43,6 +44,7 @@ module.exports = {
       const templates = await Template.find({organization: organizationId});
       const workLocations = await Template.find({project: req.params.projectId}).lean();
       const organization = await Project.findById(req.params.projectId).populate("organization").lean()
+      const taskId = req.params.taskId
 
 
       
@@ -71,7 +73,7 @@ module.exports = {
     // console.log("Non-Image Documents:", nonImageDocuments);
     // console.log("Organization", organizationId)
       
-      res.render("project.ejs", { project: project, user: req.user, imageDocuments: imageDocuments, nonImageDocuments:nonImageDocuments, employees: employees, templates: templates, workLocations: workLocations, organization: organization, organizationId: organizationId, projectId: projectId});
+      res.render("project.ejs", { project: project, user: req.user, imageDocuments: imageDocuments, nonImageDocuments:nonImageDocuments, employees: employees, templates: templates, workLocations: workLocations, organization: organization, organizationId: organizationId, projectId: projectId, templateId: templateId, taskId: taskId});
 
     } catch (err) {
       console.log(err);
@@ -106,6 +108,8 @@ module.exports = {
         { $addToSet: { projects: newProject._id } },
       );
 
+      
+
       res.redirect(`/organization/${organizationId}`);
     } catch (err) {
       console.log(err);
@@ -120,6 +124,11 @@ module.exports = {
         console.log("This project couldn't be found")
         return res.redirect(`/organization`)
       }
+
+      let document = await Document.findById({ project: req.params.projectId });
+      let deleteDocument = await cloudinary.uploader.destroy(document.cloudinaryId);
+      
+
       let organizationId = project.organization.toString()
       let projectId = req.params.id
       const user = req.user
@@ -149,6 +158,7 @@ module.exports = {
           organizationId,
           {$pull: {projects: project._id}}
         )
+        console.log( projec)
         console.log("Project deleted successfully");
         return res.redirect(`/organization/${organizationId}`);
     }

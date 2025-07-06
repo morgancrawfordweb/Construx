@@ -1,7 +1,8 @@
 const cloudinary = require("../middleware/cloudinary");
 const Document = require("../models/Document");
 const User = require("../models/User");
-const Organization = require("../models/Organization")
+const Organization = require("../models/Organization");
+const Project = require("../models/Project");
 // const Template = require("../models/Template")
 // const toastify = require("../")
 
@@ -20,6 +21,8 @@ module.exports = {
       const result = await cloudinary.uploader.upload(req.file.path, { pages : true, flag : "attachment" });
       const organizationId = req.params.organizationId
       const projectId = req.params.projectId
+      const project = await Project.findById(projectId)
+
       
       
       const newDocument = await Document.create({
@@ -38,6 +41,12 @@ module.exports = {
         {_id: organizationId},
         {$addToSet: {documents: newDocument._id}}
       )
+
+      await Project.updateOne(
+        { _id: projectId},
+        { $addToSet: { documents: newDocument._id } },
+      );
+
 
       console.log("Document has been added!");
       res.redirect(`/project/${organizationId}/${projectId}`);

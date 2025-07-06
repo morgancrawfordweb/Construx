@@ -1,20 +1,26 @@
-window.onload = function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const scrollPosition = urlParams.get('scrollPosition');
-  const openTask = urlParams.get('openTask');
+function saveScrollPosition(taskId) {
+  localStorage.setItem('currentTaskId', taskId);
+}
 
-  // Scroll to the saved position
-  window.scrollTo(0, scrollPosition);
+function scrollToTask() {
+  const taskId = localStorage.getItem('currentTaskId');
 
-  if (openTask) {
-    // Open the corresponding details element and scroll to the task
-    const taskElement = document.getElementById(`task-${openTask}`);
-    if (taskElement) {
-      const detailsElement = taskElement.closest('details');
-      if (detailsElement) {
-        detailsElement.open = true; // Open the details element
+  if (taskId) {
+      const taskElement = document.getElementById(`task-${taskId}`);
+      if (taskElement) {
+          const detailsElement = taskElement.closest('details');
+          if (detailsElement) {
+              detailsElement.open = true;
+          }
+          setTimeout(() => { // Delay scroll to ensure rendering
+              taskElement.scrollIntoView({ behavior: 'instant', block: 'center' });
+              localStorage.removeItem('currentTaskId'); // Clear after use
+          }, 100);
+      } else {
+          console.error(`Task element with ID task-${taskId} not found.`);
+          localStorage.removeItem('currentTaskId'); // Clear if task not found
       }
-      taskElement.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Scroll to the task
-    }
   }
-};
+}
+
+document.addEventListener('DOMContentLoaded', scrollToTask);
