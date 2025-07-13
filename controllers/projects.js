@@ -5,6 +5,7 @@ const Event = require("../models/Event")
 const Organization = require("../models/Organization");
 const Employee = require("../models/Employee");
 const Template = require("../models/Template")
+const axios = require ('axios')
 // var popup = require("popups");
 
 module.exports = {
@@ -31,6 +32,9 @@ module.exports = {
     }
   },
   getProject: async (req, res) => {
+  // Get map from address per project
+
+
     try {
       const organizationId = req.params.organizationId;
       const projectId = req.params.projectId
@@ -70,6 +74,27 @@ module.exports = {
     // console.log("Image Documents:", imageDocuments);
     // console.log("Non-Image Documents:", nonImageDocuments);
     // console.log("Organization", organizationId)
+
+          // Mapbox GET function. Easier to get and save the map for later use. That way I limit my API calls and requests to mapbox
+          async function getMapData(req, res) {
+
+            try {
+              const mapboxAPI = process.env.MAPBOX_SECRET_TOKEN
+              const response = await fetch(`https://api.mapbox.com/search/geocode/v6/forward?address_line1=${project.projectAddress}&access_token=${mapboxAPI}`);
+              
+              // Replace with the actual API endpoint
+              if (!response) { // Check for successful HTTP status codes (200-299)
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const data = await response.json(); // Assuming the API returns JSON data
+              console.log(response)
+              res.status(200).json(data); // Send the data back to the client
+            } catch (error) {
+              console.error("Fetch error:", error);
+            }
+          }
+          getMapData()
+
       
       res.render("project.ejs", { project: project, user: req.user, imageDocuments: imageDocuments, nonImageDocuments:nonImageDocuments, employees: employees, templates: templates, workLocations: workLocations, organization: organization, organizationId: organizationId, projectId: projectId});
 
@@ -78,8 +103,11 @@ module.exports = {
     }
   },
 
+
   createProject: async (req, res) => {
     try {
+
+
       const createdUser = await User.findById(req.user.id)
       const organizationId = req.params.organizationId
 
@@ -93,6 +121,7 @@ module.exports = {
         projectName: req.body.projectName,
         projectNumber: req.body.projectNumber,
         projectDescription: req.body.projectDescription,
+        projectAddress: req.body.projectAddress,
         user: req.user.id,
         organization: organizationId,
       });

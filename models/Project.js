@@ -7,7 +7,8 @@ const ProjectSchema = new mongoose.Schema({
   projectName: { type: String, require: true},
   projectNumber: { type: String,  require: true},
   projectDescription: {type: String, require: true},
-  projectAddress:{type: String},
+  // Will be a string, mapbox will geocode using the mapbox geocoding API
+  projectAddress:{type: String, require: true},
   assignedEmployee: [{
      type: String,
     }],
