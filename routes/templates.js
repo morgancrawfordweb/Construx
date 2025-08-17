@@ -28,6 +28,9 @@ router.post("/createNewWorkLocation/:organizationId/:projectId?", ensureAuth, te
 //*This route is for putting your signature on a task
 router.put("/signTask/:organizationId/:projectId/:templateId/:objectId/:taskId", ensureAuth, templatesController.signTask);
 
+//*This route is for adding an image associated with the task
+router.post("/addImageToTask/:organizationId/:projectId/:templateId/:objectId/:taskId", ensureAuth, upload.single('file'), templatesController.addImageToTask);
+
 //*Deletes a signature.
 router.delete("/deleteSignature/:organizationId/:projectId/:templateId/:objectId/:taskId/:signatureId?", ensureAuth, templatesController.deleteSignature);
 

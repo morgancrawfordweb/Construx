@@ -107,6 +107,7 @@
                                 <input type="hidden" id="scrollPosition-<%= task._id %>" name="scrollPosition">
                                 <button class="btn btn-primary signature-btn hide-on-download" type="submit" onclick="saveScrollPosition('<%= task._id %>')">Signature Here</button>
                             </form>
+                            
                             <% task.signature.forEach(signature => { %>
                                 <div>
                                     <span><b>Signed by</b>: <%= signature.initial %></span> /
@@ -116,7 +117,16 @@
                                         <button type="submit" type="submit" onclick="saveScrollPosition('<%= task._id %>')"><i class="fa-solid fa-trash hide-on-download"></i></button>
                                     </form>
                                 </div>
+                                
+                                
                             <% }) %>
+                            <img class="images" src="<%=task.taskImage%>">
+                            <form action="/template/addImageToTask/<%=organization._id%>/<%= project._id %>/<%= object._id %>/<%= object._id %>/<%= task._id %>" enctype="multipart/form-data" method="POST">
+                              <label for="file">Document File</label>
+                              <input type="file" id="taskImageUpload" name="file">
+                            <button class= "btn btn-primary" type="submit">Submit Image</button>
+                        </form>
+                            
                         </li>
                         <br>
                     <% }) %>

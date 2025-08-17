@@ -54,7 +54,7 @@ getTemplateFeed: async (req,res)=>{
     // console.log('getTemplateFeed',projectId)
 
     
-    // console.log('template',template)
+    // console.log('template')
     // res.render('project.ejs', {template: template});
 console.log('hello')    
   }catch(err){
@@ -75,7 +75,7 @@ createTemplate: async (req, res) => {
             taskDetail: taskDetail,
             reference: newReference[index] || null,
             signature: [],
-            taskImage: taskImage
+            taskImage: []
           }))
 
 
@@ -214,10 +214,10 @@ signTask: async (req, res) => {
       res.status(500).send('Server Error');
     }
   },
-  uploadTaskImage: async (req, res) => {
+  addImageToTask: async (req, res) => {
     try {
       
-      const image = await cloudinary.uploader.upload(req.file.path,{pages: true, flag:"attachment"})
+      const image = await cloudinary.uploader.upload(req.file.path, { pages: true, flag:"attachment"})
       const user = await User.findOne({_id: req.user._id});
       const scrollPosition = req.body.scrollPosition
       const { organizationId, projectId, templateId, objectId, taskId } = req.params;
@@ -228,9 +228,10 @@ signTask: async (req, res) => {
         { "_id": templateId, "tasks._id": taskId },
         {
           $push: {
-            "tasks.$[task].signature": {
-              initial: `${req.user.firstName} ${req.user.lastName}`, // Updated here
-              dateCompleted: new Date()
+            "tasks.$[task].taskImage": {
+              image: image.secure_url,
+              cloudinaryId: image.public_id, // Updated here
+              dateSubmitted: new Date()
             }
           }
         },
@@ -239,15 +240,19 @@ signTask: async (req, res) => {
           arrayFilters: [{ "task._id": taskId }]
         }
       );
-      console.log("Received Scroll Position:", scrollPosition);
+      // console.log("Received Scroll Position:", scrollPosition);
+      console.log(result)
       if (result) {
         console.log('Update successful:', result);
-        res.redirect(`/project/${organizationId}/${projectId}?taskId=${taskId}`);
+        res.redirect(`/project/${organizationId}`);
       } else {
+        console.log('else')
+        console.log(result)
         console.log('Task or Template not found');
         res.status(404).send('Task or Template not found');
       }
     } catch (err) {
+      console.log('catcherr')
       console.error('Server Error:', err);
       res.status(500).send('Server Error');
     }

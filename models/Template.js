@@ -40,7 +40,6 @@ const TemplateSchema = new mongoose.Schema({
         taskImage: [{
             image: {
                 type: String,
-                ref: true,
             },
             cloudinaryId:{
                 type: String,
