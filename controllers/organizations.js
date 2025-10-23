@@ -29,12 +29,13 @@ module.exports = {
     )?.role;
 
 
+
       //TODO Need to create a "Check the user if they are in the organization, if they aren't dont render and give a 404 where the org cant be found or 500 error where it cant be rendered."
       //TODO I'm able to use the URL to go to organizations that i may not be involved in.
 
       //?if users.contains(user)
       // console.log(users.includes(user._id))
-      // console.log('users role',userRole)
+      console.log('users', organization)
       console.log('organization',userInOrg)
 
       res.render("organizationProfile.ejs", {  organizationId: organizationId, organization: organization, user: req.user, userEmails: userEmails, projects: projects, templates: templates, users: organization.users });
@@ -104,6 +105,10 @@ module.exports = {
       role: 'user',
       firstName: existingUser.firstName,
       lastName: existingUser.lastName,
+      billableAs: [{
+        title: req.body.billableTitle,
+        payRate: req.body.payRate || 0
+      }]
     });
 
     existingUser.network.push({

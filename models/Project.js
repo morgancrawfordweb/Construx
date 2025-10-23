@@ -26,6 +26,20 @@ const ProjectSchema = new mongoose.Schema({
     type: Number,
     ref:'Template'
   },
+  billedHours:[{
+    hours:{
+    type: Number,
+    default:0
+    },
+    user:{
+      type:String,
+      ref:"User"
+    },
+    date:{
+      type:Date,
+      default: Date.now()
+    }
+  }],
   // currentWeather:{
 
   // }

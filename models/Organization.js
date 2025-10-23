@@ -24,6 +24,16 @@ const Organization = new mongoose.Schema({
       default: 'user',
       required: true
     },
+    //This should be able to change. I want to change what you were billed as
+    billableAs:[{
+      title:{
+        type:String
+      },
+      payRate:{
+        type:Number,
+        default:0
+      }
+    }]
   }],
   projects: [{
     type: mongoose.Schema.Types.ObjectId,

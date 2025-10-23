@@ -1,4 +1,4 @@
-<%- include('partials/header') -%>
+                    <%- include('partials/header') -%>
 <div class="container">
   
   <div class="col-12">
@@ -42,7 +42,7 @@
         <% }  %>
         <ul class="grid-container">
         <% for(var i=0; i<projects.length; i++) {%>
-          <li class="grid-item">
+          <li class="grid-user">
             <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
               <h4><%= projects[i].projectName%></h4>
             </a>
@@ -65,7 +65,19 @@
                             placeholder="Email"
                             style="transition: all 0.15s ease 0s;"
                             name="newUserEmail"
-                          />
+                  />
+                  <br>
+                  <label
+                  class="block uppercase text-gray-700 text-xs font-bold mb-2 form-label"
+                  for="billableTitle"
+                  >Job Title</label>
+                  <input
+                            type="text"
+                            class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
+                            placeholder="Job Title"
+                            style="transition: all 0.15s ease 0s;"
+                            name="billableTitle"
+                  />
                         <button type="submit" class=" mt-2 btn btn-primary">Submit</button>
                 </form>
               </div>
@@ -75,17 +87,40 @@
         <h3 class="project-heading">Employee Directory</h3>
         <span><b>*Note* User must have an account before adding them to registry</b></span>
         <ul class="grid-container">
-          <% for(var i = 0; i < users.length; i++) { %>
-            <li class="list-item">
+          <% for(var i = 0; i < users.length; i++)  { %>
+            <li class="list-user">
               <h4><%= users[i].firstName %> <%= users[i].lastName %></h4>
               <h6>Email: <b><%= users[i].email %></b></h6>
               <h6>Role: <b><%= users[i].role %></b></h6>
+              <% users.billableAs.forEach(user=>{ %>
+              <h6>Job Title: <b><%= user.title %> </b></h6>
+              <% }) %>
               <br>
 
               <form action="/organization/deleteEmployee/<%=organization._id%>/<%= users[i].userId %>?_method=DELETE" method="POST">
                   <button type="submit" class="btn btn-secondary"><span>Delete</span></button>
               </form>
             </li>
+          <% } %>
+        </ul>
+
+
+        <ul class="grid-container">
+          <% users.forEach(user=>{%>
+            <li class="list-item">
+              <h4><%= user.firstName %> <%= user.lastName %></h4>
+              <h6>Email: <b><%= user.email %></b></h6>
+              <h6>Role: <b><%= user.role %></b></h6>
+              <% user.billableAs.forEach(item=>{ %>
+              <h6>Job Title: <b><%= item.title %> </b></h6>
+              <% }) %>
+              <br>
+
+              <form action="/organization/deleteEmployee/<%=organization._id%>/<%= users[i].userId %>?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-secondary"><span>Delete</span></button>
+              </form>
+            </li>
+          })
           <% } %>
         </ul>
 

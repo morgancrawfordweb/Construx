@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   phoneNumber:{type:String, required: true },
 
   //Holds onto the organizations that you are apart of. This will not include your own organization, just the ones you are apart of.
+  //TODO Want to be able to track hours per organization
   network:[{
         organizationId:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
         organizationName: {type: String, ref: "Organization"},
@@ -19,6 +20,16 @@ const UserSchema = new mongoose.Schema({
               default: 'user',
               required: true,
         },
+        billableTime:[{
+          hoursWorked:{
+          type: Number,
+          default: 0,
+        },
+          updatedAt:{
+            type:Date,
+            default: Date.now(),
+          }
+        }]
   }],
   
   // securityQuestion: {type: String, unique: true},

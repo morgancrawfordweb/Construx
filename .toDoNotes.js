@@ -102,6 +102,14 @@
 // When you sign up, if you have the same company number AND name as the registered company, then you get access to all of the available documents that were created. This way people cant spook anything.
 
 
+//!Another aspect!//
+//TODO Create a way to track the users rolls at the company. Maybe just a job title with hourly rate for now, or maybe billable 
+
+//?Tracking the hours to the project, I would need to change ->
+    //*Add a Role to the user thats changeable with three text forms and a number. The changeable text will be the RoleTitle, description?, and for sure the amount hat the organization bills.
+    // , that maybe contains the hourly rate,
+
+
 
 
 
