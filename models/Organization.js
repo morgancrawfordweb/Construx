@@ -1,6 +1,7 @@
  const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-const CryptoJS = require('crypto-js')
+const CryptoJS = require('crypto-js');
+const { Code } = require("mongodb");
 
 
 const Organization = new mongoose.Schema({
@@ -37,6 +38,29 @@ const Organization = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Templates'
   }],
+  events:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Event'
+  }],
+
+  //What Role you would be billing for. 
+  billingCodes:[{
+    code:{
+      type: Number,
+    },
+    description:{
+      type:String,
+    }
+  }],
+  //Work performed
+  taskCodes:[{
+    code:{
+      type: Number,
+    },
+    description:{
+      type:String
+    }
+  }]
 });
 
 

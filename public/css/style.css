@@ -168,6 +168,29 @@ body{
   font-size: 2rem;
 }
 
+/* ! */
+/* Styling for Network Page*/
+/* ! */
+.network-container{
+  display: flex;
+justify-content: space-between;
+  margin: 2% 10%;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+.network-container .col-12:first-of-type{
+  border-radius: 20px;
+  margin: 2% 0;
+  padding: 3%;
+  background-color: rgba(117, 97, 97, 0.437);
+}
+.network-container .col-12:last-of-type{
+  border-radius: 20px;
+  padding: 3%;
+  margin: 2% 0;
+  background-color: rgb(117, 97, 97, 0.437);
+}
 
 /* ! */
 /* Grid styling for home page */
@@ -374,8 +397,10 @@ body{
 }
 
 .document-item, .image-item{
-  background-color: rgb(255, 255, 255);
-  border-radius: 5px;
+  background-color: var(--green);
+  color: var(--cream);
+  border: solid 3px var(--lightPurple);
+  border-radius: 10px;
   margin: 2% 0;
   padding: 0 2%;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
@@ -384,9 +409,28 @@ body{
   flex-direction: column;
 }
 
+.document-item a:hover{
+  color: var(--lightPurple);
+}
+
 .images{
   margin: auto auto;
   max-width: 90%;
+}
+#test{
+  display: flex;
+  flex-direction: row;
+}
+.form-control{
+  background-color: var(--white);
+  border-color: black;
+}
+.info-tab{
+  color: var(--cream);
+  background-color: var(--green);
+  padding: 1%;
+  border-radius: 10px;
+  margin: 5% 0;
 }
 
 .document-heading{

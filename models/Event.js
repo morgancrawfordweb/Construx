@@ -1,23 +1,32 @@
 const mongoose = require("mongoose");
 
 
+
+// THis is to specifically add in the events in a makeshift calendar. Date picker, with the description of the event you have, then sort them all by the closest date entered.
 const EventSchema = new mongoose.Schema({
     title:{
       type: String,
       required: true 
     },
-    projectNumber:{
-      type: String,
+    eventType:[{
+      eventName:{
+        type:String,
+        required:true
+      }
+    }],
+    date:{
+      type:Date,
+      required:true
     },
-    employee:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref:"User"
+    emergency:{
+      type:Boolean,
+      default:false,
+      required:true
     },
-    start:{
-      type:Date
-    },
-    end:{
-      type:Date
+    dateSubmitted:{
+      type:Date,
+      default:Date.now(),
+      required:true
     }
     
 })
