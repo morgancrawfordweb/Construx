@@ -9,9 +9,48 @@
   <div class="row"> <!-- Add this row wrapper -->
 
 
-    <div class="col-6">
+    <div class="col-5">
       <div class="mt-5">
-        <h3 class="project-heading">Add a project</h2>
+        <h3 class="project-heading">Event Calendar</h3>
+        <span>Great for holding events such as meetings that are already scheduled.</span>
+        <form action="/project/createProject/<%= organization._id %>" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="eventName" class="form-label">Event Name</label>
+            <input type="text" class="form-control" id="eventName" name="eventName">
+          </div>
+          <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="date" name="date">
+          </div>
+          <div class="mb-3">
+            <label for="eventDescription" class="form-label">Event Description</label>
+            <textarea class="form-control" id="eventDescription" name="eventDescription"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+
+
+      <!-- !For Event/Activity Feed -->
+        <!-- *Grab the workLocation feed from the projectEJS -->
+      <!-- ! End of Activity Feed-->
+      <!-- ! -->
+    </div>  
+
+    <div id="right-tab" class="col-7">
+      <!-- ! -->
+          <div class="info-tab">
+            <ul id="test">
+              <ol>New Items</ol>
+              <ol>Projects</ol>
+              <ol>Inventory</ol>
+              <ol>Finances</ol>
+              <ol>Tools</ol>
+              <ol>Projects</ol>
+            </ul>
+          <h3 class="project-heading">Projects</h3>
+          <div class="mt-5">
+        <h3 class="project-heading">Add a project</h3>
         <form action="/project/createProject/<%= organization._id %>" enctype="multipart/form-data" method="POST">
           <div class="mb-3">
             <label for="projectName" class="form-label">Project Name</label>
@@ -28,31 +67,76 @@
           <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
         </form>
       </div>
-      
-      <div class="row justify-content-center mt-5">
-        <a href="/template/<%=organization._id%>/createTemplatePage" class="m-3 btn btn-primary">Create a template for <%= organization.organizationName %></a>
-      </div>  
-    </div>  
-
-    <div class="col-6">
-      <h3 class="project-heading">Projects</h2>
-        <a class="btn btn-primary" href="/feed/<%= organization._id %>">See all of <%= organization.organizationName %> projects.</a>
-        <% if (projects.length === 0) { %>
-          <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
-        <% }  %>
+            <a class="btn btn-primary" href="/feed/<%= organization._id %>">See all of <%= organization.organizationName %> projects.</a>
+            <% if (projects.length === 0) { %>
+              <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
+            <% }  %>
+            <ul class="grid-container">
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="grid-item">
+                <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
+                  <h4><%= projects[i].projectName%></h4>
+                </a>
+              </li>
+            <% } %>
+            </ul>
+          </div>
+          <!-- ! -->
+          <div class="info-tab">
+          <h3 class="project-heading">Inventory</h3>
+            <a class="btn btn-primary" href="/feed/<%= organization._id %>">See all of <%= organization.organizationName %> projects.</a>
+            <% if (projects.length === 0) { %>
+              <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
+            <% }  %>
+            <ul class="grid-container">
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="grid-item">
+                <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
+                  <h4><%= projects[i].projectName%></h4>
+                </a>
+              </li>
+            <% } %>
+            </ul>
+          </div>                
+<!-- ! -->     
+<!-- ! -->
+          <div class="info-tab">
+          <h3 class="project-heading">Finances</h3>
+            <% if (projects.length === 0) { %>
+              <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
+            <% }  %>
+            <ul class="grid-container">
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="grid-item">
+                <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
+                  <h4><%= projects[i].projectName%></h4>
+                </a>
+              </li>
+            <% } %>
+            </ul>
+          </div>                
+<!-- ! -->     
+      <div class="info-tab">
+        <h3 class="project-heading">Organization Tools</h3>
+        <span><b>*Note* User must have an account before adding them to registry</b></span>
         <ul class="grid-container">
-        <% for(var i=0; i<projects.length; i++) {%>
-          <li class="grid-item">
-            <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
-              <h4><%= projects[i].projectName%></h4>
-            </a>
-          </li>
-        <% } %>
+          <% for(var i = 0; i < users.length; i++) { %>
+            <li class="list-item">
+              <h4><%= users[i].firstName %> <%= users[i].lastName %></h4>
+              <h6>Email: <b><%= users[i].email %></b></h6>
+              <h6>Role: <b><%= users[i].role %></b></h6>
+              <br>
+
+              <form action="/organization/deleteEmployee/<%=organization._id%>/<%= users[i].userId %>?_method=DELETE" method="POST">
+                  <button type="submit" class="btn btn-secondary"><span>Delete</span></button>
+              </form>
+            </li>
+          <% } %>
         </ul>
-      <div>
-        <div class="row mt-5">
-          <div class="col-6">
-              <div class="mt-5">
+        <div class="mt-5">
+        <a href="/template/<%=organization._id%>/createTemplatePage" class="m-3 btn btn-primary">Create a template for <%= organization.organizationName %></a>
+      </div> 
+         <div class="mt-5">
                 <h2>Invite New Employee's here</h2>
                 <form action="/organization/<%= organization._id %>/inviteNewUser" method="POST">
                   <label
@@ -69,26 +153,6 @@
                         <button type="submit" class=" mt-2 btn btn-primary">Submit</button>
                 </form>
               </div>
-            </div>  
-      </div> 
-      <div>
-        <h3 class="project-heading">Employee Directory</h3>
-        <span><b>*Note* User must have an account before adding them to registry</b></span>
-        <ul class="grid-container">
-          <% for(var i = 0; i < users.length; i++) { %>
-            <li class="list-item">
-              <h4><%= users[i].firstName %> <%= users[i].lastName %></h4>
-              <h6>Email: <b><%= users[i].email %></b></h6>
-              <h6>Role: <b><%= users[i].role %></b></h6>
-              <br>
-
-              <form action="/organization/deleteEmployee/<%=organization._id%>/<%= users[i].userId %>?_method=DELETE" method="POST">
-                  <button type="submit" class="btn btn-secondary"><span>Delete</span></button>
-              </form>
-            </li>
-          <% } %>
-        </ul>
-
       </div>
     </div>  
 
@@ -103,6 +167,7 @@
 </div>
 
 <div>
+  
 </div>
 
 <%- include('partials/footer') -%>
