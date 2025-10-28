@@ -16,9 +16,6 @@ const Organization = new mongoose.Schema({
   // All of the current users and everything that they can create gets stored here inside of these arrays.
   users: [{
     userId:{type:mongoose.Schema.Types.ObjectId, ref:'User'},
-    firstName:{type:String, ref:"User"},
-    lastName:{type:String, ref:"User"},
-    email: { type: String, required: true },
     role: {
       type: String,
       enum: ['user', 'admin', 'owner'],
@@ -60,6 +57,10 @@ const Organization = new mongoose.Schema({
     description:{
       type:String
     }
+  }],
+  //What events your company uses? Meetings? Site Visits? Parties?
+  eventTypes:[{
+    type: String
   }]
 });
 

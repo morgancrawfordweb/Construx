@@ -11,12 +11,25 @@
 
     <div class="col-5">
       <div class="mt-5">
-        <h3 class="project-heading">Event Calendar</h3>
+        <h3 class="project-heading">Event Feed</h3>
         <span>Great for holding events such as meetings that are already scheduled.</span>
-        <form action="/project/createProject/<%= organization._id %>" enctype="multipart/form-data" method="POST">
+        <form action="/event/createEvent/<%= organization._id %>" enctype="multipart/form-data" method="POST">
           <div class="mb-3">
-            <label for="eventName" class="form-label">Event Name</label>
-            <input type="text" class="form-control" id="eventName" name="eventName">
+            <label for="project" class="form-label">Project Ref:</label>
+            <select class="form-control" id="templateSelect" name="selectedTemplate" required>
+                <% projects.forEach(project=> { %>
+                <option value="<%= project %>"><%= project.projectName %></option>
+              <% }) %>   
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="eventType" class="form-label">Event Type:</label>
+            <select class="form-control" id="templateSelect" name="selectedTemplate" required>
+                <% organization.eventTypes.forEach(eventType=> { %>
+                <option value="<%= eventType %>"><%= eventType %></option>
+              <% }) %>   
+            </select>
+
           </div>
           <div class="mb-3">
             <label for="date" class="form-label">Date</label>
@@ -119,6 +132,19 @@
       <div class="info-tab">
         <h3 class="project-heading">Organization Tools</h3>
         <span><b>*Note* User must have an account before adding them to registry</b></span>
+        <div class="mt-5">
+                <h2>Invite New Employee's here</h2>
+                <form action="/organization/<%= organization._id %>/inviteNewUser" method="POST">
+                  <input
+                            type="email"
+                            class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
+                            placeholder="Email"
+                            style="transition: all 0.15s ease 0s;"
+                            name="newUserEmail"
+                          />
+                        <button type="submit" class=" mt-2 btn btn-primary">Submit</button>
+                </form>
+            </div>
         <ul class="grid-container">
           <% for(var i = 0; i < users.length; i++) { %>
             <li class="list-item">
@@ -133,26 +159,35 @@
             </li>
           <% } %>
         </ul>
-        <div class="mt-5">
+    <div class="col-4">
+    <form action="/organization/addEventType/<%= organizationId %>" method="POST">
+      <label for="eventTypes"
+      class="block uppercase text-white-700 text-xs font-bold mb-2 form-label">Event Type</label>
+      <input
+                type="text"
+                class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
+                placeholder="Event Type"
+                style="transition: all 0.15s ease 0s;"
+                name="eventTypes"
+                id="eventTypes"
+      />
+            <button type="submit" class=" mt-2 btn btn-primary">Submit</button>
+    </form>
+    </div>
+    <div>
+        <ul>
+              <% organization.eventTypes.forEach(eventType=> { %>
+                <li class=""> 
+                  <span>"<%= eventType %>"</span>
+                  <br>
+                </li>
+              <% }) %>    
+          </ul>
+      </div>
+      <div class="mt-5">
         <a href="/template/<%=organization._id%>/createTemplatePage" class="m-3 btn btn-primary">Create a template for <%= organization.organizationName %></a>
       </div> 
-         <div class="mt-5">
-                <h2>Invite New Employee's here</h2>
-                <form action="/organization/<%= organization._id %>/inviteNewUser" method="POST">
-                  <label
-                  class="block uppercase text-gray-700 text-xs font-bold mb-2 form-label"
-                  for="grid-password"
-                  >Email</label>
-                  <input
-                            type="email"
-                            class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
-                            placeholder="Email"
-                            style="transition: all 0.15s ease 0s;"
-                            name="newUserEmail"
-                          />
-                        <button type="submit" class=" mt-2 btn btn-primary">Submit</button>
-                </form>
-              </div>
+         
       </div>
     </div>  
 
@@ -164,6 +199,7 @@
         <button class="btn btn-primary" type="submit">Delete <%= organization.organizationName%></button>
       </form>
   </div>
+  
 </div>
 
 <div>

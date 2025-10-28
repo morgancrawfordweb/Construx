@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-
 //This is for the user adds a project with some details.
 
 const ProjectSchema = new mongoose.Schema({
@@ -12,11 +10,8 @@ const ProjectSchema = new mongoose.Schema({
      type: String,
     }],
     
-
-  // organizationId:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
-  // companyName:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
-
   organization:{type: mongoose.Schema.Types.ObjectId, ref:"Organization"},
+  event:{type: mongoose.Schema.Types.ObjectId, ref:"Event"},
   user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
   template:{
     type: mongoose.Schema.Types.ObjectId, 

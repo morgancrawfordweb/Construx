@@ -18,14 +18,6 @@ router.get("/subscriptionPage", ensureAuth, organizationsController.getSubscript
 //Creates and sends the invite link for the app
 router.post("/:organizationId/inviteNewUser", ensureAuth, organizationsController.postInviteNewUser)
 
-//This route is to signup the user after accepting the invitation via email link
-// router.post("/signupInvitedUser", organizationsController.postSignupInvitedUser)
- 
-//This gets the new page to signup the invited users
-// router.get("/:organizationId/invitedUserSignupPage", authController.getInvitedUserSignupPage);
-
-
-
 
 //this route gets the organization
 router.get("/:organizationId", validateUser, ensureAuth,  organizationsController.getOrganizationProfile);
@@ -36,9 +28,10 @@ router.post("/createOrganization", upload.single("file"),organizationsController
 //This route deletes an organization/company
 router.delete("/deleteOrganization/:organizationId", ensureAuth, organizationsController.deleteOrganization);
 
-
-
 router.delete("/deleteEmployee/:organizationId/:userId", ensureAuth, organizationsController.deleteEmployee)
+
+//Adds event types for you organization to use later for event creation
+router.post("/addEventType/:organizationId", organizationsController.addEventType);
 
 
 

@@ -214,7 +214,7 @@ justify-content: space-between;
 }
 .list-item{
   background-color: var(--green);
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--sage);
   padding: 10px;
   font-size: 16px;
   color: var(--cream);
