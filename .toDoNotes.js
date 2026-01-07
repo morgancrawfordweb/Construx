@@ -108,3 +108,13 @@
 // Create each user with a 24 digit code that can be used for personal projects and for whomever wants to be on there team.
 
 // The form will give each user
+
+// TODO: Create User event calendar and do the following
+    //TODO: Add user event form in EJS, and connect it to the Event router.
+    //TODO: Have the router run the function connected in the controller.
+    //TODO: Double check logic of Schema and submit my event.
+    //TODO: Be able to render and get the event onto the page, sorted by the date of that the user chose.
+
+//TODO:Create a way for users inside of the organization to add event types.
+    //TODO: Add CreateNewEventType in my EJS and then connect it to a route.
+    //TODO: Connect tht eroute to my controller to create a new event type in my organization controller.

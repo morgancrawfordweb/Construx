@@ -35,7 +35,7 @@ module.exports = {
       //?if users.contains(user)
       // console.log(users.includes(user._id))
       // console.log('users role',userRole)
-      console.log('organization',userInOrg)
+      console.log('PrOjEcTs',projects)
 
       res.render("organizationProfile.ejs", {  organizationId: organizationId, organization: organization, user: req.user, userEmails: userEmails, projects: projects, templates: templates, users: organization.users });
 
@@ -177,53 +177,25 @@ module.exports = {
       }
     });
 
-        // console.log('mynetwork', myNetwork)
-        // console.log('ownedOrganizations', ownedOrganizations)
-        // console.log('memberOrganizations', memberOrganizations)
-        // const test = user.myNetwork.forEach(network=>{
-        //   console.log(network.organizationName)
-        // })
 
-        // const emailWithOrganization = await Organization.find({ users: users }).lean();
- 
-   
-        //* I need a way to check the organization and look at the users. Then if the user in the array matches yours, then render your organization
-        
-        //req ? {do this... check user ? {do this... check .id}}
-        // const event = await Event.find({user: req.user.id})
-        // const coworkers = await User.find({organizationId: req.user.organizationId});
-        // console.log("inNetwork", test)
-        // console.log("myNetwork", myNetwork)
         res.render("network.ejs", {memberOrganizations: memberOrganizations,ownedOrganizations: ownedOrganizations, organizations: organizations, user: req.user});
       } catch (err) {
         console.log(err);
       }
     },
-
-    //Organization you have ownership of. Your role should be 'Owner'
-    //Each Organization will be the following:
-    //Organization->Projects->Work Locations, Templates, etc
-    //Organization replaces Company in this case. 
-    //Any organization that you are not the owner of you are in their network and are their "partner?"
   
     createOrganization: async (req, res) => {
       try {
   
         const createdUser = await User.findById(req.user.id)
-        const user = req.user
         // const organization = await Organization.findById(organizationId)
-
-
 
         console.log("createdUser",createdUser)
         const organization = await Organization.create({
           organizationName: req.body.organizationName,
           createdBy: createdUser,
           users: [{
-            firstName: req.user.firstName,
-            lastName: req.user.lastName,
-            email: req.user.email,
-            userId: createdUser,
+            userId: req.user.userId,
             role: 'owner',
           }],
 
@@ -340,67 +312,27 @@ module.exports = {
       }
     },
 
-    deleteEmployee: async(req,res)=>{
-      try{
-        const organizationId = req.params.organizationId
-        const userId = req.params.userId
-        const employee = await Organization.findById({_id: req.params.userId})
-        // const organization = await Organization.findById(organizationId)
+      addEventType: async (req, res) => {
+          try {
+            const organizationId = req.params.organizationId
+            const eventTypes = req.body.eventTypes
+            // Use array filters to target the specific task
+           await Organization.updateOne(
+             {_id:organizationId},
+             { $addToSet:{eventTypes: eventTypes}},
+            )
+      
+            console.log(`${eventTypes} was added as an event option`)
+        return res.redirect(`/organization/${organizationId}`);
+    
 
-        // organization.users.pull({ email: newUserEmail, role: 'user' });
-        // await organization.save();
-        const organization = await Organization.findById(organizationId)
-
-        const user = await User.findById(userId);
-        if (!userId && !organizationId) {
-            return res.status(400).send("Organization or User does not exist");
-        }
-        const userMap = organization.users.map(users=> users)
-        console.log('userId',userId)
-        console.log('userMap',userMap)
-        console.log('organization', organization)
-        console.log('employee',employee)
-
-        // const creator = await Organization.findOneAndUpdate({organization: organization.createdBy == user ? console.log('true',user):console.log('false')})
-        //!If my role="owner" then dont render or dont delete, otherwise you can delete
-        //TODO I'm getting a some weird values when i delete. Im getting null for my organizations "createdBy", making I'm looking for the wrong type?
-        //TODO I can't delete other user gives status of User cant remove themself when i try to remove the owner of the organization.
-        if(user._id.toString() == organization.createdBy.toString()){
-          // console.log('Creator', creator)
-          return res.status(400).send("User can't remove themself from the organization. Try deleting the organization.");
-         
-
-        }else if (!user){
-          return res.status(400).send("This user can't be found")
-        }else if (!organization){
-          return res.status(400).send("This organization can't be found")
-        }else if (user._id.toString() == organization.createdBy.toString()){
-          return res.status(400).send(`${user.firstName} owns this organization, unable to be removed`)
-        }else if(user._id.toString() !== organization.createdBy.toString()){
-          // Removes user from organization
-          await Organization.findByIdAndUpdate(
-        
-          organizationId,
-          { $pull: { users: { userId: user._id } } }, // Remove the user from the `users` array
-          { new: true }, // Return the updated document      
-          )
-
-          await User.findByIdAndUpdate(
-
-            user._id,{
-              $pull: {network:{ organizationId }}
-            }
-          )
-        // await Organization.deleteOne(
-        //   {_id: organizationId},
-        //   {$pull: {users: users}},
-        // );
-        console.log(`${user.firstName} was removed from ${organization.organizationName}`)
-        res.redirect(`/organization/${organizationId}`);
-      }} catch(err) {
-        console.log(err)
-      }
+    } catch (err) {
+      console.log('Unable to add your event types',err)
+      res.redirect(`/organization/${organizationId}`);
     }
+        },
+
+
   };
   
   

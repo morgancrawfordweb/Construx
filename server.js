@@ -96,7 +96,7 @@ app.use("/template", templateRoutes);
 
 //Server Running
 app.listen(process.env.PORT || PORT, () => {
-  console.log("Server is running, you better catch it!");
+  console.log("Server is running on port 2121, you better catch it!");
 });
 
 

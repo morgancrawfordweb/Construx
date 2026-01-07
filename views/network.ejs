@@ -21,9 +21,9 @@
   
 </div>
 
-<div class="container">
+<div class="network-container">
   <div class="col-12">
-    <h3 class="project-heading">Organizations you have created</h3>
+    <h3 class="project-heading">Owner</h3>
     <ul class="flex-grid">
       <% for(var i=0; i<ownedOrganizations.length; i++) {%>
         <li class="p-2 document-item">
@@ -36,7 +36,7 @@
     </ul>
   </div>
   <div class="col-12">
-    <h3 class="project-heading">Organizations you have been invited to work in.</h3>
+    <h3 class="project-heading">Guest</h3>
     <ul class="flex-grid">
       <% for(var i=0; i<memberOrganizations.length; i++) {%>
         <li class="p-2 document-item">
@@ -48,10 +48,11 @@
       
     </ul>
   </div>
+
+</div>
   <div>
     <a href="/logout" class="col-3 btn btn-primary mt-5">Logout</a>
   </div>
-</div>
 
 
 <%- include('partials/footer') -%>

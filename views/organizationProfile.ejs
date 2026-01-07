@@ -9,9 +9,61 @@
   <div class="row"> <!-- Add this row wrapper -->
 
 
-    <div class="col-6">
+    <div class="col-5">
       <div class="mt-5">
-        <h3 class="project-heading">Add a project</h2>
+        <h3 class="project-heading">Event Feed</h3>
+        <span>Great for holding events such as meetings that are already scheduled.</span>
+        <form action="/event/createEvent/<%= organization._id %>" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="project" class="form-label">Project Ref:</label>
+            <select class="form-control" id="templateSelect" name="selectedTemplate" required>
+                <% projects.forEach(project=> { %>
+                <option value="<%= project %>"><%= project.projectName %></option>
+              <% }) %>   
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="eventType" class="form-label">Event Type:</label>
+            <select class="form-control" id="templateSelect" name="selectedTemplate" required>
+                <% organization.eventTypes.forEach(eventType=> { %>
+                <option value="<%= eventType %>"><%= eventType %></option>
+              <% }) %>   
+            </select>
+
+          </div>
+          <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="date" name="date">
+          </div>
+          <div class="mb-3">
+            <label for="eventDescription" class="form-label">Event Description</label>
+            <textarea class="form-control" id="eventDescription" name="eventDescription"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </div>
+
+
+      <!-- !For Event/Activity Feed -->
+        <!-- *Grab the workLocation feed from the projectEJS -->
+      <!-- ! End of Activity Feed-->
+      <!-- ! -->
+    </div>  
+
+    <div id="right-tab" class="col-7">
+      <!-- ! -->
+          <div class="info-tab">
+            <ul id="test">
+              <ol>New Items</ol>
+              <ol>Projects</ol>
+              <ol>Inventory</ol>
+              <ol>Finances</ol>
+              <ol>Tools</ol>
+              <ol>Projects</ol>
+            </ul>
+          <h3 class="project-heading">Projects</h3>
+          <div class="mt-5">
+        <h3 class="project-heading">Add a project</h3>
         <form action="/project/createProject/<%= organization._id %>" enctype="multipart/form-data" method="POST">
           <div class="mb-3">
             <label for="projectName" class="form-label">Project Name</label>
@@ -28,37 +80,61 @@
           <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
         </form>
       </div>
-      
-      <div class="row justify-content-center mt-5">
-        <a href="/template/<%=organization._id%>/createTemplatePage" class="m-3 btn btn-primary">Create a template for <%= organization.organizationName %></a>
-      </div>  
-    </div>  
-
-    <div class="col-6">
-      <h3 class="project-heading">Projects</h2>
-        <a class="btn btn-primary" href="/feed/<%= organization._id %>">See all of <%= organization.organizationName %> projects.</a>
-        <% if (projects.length === 0) { %>
-          <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
-        <% }  %>
-        <ul class="grid-container">
-        <% for(var i=0; i<projects.length; i++) {%>
-          <li class="grid-item">
-            <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
-              <h4><%= projects[i].projectName%></h4>
-            </a>
-          </li>
-        <% } %>
-        </ul>
-      <div>
-        <div class="row mt-5">
-          <div class="col-6">
-              <div class="mt-5">
+            <a class="btn btn-primary" href="/feed/<%= organization._id %>">See all of <%= organization.organizationName %> projects.</a>
+            <% if (projects.length === 0) { %>
+              <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
+            <% }  %>
+            <ul class="grid-container">
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="grid-item">
+                <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
+                  <h4><%= projects[i].projectName%></h4>
+                </a>
+              </li>
+            <% } %>
+            </ul>
+          </div>
+          <!-- ! -->
+          <div class="info-tab">
+          <h3 class="project-heading">Inventory</h3>
+            <a class="btn btn-primary" href="/feed/<%= organization._id %>">See all of <%= organization.organizationName %> projects.</a>
+            <% if (projects.length === 0) { %>
+              <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
+            <% }  %>
+            <ul class="grid-container">
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="grid-item">
+                <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
+                  <h4><%= projects[i].projectName%></h4>
+                </a>
+              </li>
+            <% } %>
+            </ul>
+          </div>                
+<!-- ! -->     
+<!-- ! -->
+          <div class="info-tab">
+          <h3 class="project-heading">Finances</h3>
+            <% if (projects.length === 0) { %>
+              <h2 class="project-heading">No Projects can be found for your company in the database!</h2>
+            <% }  %>
+            <ul class="grid-container">
+            <% for(var i=0; i<projects.length; i++) {%>
+              <li class="grid-item">
+                <a href="/project/<%= organization._id %>/<%= projects[i]._id%>">
+                  <h4><%= projects[i].projectName%></h4>
+                </a>
+              </li>
+            <% } %>
+            </ul>
+          </div>                
+<!-- ! -->     
+      <div class="info-tab">
+        <h3 class="project-heading">Organization Tools</h3>
+        <span><b>*Note* User must have an account before adding them to registry</b></span>
+        <div class="mt-5">
                 <h2>Invite New Employee's here</h2>
                 <form action="/organization/<%= organization._id %>/inviteNewUser" method="POST">
-                  <label
-                  class="block uppercase text-gray-700 text-xs font-bold mb-2 form-label"
-                  for="grid-password"
-                  >Email</label>
                   <input
                             type="email"
                             class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
@@ -68,12 +144,7 @@
                           />
                         <button type="submit" class=" mt-2 btn btn-primary">Submit</button>
                 </form>
-              </div>
-            </div>  
-      </div> 
-      <div>
-        <h3 class="project-heading">Employee Directory</h3>
-        <span><b>*Note* User must have an account before adding them to registry</b></span>
+            </div>
         <ul class="grid-container">
           <% for(var i = 0; i < users.length; i++) { %>
             <li class="list-item">
@@ -88,7 +159,35 @@
             </li>
           <% } %>
         </ul>
-
+    <div class="col-4">
+    <form action="/organization/addEventType/<%= organizationId %>" method="POST">
+      <label for="eventTypes"
+      class="block uppercase text-white-700 text-xs font-bold mb-2 form-label">Event Type</label>
+      <input
+                type="text"
+                class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full form-control"
+                placeholder="Event Type"
+                style="transition: all 0.15s ease 0s;"
+                name="eventTypes"
+                id="eventTypes"
+      />
+            <button type="submit" class=" mt-2 btn btn-primary">Submit</button>
+    </form>
+    </div>
+    <div>
+        <ul>
+              <% organization.eventTypes.forEach(eventType=> { %>
+                <li class=""> 
+                  <span>"<%= eventType %>"</span>
+                  <br>
+                </li>
+              <% }) %>    
+          </ul>
+      </div>
+      <div class="mt-5">
+        <a href="/template/<%=organization._id%>/createTemplatePage" class="m-3 btn btn-primary">Create a template for <%= organization.organizationName %></a>
+      </div> 
+         
       </div>
     </div>  
 
@@ -100,9 +199,11 @@
         <button class="btn btn-primary" type="submit">Delete <%= organization.organizationName%></button>
       </form>
   </div>
+  
 </div>
 
 <div>
+  
 </div>
 
 <%- include('partials/footer') -%>

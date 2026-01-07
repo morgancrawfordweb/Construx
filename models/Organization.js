@@ -1,6 +1,7 @@
  const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-const CryptoJS = require('crypto-js')
+const CryptoJS = require('crypto-js');
+const { Code } = require("mongodb");
 
 
 const Organization = new mongoose.Schema({
@@ -15,9 +16,6 @@ const Organization = new mongoose.Schema({
   // All of the current users and everything that they can create gets stored here inside of these arrays.
   users: [{
     userId:{type:mongoose.Schema.Types.ObjectId, ref:'User'},
-    firstName:{type:String, ref:"User"},
-    lastName:{type:String, ref:"User"},
-    email: { type: String, required: true },
     role: {
       type: String,
       enum: ['user', 'admin', 'owner'],
@@ -37,6 +35,33 @@ const Organization = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Templates'
   }],
+  events:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Event'
+  }],
+
+  //What Role you would be billing for. 
+  billingCodes:[{
+    code:{
+      type: Number,
+    },
+    description:{
+      type:String,
+    }
+  }],
+  //Work performed
+  taskCodes:[{
+    code:{
+      type: Number,
+    },
+    description:{
+      type:String
+    }
+  }],
+  //What events your company uses? Meetings? Site Visits? Parties?
+  eventTypes:[{
+    type: String
+  }]
 });
 
 
